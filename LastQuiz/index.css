@@ -1,0 +1,23 @@
+.ant-btn-primary {
+    background-color: #ff8a00;
+    border: #ff8a00;
+}
+
+.button {
+    display: flex;
+    justify-content: space-between;
+}
+
+.nextBtn:hover {
+    display: flex;
+    justify-content: flex-end;
+    background: linear-gradient(253.58deg, #ffc000 1.55%, #ff8a00 95.8%);
+    background-blend-mode: multiply;
+}
+
+.backBtn:hover {
+    display: flex;
+    justify-content: flex-start;
+    background: linear-gradient(253.58deg, #ffc000 1.55%, #ff8a00 95.8%);
+    background-blend-mode: multiply;
+}
