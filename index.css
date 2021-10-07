@@ -61,6 +61,16 @@ label {
   color: #5c5c5c;
 }
 
+.qntext {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 21px;
+  display: flex;
+  justify-content: center;
+  color: #5c5c5c;
+}
+
 .button {
   display: flex;
   justify-content: space-between;
