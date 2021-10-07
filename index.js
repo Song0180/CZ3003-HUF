@@ -2,15 +2,10 @@ import React from "react";
 import "antd/dist/antd.css";
 import "./index.css";
 import { Form, Input, Button, InputNumber } from "antd";
+import { Link } from "react-router-dom";
 
-const tailLayout = {
-  wrapperCol: {
-    offset: 8,
-    span: 16,
-  },
-};
 
-const QuizCreationPage = () => {
+const quizcreationpage = () => {
   const onFinish = (values) => {
     console.log("Success:", values);
   };
@@ -20,6 +15,17 @@ const QuizCreationPage = () => {
   };
 
   return (
+    <div className="creation-page-container">
+    <div className="creation-page-header-container">
+      <h2 className="creation-page-heading">Clockworks</h2>
+    </div>
+    <div className="info-container">
+      <p className="maintext">
+        <span className="text-highlight">Quiz 1</span>
+      </p>
+      <p className="text">
+        <span className="text-highlight"> ----------------------------------------------------------------------------------------------- </span>
+      </p>
     <Form
       name="basic"
       labelCol={{
@@ -35,12 +41,6 @@ const QuizCreationPage = () => {
       onFinishFailed={onFinishFailed}
       autoComplete="off"
     >
-      <div>
-        <h1>
-          Quiz 1 <br></br>
-        </h1>
-      </div>
-
       <Form.Item
         label="Quiz Description"
         name="Quiz Description"
@@ -50,26 +50,28 @@ const QuizCreationPage = () => {
           },
         ]}
       >
-        <Input placeholder="Enter Quiz 1 Description" />
+        <Input placeholder="Enter Quiz Description" />
       </Form.Item>
 
-        <Form.Item
-          label="Duration(In Seconds)"
-          name="Duration(In Seconds)"
-          noStyle
-          rules={[
-            {
-              required: true,
-            },
-          ]}
-        >
-          <Input placeholder="Enter the Duration for the game in seconds (The maximum amount of time that you can set the game is: 1 Hour" />
-          <InputNumber min={1} max={3600} defaultValue={1} onChange={onChange}/> 
-        </Form.Item>
+      <Form.Item
+        label="Duration (In Seconds)"
+        name="Duration (In Seconds)"
+        rules={[
+          {
+            required: true,
+          },
+        ]}
+      >
+        <InputNumber min={1} max={3600} defaultValue={1}/> 
+      </Form.Item>
+
+      <p className="qntext">
+        <span className="text-highlight">Question 1</span>
+      </p>
       
       <Form.Item
-        label="Question 1"
-        name="Question 1"
+        label="Question"
+        name="Question"
         rules={[
           {
             required: true,
@@ -77,7 +79,7 @@ const QuizCreationPage = () => {
           },
         ]}
       >
-        <Input placeholder="Enter Question 1" />
+        <Input placeholder="Enter Question" />
       </Form.Item>
 
       <Form.Item
@@ -132,31 +134,31 @@ const QuizCreationPage = () => {
         <Input placeholder="Enter Option 4" />
       </Form.Item>
 
-        <Form.Item
-          label="Correct Answer"
-          name="Correct Answer"
-          noStyle
-          rules={[
-            {
-              required: true,
-              message: 'Empty! Please input correct answer for the question!',
-            },
-          ]}
-        >
-          <Input placeholder="Choose between options 1 to 4 for the correct answer" />
-          <InputNumber min={1} max={4} defaultValue={1} onChange={onChange}/> 
-        </Form.Item>
-
-      <Form.Item {...tailLayout}>
-      <Button htmlType="button" htmlType="back">
-          Back
-        </Button>
-        <Button type="primary" htmlType="submit">
-          Submit
-        </Button>
+      <Form.Item
+        label="Correct Answer"
+        name="Correct Answer"
+        rules={[
+          {
+            required: true,
+          },
+        ]}
+      >
+        <InputNumber min={1} max={4} defaultValue={1}/> 
       </Form.Item>
 
+        <div className="button">
+            <Button type="primary" htmlType="Back" className="backBtn">
+              <Link to={"/gamecreation"}>Back</Link>
+            </Button>
+            <Form.Item>
+              <Button type="primary" htmlType="Submit" className="nextBtn">
+                <Link to={"/editquiz"}>Next</Link>
+              </Button>
+            </Form.Item>
+          </div>
     </Form>
+    </div>
+    </div>
   );
 };
-export default QuizCreationPage;
+export default quizcreationpage;
