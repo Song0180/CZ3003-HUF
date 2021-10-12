@@ -1,3 +1,13 @@
-from django.shortcuts import render
+from rest_framework import viewsets
 
-# Create your views here.
+
+
+from .serializers import HufQuizSerializer
+from .models import HufQuiz
+
+
+
+class HufQuizViewSet(viewsets.ModelViewSet):
+    queryset = HufQuiz.objects.all().order_by('gameid')
+    serializer_class = HufQuizSerializer
+
