@@ -46,8 +46,21 @@ class HufQuizOption(models.Model):
         unique_together = (('quizid', 'optionid'),)
 
 
+# class HufQuizResult(models.Model):
+#     quizid = models.OneToOneField(HufQuiz, on_delete=models.CASCADE, db_column='quizid')
+#     username = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, db_column='username')
+#     score_earned = models.IntegerField()
+#     duration_taken = models.IntegerField()
+
+#     class Meta:
+#         managed = False
+#         db_table = 'huf_quiz_result'
+#         unique_together = (('quizid', 'username'),)
+
+
+#Aileen editted, above is original version
 class HufQuizResult(models.Model):
-    quizid = models.OneToOneField(HufQuiz, on_delete=models.CASCADE, db_column='quizid')
+    quizid = models.OneToOneField(HufQuiz, on_delete=models.CASCADE, db_column='quizid', primary_key=True)
     username = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, db_column='username')
     score_earned = models.IntegerField()
     duration_taken = models.IntegerField()

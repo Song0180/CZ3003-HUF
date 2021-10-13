@@ -1,4 +1,5 @@
 from rest_framework import viewsets
+from django.http import HttpResponse, JsonResponse
 
 
 from .serializers import HufQuizSerializer, HufQuizOptionSerializer, HufQuizQnSerializer, HufQuizResultSerializer, HufUserAnsSerializer
@@ -27,3 +28,8 @@ class HufQuizResultViewSet(viewsets.ModelViewSet):
 class HufUserAnsViewSet(viewsets.ModelViewSet):
     queryset = HufUserAns.objects.all()#.order_by('quizid')
     serializer_class = HufUserAnsSerializer
+
+def getQuizTopFive(request,id):
+    queryset = HufQuizResult.objects.filter(quizid=id).order_by('-score_earned')[:5].values()
+    return JsonResponse({"models_to_return": list(queryset)})
+

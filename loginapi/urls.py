@@ -19,6 +19,7 @@ urlpatterns = [
     # login
     path('login/', views.login_user, name="login"),
     path('logout/', views.logout_user, name="log_out"),
+    path('authenticateuser/',views.get_authenticated_user, name = "get_user_name"),
 
     # Facebook login API
     path('', views.home_page, name='home_page'),  # redirect to html login file

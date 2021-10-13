@@ -10,5 +10,7 @@ router.register(r'quizresult', views.HufQuizResultViewSet) # TODO ISSUE "Unknown
 router.register(r'useransquiz', views.HufUserAnsViewSet) # TODO ISSUE  "Table 'project_huf.huf_user_ans' doesn't exist"
 urlpatterns = [
     path('', include(router.urls)),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('quiztopfive/<id>',views.getQuizTopFive,name='quiztopfive'),
+
 ]
