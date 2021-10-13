@@ -1,5 +1,9 @@
 from django.contrib import admin
+from .models import HufQuiz, HufQuizOption, HufQuizQn, HufQuizResult,  HufUserAns
 
 
-# class HufQuizAdmin(admin.ModelAdmin):
-#   list = ('quizid','gameid','quiz_duration','quiz_max_score','quiz_description','no_of_qn','total_no_qn')
+admin.site.register(HufQuiz)
+admin.site.register(HufQuizOption)
+admin.site.register(HufQuizQn)
+admin.site.register(HufQuizResult)
+admin.site.register(HufUserAns)
