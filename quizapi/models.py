@@ -56,3 +56,14 @@ class HufQuizResult(models.Model):
         managed = False
         db_table = 'huf_quiz_result'
         unique_together = (('quizid', 'username'),)
+
+
+class HufUserAns(models.Model):
+    quiz_qn_id = models.AutoField(primary_key=True)
+    username = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, db_column='username')
+    user_ans = models.IntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'huf_user_ans'
+        unique_together = (('quiz_qn_id', 'username'),)
