@@ -58,3 +58,8 @@ def get_social_login_auth(request, email):
 
 
 # Create your views here.
+def get_authenticated_user(request):
+    if request.user.is_authenticated:
+        return HttpResponse(request.user.username)
+    else:
+        return HttpResponse('not authenticated')
