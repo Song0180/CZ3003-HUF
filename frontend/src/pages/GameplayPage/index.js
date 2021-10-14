@@ -31,13 +31,13 @@ const GameplayPage = () => {
   }, []);
 
   // Fetches data of quiz using gameId
-  React.useEffect(() => {
+  useEffect(() => {
     const gameId = 0;
     fetchGameQuiz(gameId);
   }, [fetchGameQuiz]);
 
   // Set options to be empty (when user loads the quiz page)
-  React.useEffect(() => {
+  useEffect(() => {
     const emptyAnswers = {};
     currentQuizQuetsions.forEach((question) => {
       emptyAnswers[question.questionId] = null;
@@ -45,7 +45,7 @@ const GameplayPage = () => {
     setUserAnswers(emptyAnswers);
   }, [currentQuizQuetsions]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     console.log(userAnswers);
   }, [userAnswers]);
 
