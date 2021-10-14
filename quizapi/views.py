@@ -67,3 +67,6 @@ def getQuizTopFive(request,id):
     queryset = HufQuizResult.objects.filter(quizid=id).order_by('-score_earned')[:5].values()
     return JsonResponse({"models_to_return": list(queryset)})
 
+def getCorrectAns(request, id):
+    queryset = HufQuizQn.objects.filter(quiz_qn_id = id).order_by().values()
+    return JsonResponse({"models_to_return": list(queryset)})
