@@ -4,6 +4,8 @@ from django.http import HttpResponse, JsonResponse
 from .serializers import HufQuizSerializer, HufQuizOptionSerializer, HufQuizQnSerializer, HufQuizResultSerializer, HufUserAnsSerializer
 from .models import HufQuiz, HufQuizOption, HufQuizQn, HufQuizResult,  HufUserAns
 
+from rest_framework.decorators import api_view 
+
 
 class HufQuizViewSet(viewsets.ModelViewSet):
     queryset = HufQuiz.objects.all().order_by('game_id')
@@ -58,7 +60,7 @@ def postUserAns(request):
                 quiz_result.score_earned += 1
                 quiz_result.save()
 
-    return JsonResponse({"UserAnswer": request.data})
+    return JsonResponse({"UserAnswer": "Completed"})
 
 
 def getQuizTopFive(request,id):
