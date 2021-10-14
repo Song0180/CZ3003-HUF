@@ -13,5 +13,6 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('userAnswer', views.postUserAns, name='useranswer'),
     path('quiztopfive/<id>',views.getQuizTopFive,name='quiztopfive'),
+    path('getcorrectans/<id>',views.getCorrectAns,name='get correct ans'),
 
 ]
