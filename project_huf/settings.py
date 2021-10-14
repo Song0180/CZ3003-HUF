@@ -90,7 +90,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'PROJECT_HUF',
         'USER': 'admin',
-        'PASSWORD': 'firebudy',
+        'PASSWORD': 'password',
         'HOST': 'localhost',
         'PORT': '3306',
     }
