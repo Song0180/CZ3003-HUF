@@ -19,13 +19,16 @@ class HufQuizQnSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('quiz_qn_id', 'quizid', 'correct_ans', 'question_name', 'score_per_qn')
 
 class HufQuizResultSerializer(serializers.HyperlinkedModelSerializer):
+
     class Meta:
         model = HufQuizResult
+        view_name='company-detail'
         fields = ('quizid', 'userid', 'score_earned', 'duration_taken')
 
 
 
 class HufUserAnsSerializer(serializers.HyperlinkedModelSerializer):
+    
     class Meta:
         model = HufUserAns
         fields = ('userid', 'quiz_qn', 'user_ans')

@@ -35,19 +35,29 @@ class HufQuizQn(models.Model):
         db_table = 'huf_quiz_qn'
 
 
+# class HufQuizOption(models.Model):
+#     quizid = models.OneToOneField(HufQuiz, on_delete=models.CASCADE, db_column='quizid', primary_key=True)
+#     optionid = models.IntegerField()
+#     option_description = models.CharField(max_length=50, blank=True, null=True)
+
+#     class Meta:
+#         managed = False
+#         db_table = 'huf_quiz_option'
+#         unique_together = (('quizid', 'optionid'),)
+
 class HufQuizOption(models.Model):
-    quizid = models.OneToOneField(HufQuiz, on_delete=models.CASCADE, db_column='quizid')
-    optionid = models.IntegerField()
-    option_description = models.CharField(max_length=50, blank=True, null=True)
+    quiz_qn = models.OneToOneField('HufQuizQn', models.DO_NOTHING, primary_key=True)
+    option_id = models.IntegerField()
+    option_description = models.CharField(max_length=30)
 
     class Meta:
         managed = False
         db_table = 'huf_quiz_option'
-        unique_together = (('quizid', 'optionid'),)
+        unique_together = (('quiz_qn', 'option_id'),)
 
 
 class HufQuizResult(models.Model):
-    quizid = models.OneToOneField(HufQuiz, on_delete=models.CASCADE, db_column='quizid')
+    quizid = models.OneToOneField(HufQuiz, on_delete=models.CASCADE, db_column='quizid', primary_key=True)
     username = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, db_column='username')
     score_earned = models.IntegerField()
     duration_taken = models.IntegerField()
@@ -58,12 +68,35 @@ class HufQuizResult(models.Model):
         unique_together = (('quizid', 'username'),)
 
 
+# class HufQuizResult(models.Model):
+#     quizid = models.OneToOneField(HufQuiz, on_delete=models.CASCADE, db_column='quizid')
+#     username = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, db_column='username')
+#     score_earned = models.IntegerField()
+#     duration_taken = models.IntegerField()
+
+#     class Meta:
+#         managed = False
+#         db_table = 'huf_quiz_result'
+#         unique_together = (('quizid', 'username'),)
+
+
+# class HufUserAns(models.Model):
+#     quiz_qn_id = models.AutoField(primary_key=True)
+#     username = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, db_column='username')
+#     user_ans = models.IntegerField()
+
+#     class Meta:
+#         managed = False
+#         db_table = 'huf_user_ans'
+#         unique_together = (('quiz_qn_id', 'username'),)
+
+
 class HufUserAns(models.Model):
-    quiz_qn_id = models.AutoField(primary_key=True)
-    username = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, db_column='username')
+    username = models.OneToOneField(settings.AUTH_USER_MODEL, models.DO_NOTHING, db_column='username', primary_key=True)
+    quiz_qn = models.ForeignKey(HufQuiz, models.DO_NOTHING)
     user_ans = models.IntegerField()
 
     class Meta:
         managed = False
         db_table = 'huf_user_ans'
-        unique_together = (('quiz_qn_id', 'username'),)
+        unique_together = (('username', 'quiz_qn'),)

@@ -24,3 +24,4 @@ social-auth-core==4.1.0
 sqlparse==0.4.2
 typing-extensions==3.10.0.2
 urllib3==1.26.7
+django-filters==0.1.0

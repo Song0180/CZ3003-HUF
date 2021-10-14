@@ -19,10 +19,11 @@ urlpatterns = [
     # login
     path('login/', views.login_user, name="login"),
     path('logout/', views.logout_user, name="log_out"),
+    path('authenticateuser/',views.get_authenticated_user, name = "get_user_name"),
 
     # Facebook login API
     path('', views.home_page, name='home_page'),  # redirect to html login file
-    path('accounts/', include('allauth.urls')),
+    path('accounts/', include('allauth.urls')), #accounts/facebook/login #accounts/facebook/logout #accounts/facebook/signup
     path('socialloginauth/<email>/', views.get_social_login_auth, name="social_login_auth"),
     # set auth token from social account, and get
 
