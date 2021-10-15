@@ -1,14 +1,20 @@
 import * as React from 'react';
 import { Layout, Menu } from 'antd';
 
-import { Link, useLocation } from 'react-router-dom';
-import { HomeOutlined, UserOutlined, SettingOutlined, PlayCircleOutlined } from '@ant-design/icons';
+import { Link, useLocation, useHistory } from 'react-router-dom';
+import {
+  HomeOutlined,
+  UserOutlined,
+  SettingOutlined,
+  PlayCircleOutlined,
+} from '@ant-design/icons';
 
 import './index.css';
 
 const { Sider } = Layout;
 
 const SideNav = ({ isMenuClosed }) => {
+  const history = useHistory();
   const location = useLocation();
   const selectedKeys = React.useMemo(
     () => [location.pathname],
@@ -23,7 +29,14 @@ const SideNav = ({ isMenuClosed }) => {
       className='sider'
       width={150}
     >
-      <img src='/HUF-logo.png' alt='HUF Logo' className='logo' />
+      <img
+        src='/HUF-logo.png'
+        alt='HUF Logo'
+        className='home-logo'
+        onMouseDown={() => {
+          history.push('/');
+        }}
+      />
       <Menu mode='inline' selectedKeys={selectedKeys}>
         <Menu.Item key='/' icon={<HomeOutlined />} title={null}>
           <Link to='/'>Home</Link>

@@ -7,6 +7,12 @@ import { login, signUp } from '../../api/auth';
 const cachedUserInfo = localStorage.getItem(USER_INFO_SESSION_STORAGE_FIELD);
 const signedIn = Boolean(cachedUserInfo);
 
+const dummyUserInfo = {
+  email: '123@123.cc',
+  userName: 'User',
+  userId: '001',
+};
+
 const initialState = {
   userInfo: null,
   signedIn,
@@ -36,6 +42,7 @@ export const useAuthStore = create((set, get) => ({
       //     isLoading: false,
       //   });
       // }
+      set({ userInfo: dummyUserInfo });
       set({ signedIn: true, isLoading: false });
     }
   },
