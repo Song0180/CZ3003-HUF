@@ -1,5 +1,8 @@
-.logo {
+.home-logo {
   width: 100%;
+}
+.home-logo:hover {
+  cursor: pointer;
 }
 
 .sider {
