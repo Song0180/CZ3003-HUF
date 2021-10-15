@@ -5,7 +5,6 @@ import { Form, Input, Button, InputNumber } from "antd";
 import { Link } from "react-router-dom";
 
 const GameCreationPage = () => {
-
   const onFinish = (values) => {
     console.log("Success:", values);
   };
@@ -76,6 +75,11 @@ const GameCreationPage = () => {
                 required: true,
                 message: "Please input the Game Tag",
               },
+              {
+                max: 20,
+                message: "Tags can only have a maximum 20 characters.",
+              },
+              { whitespace: true, message: "Tags cannot be a whitespace" },
             ]}
           >
             <Input placeholder="Enter Game Tag" />
