@@ -44,18 +44,18 @@ def logout_user(request):
     return HttpResponse("successful logout")
 
 
-# def home_page(request):
-#     if request.method == 'POST':
-#         request.POST.get("user.socialaccount_set.all.0.get_profile_url()")
-#     return render(request, "login.html")
-#
-#
-# @csrf_exempt
-# def get_social_login_auth(request, email):
-#     user = User.objects.get(email=email)
-#     social_token = SocialToken.objects.filter(account__user=user, account__provider='facebook')
-#     Token.objects.create(user=user)
-#
+def home_page(request):
+    if request.method == 'POST':
+        request.POST.get("user.socialaccount_set.all.0.get_profile_url()")
+    return render(request, "login.html")
+
+
+@csrf_exempt
+def get_social_login_auth(request, email):
+    user = User.objects.get(email=email)
+    social_token = SocialToken.objects.filter(account__user=user, account__provider='facebook')
+    Token.objects.create(user=user)
+
 
 
 def get_authenticated_user(request):
