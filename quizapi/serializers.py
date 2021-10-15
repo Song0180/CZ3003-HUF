@@ -29,5 +29,4 @@ class HufQuizResultSerializer(serializers.HyperlinkedModelSerializer):
 class HufUserAnsSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = HufUserAns
-        fields = ('username', 'quiz_qn', 'user_ans')
-
+        fields = ('username', 'quiz_qn_id', 'user_ans')
