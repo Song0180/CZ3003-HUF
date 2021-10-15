@@ -15,3 +15,8 @@ class HufGameViewSet(viewsets.ModelViewSet):
 
     filter_backends = [DjangoFilterBackend, SearchFilter]
     filter_fields = ['game_name', 'game_tag', 'username']
+
+# def login_user(request):
+#     username = request.POST.get('username')
+#     password = request.POST.get('password')
+#     user = authenticate(request, username=username, password=password)

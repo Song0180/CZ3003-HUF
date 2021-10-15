@@ -85,27 +85,28 @@ WSGI_APPLICATION = 'project_huf.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'PROJECT_HUF',
+#         'USER': 'admin',
+#         'PASSWORD': 'password',
+#         'HOST': 'localhost',
+#         'PORT': '3306',
+#     }
+# }
+
+## remotedb
 DATABASES = {
-    'default': {
+       'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'PROJECT_HUF',
+        'NAME': 'project_huf',
         'USER': 'admin',
-        'PASSWORD': 'password',
-        'HOST': 'localhost',
+        'PASSWORD': 'projecthuf',
+        'HOST': 'database-1.c4x9cbbouqsz.us-east-2.rds.amazonaws.com',
         'PORT': '3306',
     }
 }
-
-## remote db
-# DATABASES = {
-#        'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'project_huf',
-#         'USER': 'admin',
-#         'PASSWORD': 'projecthuf',
-#         'HOST': 'database-1.c4x9cbbouqsz.us-east-2.rds.amazonaws.com',
-#         'PORT': '3306',
-#     }
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
