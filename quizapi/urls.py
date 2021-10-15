@@ -7,7 +7,7 @@ router.register(r'hufquiz', views.HufQuizViewSet)
 router.register(r'hufquizoptions', views.HufQuizOptionViewSet)
 router.register(r'hufquizqn', views.HufQuizQnViewSet)
 router.register(r'hufquizresult', views.HufQuizResultViewSet)
-router.register(r'hufuserans', views.HufUserAnsViewSet)
+# router.register(r'hufuserans', views.HufUserAnsViewSet)
 urlpatterns = [
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),

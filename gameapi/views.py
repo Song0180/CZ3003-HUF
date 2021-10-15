@@ -14,7 +14,7 @@ class HufGameViewSet(viewsets.ModelViewSet):
     serializer_class = HufGameSerializer
 
     filter_backends = [DjangoFilterBackend, SearchFilter]
-    filter_fields = ['game_name', 'game_tag', 'username']
+    filter_fields = ['game_name', 'game_tag', 'user_id']
 
 # def login_user(request):
 #     username = request.POST.get('username')

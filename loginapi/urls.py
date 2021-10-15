@@ -9,16 +9,15 @@ router.register(r'hufusers', views.UserViewSet)
 urlpatterns = [
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-]
 
-#     # signup
-#     # path('signup/', include(router.urls)),  # get users #set user
-#     path('auth/', obtain_auth_token),  # post request to obtain users' auth token
-#
-#     # login
-#     path('login/', views.login_user, name="login"),
-#     path('logout/', views.logout_user, name="log_out"),
-#     path('authenticateuser/',views.get_authenticated_user, name = "get_user_name"),
+    # signup
+    path('auth/', obtain_auth_token),  # post request to obtain users' auth token
+
+    # login
+    path('login/', views.login_user, name="login"),
+    path('logout/', views.logout_user, name="log_out"),
+    path('authenticateuser/',views.get_authenticated_user, name = "get_user_name"),
+]
 #
 #     # Facebook login API
 #     path('', views.home_page, name='home_page'),  # redirect to html login file

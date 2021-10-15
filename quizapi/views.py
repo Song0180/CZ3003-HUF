@@ -1,8 +1,8 @@
 from rest_framework import viewsets
 from django.http import HttpResponse, JsonResponse
 
-from .serializers import HufQuizSerializer, HufQuizOptionSerializer, HufQuizQnSerializer, HufQuizResultSerializer, HufUserAnsSerializer
-from .models import HufQuiz, HufQuizOption, HufQuizQn, HufQuizResult,  HufUserAns
+from .serializers import HufQuizSerializer, HufQuizOptionSerializer, HufQuizQnSerializer, HufQuizResultSerializer
+from .models import HufQuiz, HufQuizOption, HufQuizQn, HufQuizResult
 
 from .serializers import HufQuizSerializer
 from .models import HufQuiz
@@ -24,13 +24,13 @@ class HufQuizQnViewSet(viewsets.ModelViewSet):
 
 
 class HufQuizResultViewSet(viewsets.ModelViewSet):
-    queryset = HufQuizResult.objects.all().order_by('quiz_id', 'username')
+    queryset = HufQuizResult.objects.all().order_by('quiz_id', 'user_id')
     serializer_class = HufQuizResultSerializer
 
 
-class HufUserAnsViewSet(viewsets.ModelViewSet):
-    queryset = HufUserAns.objects.all().order_by('username', 'quiz_qn_id')
-    serializer_class = HufUserAnsSerializer
+# class HufUserAnsViewSet(viewsets.ModelViewSet):
+#     queryset = HufUserAns.objects.all().order_by('username', 'quiz_qn_id')
+#     serializer_class = HufUserAnsSerializer
 
 # @api_view(["POST"])
 # def postUserAns(request):

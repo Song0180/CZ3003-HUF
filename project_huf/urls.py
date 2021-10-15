@@ -21,7 +21,7 @@ router = routers.DefaultRouter()
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('', include('gameapi.urls')),
-    # path('', include('loginapi.urls'),),
     path('', include('quizapi.urls')),
+    path('', include('gameapi.urls')),
+    path('', include('loginapi.urls'),),
 ]
