@@ -4,6 +4,12 @@
   min-width: 1000px;
 }
 
+#home-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .info-container {
   background: #fff7df;
   border: 1px solid #efefef;
