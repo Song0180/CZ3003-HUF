@@ -49,18 +49,26 @@ const GameCreationPage = () => {
                 required: true,
                 message: "Please input the Game Name",
               },
+              {
+                whitespace: true,
+                message: "Game Name cannot be a whitespace",
+              },
             ]}
           >
             <Input placeholder="Enter name of the Game" />
           </Form.Item>
 
           <Form.Item
-            label="DESCRIPTION"
+            label="GAME DESCRIPTION"
             name="Game Description"
             rules={[
               {
                 required: true,
                 message: "Please input the Game Description",
+              },
+              {
+                whitespace: true,
+                message: "Game Name cannot be a whitespace",
               },
             ]}
           >
@@ -79,7 +87,10 @@ const GameCreationPage = () => {
                 max: 20,
                 message: "Tags can only have a maximum 20 characters.",
               },
-              { whitespace: true, message: "Tags cannot be a whitespace" },
+              {
+                pattern: "^[^s]+[-a-zA-Zs]+([-a-zA-Z]+)*$",
+                message: "Tags cannot contain whitespaces",
+              },
             ]}
           >
             <Input placeholder="Enter Game Tag" />
