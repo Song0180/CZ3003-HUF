@@ -21,7 +21,7 @@ class HufQuizQn(models.Model):
 
 
 class HufQuizOption(models.Model):
-    quiz_qn_id = models.OneToOneField(HufQuizQn, models.DO_NOTHING, db_column='quiz_qn_id')
+    quiz_qn_id = models.ForeignKey(HufQuizQn, models.DO_NOTHING, db_column='quiz_qn_id', unique=False)
     option_id = models.IntegerField()
     option_description = models.CharField(max_length=50, blank=True, null=True)
 
