@@ -168,7 +168,7 @@ class DjangoSite(models.Model):
 class Hufgame(models.Model):
     game_id = models.AutoField(primary_key=True)
     username = models.ForeignKey(AuthUser, models.DO_NOTHING, db_column='username')
-    game_name = models.CharField(max_length=20, blank=True, null=True)
+    game_name = models.CharField(max_length=20)
     game_tag = models.CharField(max_length=9)
     no_of_quiz = models.IntegerField()
     game_description = models.CharField(max_length=100, blank=True, null=True)
@@ -180,11 +180,11 @@ class Hufgame(models.Model):
 
 
 class Hufquiz(models.Model):
-    quiz_id = models.IntegerField(primary_key=True)
+    quiz_id = models.AutoField(primary_key=True)
     game = models.ForeignKey(Hufgame, models.DO_NOTHING)
-    quiz_duration = models.CharField(max_length=50, blank=True, null=True)
+    quiz_duration = models.CharField(max_length=50)
     quiz_max_score = models.IntegerField()
-    quiz_description = models.CharField(max_length=50, blank=True, null=True)
+    quiz_description = models.CharField(max_length=50)
     no_of_qn = models.IntegerField()
     total_no_qn = models.IntegerField()
 
@@ -196,7 +196,7 @@ class Hufquiz(models.Model):
 class Hufquizoption(models.Model):
     quiz_qn = models.OneToOneField('Hufquizqn', models.DO_NOTHING, primary_key=True)
     option_id = models.IntegerField()
-    option_description = models.CharField(max_length=50, blank=True, null=True)
+    option_description = models.CharField(max_length=50)
 
     class Meta:
         managed = False

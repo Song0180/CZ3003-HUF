@@ -6,12 +6,12 @@ from rest_framework.filters import SearchFilter
 from .serializers import HufGameSerializer
 from .models import HufGame
 
+# Create your views here.
+
 
 class HufGameViewSet(viewsets.ModelViewSet):
-    queryset = HufGame.objects.all().order_by('game_id')
+    queryset = HufGame.objects.all()
     serializer_class = HufGameSerializer
 
     filter_backends = [DjangoFilterBackend, SearchFilter]
     filter_fields = ['game_name', 'game_tag', 'username']
-
-# Create your views here.

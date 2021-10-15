@@ -96,11 +96,23 @@ DATABASES = {
     }
 }
 
+## remote db
+# DATABASES = {
+#        'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'project_huf',
+#         'USER': 'admin',
+#         'PASSWORD': 'projecthuf',
+#         'HOST': 'database-1.c4x9cbbouqsz.us-east-2.rds.amazonaws.com',
+#         'PORT': '3306',
+#     }
+
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
     ),
 }
+
 
 AUTHENTICATION_BACKENDS = (
     'allauth.account.auth_backends.AuthenticationBackend',

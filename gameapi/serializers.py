@@ -5,4 +5,4 @@ from .models import HufGame
 class HufGameSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = HufGame
-        fields = ('gameid', 'username', 'game_name', 'game_tag', 'no_of_quiz', 'game_description', 'total_no_qn')
+        fields = ('game_id', 'username', 'game_name', 'game_tag', 'no_of_quiz', 'game_description', 'total_no_qn')

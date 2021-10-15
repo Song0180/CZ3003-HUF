@@ -3,4 +3,4 @@ from .models import HufGame
 
 admin.site.register(HufGame)
 
-# Register your models here.
+# Register your models here

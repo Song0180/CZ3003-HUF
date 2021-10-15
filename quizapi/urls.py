@@ -11,8 +11,8 @@ router.register(r'hufuseransquiz', views.HufUserAnsViewSet)
 urlpatterns = [
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    path('userAnswer', views.postUserAns, name='useranswer'),
-    path('quiztopfive/<id>',views.getQuizTopFive,name='quiztopfive'),
-    path('getcorrectans/<id>',views.getCorrectAns,name='get correct ans'),
+    # path('userAnswer', views.postUserAns, name='useranswer'),
+    # path('quiztopfive/<id>',views.getQuizTopFive,name='quiztopfive'),
+    # path('getcorrectans/<id>',views.getCorrectAns,name='get correct ans'),
 
 ]

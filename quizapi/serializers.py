@@ -2,9 +2,6 @@ from rest_framework import serializers
 from .models import HufQuiz, HufQuizOption, HufQuizQn, HufQuizResult, HufUserAns
 
 
-# from .models import HufUser
-
-
 class HufQuizSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = HufQuiz
