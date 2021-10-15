@@ -69,8 +69,8 @@ const GamesPage = () => {
               column: filteredGames.length > 3 ? 3 : filteredGames.length,
             }}
             dataSource={filteredGames}
-            renderItem={(item) => (
-              <List.Item>
+            renderItem={(item, index) => (
+              <List.Item key={index}>
                 <Skeleton loading={isLoading} active>
                   <GameCard
                     title={item.title}

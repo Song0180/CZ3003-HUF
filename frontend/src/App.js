@@ -43,9 +43,6 @@ const App = () => {
               <Route path="/settings" exact component={SettingsPage} />
               <Route path='/games' exact component={GamesPage} />
               <Route path='/gameplay' exact component={GameplayPage} />
-              {
-                "/* To-do: to be routed from home page later on (cuz idk how do now)*/"
-              }
               <Route path='/dashboard/editgame' exact component={EditGamePage} /> 
               <Route path='/dashboard/editquiz' exact component={EditQuizPage} />
               <Route path="/gamecreation" exact component={GameCreationPage} />

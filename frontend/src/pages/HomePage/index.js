@@ -1,52 +1,55 @@
-import * as React from 'react';
-import { Card } from 'antd';
-import { useHistory } from 'react-router-dom';
+import * as React from "react";
+import { Card } from "antd";
+import { useHistory } from "react-router-dom";
 
-import './index.css';
+import "./index.css";
 
 const HomePage = () => {
   const history = useHistory();
   return (
-    <div className='container'>
-      <div className='info-container'>
-        <p className='text'>
-          Hi <span className='text-highlight'>James</span>,
+    <div className="container">
+      <div className="info-container">
+        <p className="text">
+          Hi <span className="text-highlight">James</span>,
         </p>
-        <p className='text'>
-          Please select <span className='text-highlight'>view game</span> to
-          browse a game to play. You can also select{' '}
-          <span className='text-highlight'>create a game</span> to design your
+        <p className="text">
+          Please select <span className="text-highlight">view game</span> to
+          browse a game to play. You can also select{" "}
+          <span className="text-highlight">create a game</span> to design your
           custom game.
         </p>
-        <div className='card-container'>
+        <div className="card-container">
           <Card
             onClick={() => {
-              history.push('/games');
+              history.push("/games");
             }}
-            className='card'
+            className="card"
             hoverable
             cover={
-              <div className='cover'>
-                <img className='cover-image' alt='game' src='./game.png' />
+              <div className="cover">
+                <img className="cover-image" alt="game" src="./game.png" />
               </div>
             }
           >
-            <div className='card-description'>View Games</div>
+            <div className="card-description">View Games</div>
           </Card>
           <Card
-            className='card'
+            onClick={() => {
+              history.push("/gamecreation");
+            }}
+            className="card"
             hoverable
             cover={
-              <div className='cover'>
+              <div className="cover">
                 <img
-                  className='cover-image'
-                  alt='game'
-                  src='./create-game.png'
+                  className="cover-image"
+                  alt="game"
+                  src="./create-game.png"
                 />
               </div>
             }
           >
-            <div className='card-description'>Create a Game</div>
+            <div className="card-description">Create a Game</div>
           </Card>
         </div>
       </div>

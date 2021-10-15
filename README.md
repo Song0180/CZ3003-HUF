@@ -46,12 +46,24 @@ yarn build
 2. Activate the virtual environment
 	> \env\Scripts\activate.bat
 
-3. Install the required libraries
+3. Install required libraries
     > pip install -r requirements.txt 
 
 ## 3. Set-up MySQL Workbench
-Will update again.
+1. Create new schema
+	> Name: project_huf
 
+2. Create authentication user
+	> create user admin identified by ‘password';
+
+	> grant all on project_huf.* to ‘admin’@’%’;
+	
+	> flush priviledges;
+
+## 4. Setting up Project 
+1. Migrate all the default Django tables to your MySQL schema.
+	> python manage.py migrate
 
 ## 4. Running The Server
-Will update again.
+1. > python manage.py runserver
+2. Open http://localhost:8000
