@@ -3,9 +3,9 @@ import { Card, Tag } from 'antd';
 
 import './index.css';
 
-const GameCard = ({ title, creator, tags }) => {
+const GameCard = ({ title, creator, tags, onClick }) => {
   return (
-    <Card className='game-card-container'>
+    <Card className='game-card-container' onClick={onClick}>
       <div>
         <h2 className='title'>{title}</h2>
         <p className='creator-info'>Created by {creator}</p>
