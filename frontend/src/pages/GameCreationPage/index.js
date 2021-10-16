@@ -9,8 +9,7 @@ const GameCreationPage = () => {
   const history = useHistory();
   const onFinish = (values) => {
     console.log('Success:', values);
-    // change to route to editquiz when it's done
-    history.push('/');
+    history.push("dashboard/editquiz");
   };
 
   const onFinishFailed = (errorInfo) => {
