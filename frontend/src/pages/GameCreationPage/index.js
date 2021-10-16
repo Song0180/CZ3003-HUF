@@ -9,7 +9,7 @@ const GameCreationPage = () => {
   const history = useHistory();
   const onFinish = (values) => {
     console.log('Success:', values);
-    // route to the home page (just an example)
+    // change to route to editquiz when it's done
     history.push('/');
   };
 
@@ -142,8 +142,6 @@ const GameCreationPage = () => {
                 htmlType='Submit'
                 className={cx('nextBtn', 'creation-pagenav-buttons')}
               >
-                {/*To Do: Should only be able to Next when all the fields are validated */}
-                {/* <Link to={'/editquiz'}>Next</Link> */}
                 Next
               </Button>
             </Form.Item>
