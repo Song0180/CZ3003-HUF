@@ -5,22 +5,3 @@
 #   * Make sure each ForeignKey and OneToOneField has `on_delete` set to the desired behavior
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
-# from django.db import models
-# import datetime
-#
-#
-# class AuthUser(models.Model):
-#     password = models.CharField(max_length=128)
-#     last_login = models.DateTimeField(blank=True, null=True)
-#     is_superuser = models.IntegerField(default=0)
-#     username = models.CharField(unique=True, max_length=150)
-#     first_name = models.CharField(max_length=150, default='')
-#     last_name = models.CharField(max_length=150, default='')
-#     email = models.CharField(max_length=254)
-#     is_staff = models.IntegerField(default=0)
-#     is_active = models.IntegerField(default=1)
-#     date_joined = models.DateTimeField(default=datetime.datetime.now)
-#
-#     class Meta:
-#         managed = False
-#         db_table = 'auth_user'

@@ -30,19 +30,18 @@ class HufQuizOption(models.Model):
 
 
 class HufQuizResult(models.Model):
-    quiz_id = models.OneToOneField(HufQuiz, models.DO_NOTHING,db_column='quiz_id')
-    username = models.ForeignKey(settings.AUTH_USER_MODEL, models.DO_NOTHING, db_column='username')
+    quiz_id = models.ForeignKey(HufQuiz, models.DO_NOTHING, db_column='quiz_id', unique=False)
+    user_id = models.ForeignKey(settings.AUTH_USER_MODEL, models.DO_NOTHING, db_column='user_id', unique=False)
     score_earned = models.IntegerField()
     duration_taken = models.IntegerField()
 
     class Meta:
-        unique_together = (('quiz_id', 'username'),)
+        unique_together = (('quiz_id', 'user_id'),)
 
-
-class HufUserAns(models.Model):
-    username = models.OneToOneField(settings.AUTH_USER_MODEL, models.DO_NOTHING, db_column='username')
-    quiz_qn_id = models.ForeignKey(HufQuizQn, models.DO_NOTHING, db_column='quiz_qn_id')
-    user_ans = models.IntegerField()
-
-    class Meta:
-        unique_together = (('username', 'quiz_qn_id'),)
+# class HufUserAns(models.Model):
+#     user_id = models.ForeignKey(settings.AUTH_USER_MODEL, models.DO_NOTHING, db_column='user_id', unique=False)
+#     quiz_qn_id = models.ForeignKey(HufQuizQn, models.DO_NOTHING, db_column='quiz_qn_id')
+#     user_ans = models.IntegerField()
+#
+#     class Meta:
+#         unique_together = (('user_id', 'quiz_qn_id'),)

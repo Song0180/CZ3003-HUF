@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import HufQuiz, HufQuizOption, HufQuizQn, HufQuizResult, HufUserAns
+from .models import HufQuiz, HufQuizOption, HufQuizQn, HufQuizResult
 
 
 class HufQuizSerializer(serializers.ModelSerializer):
@@ -20,13 +20,13 @@ class HufQuizQnSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('quiz_qn_id', 'quiz_id', 'correct_ans', 'question_name', 'score_per_qn')
 
 
-class HufQuizResultSerializer(serializers.HyperlinkedModelSerializer):
+class HufQuizResultSerializer(serializers.ModelSerializer):
     class Meta:
         model = HufQuizResult
-        fields = ('quiz_id', 'username', 'score_earned', 'duration_taken')
+        fields = ('quiz_id', 'user_id', 'score_earned', 'duration_taken')
 
 
-class HufUserAnsSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = HufUserAns
-        fields = ('username', 'quiz_qn_id', 'user_ans')
+# class HufUserAnsSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = HufUserAns
+#         fields = ('username', 'quiz_qn_id', 'user_ans')

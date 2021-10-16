@@ -165,77 +165,79 @@ class DjangoSite(models.Model):
         db_table = 'django_site'
 
 
-class Hufgame(models.Model):
+class GameapiHufgame(models.Model):
     game_id = models.AutoField(primary_key=True)
-    username = models.ForeignKey(AuthUser, models.DO_NOTHING, db_column='username')
     game_name = models.CharField(max_length=20)
     game_tag = models.CharField(max_length=9)
     no_of_quiz = models.IntegerField()
     game_description = models.CharField(max_length=100, blank=True, null=True)
     total_no_qn = models.IntegerField()
+    id = models.ForeignKey(AuthUser, models.DO_NOTHING, db_column='id')
 
     class Meta:
         managed = False
-        db_table = 'hufgame'
+        db_table = 'gameapi_hufgame'
 
 
-class Hufquiz(models.Model):
+class QuizapiHufquiz(models.Model):
     quiz_id = models.AutoField(primary_key=True)
-    game = models.ForeignKey(Hufgame, models.DO_NOTHING)
-    quiz_duration = models.CharField(max_length=50)
+    quiz_duration = models.IntegerField()
     quiz_max_score = models.IntegerField()
-    quiz_description = models.CharField(max_length=50)
+    quiz_description = models.CharField(max_length=50, blank=True, null=True)
     no_of_qn = models.IntegerField()
-    total_no_qn = models.IntegerField()
+    game = models.ForeignKey(GameapiHufgame, models.DO_NOTHING)
 
     class Meta:
         managed = False
-        db_table = 'hufquiz'
+        db_table = 'quizapi_hufquiz'
 
 
-class Hufquizoption(models.Model):
-    quiz_qn = models.OneToOneField('Hufquizqn', models.DO_NOTHING, primary_key=True)
+class QuizapiHufquizoption(models.Model):
+    id = models.BigAutoField(primary_key=True)
     option_id = models.IntegerField()
-    option_description = models.CharField(max_length=50)
+    option_description = models.CharField(max_length=50, blank=True, null=True)
+    quiz_qn = models.ForeignKey('QuizapiHufquizqn', models.DO_NOTHING)
 
     class Meta:
         managed = False
-        db_table = 'hufquizoption'
+        db_table = 'quizapi_hufquizoption'
         unique_together = (('quiz_qn', 'option_id'),)
 
 
-class Hufquizqn(models.Model):
+class QuizapiHufquizqn(models.Model):
     quiz_qn_id = models.AutoField(primary_key=True)
-    quiz = models.ForeignKey(Hufquiz, models.DO_NOTHING)
     correct_ans = models.IntegerField()
     question_name = models.CharField(max_length=30)
     score_per_qn = models.IntegerField()
+    quiz = models.ForeignKey(QuizapiHufquiz, models.DO_NOTHING)
 
     class Meta:
         managed = False
-        db_table = 'hufquizqn'
+        db_table = 'quizapi_hufquizqn'
 
 
-class Hufquizresult(models.Model):
-    quiz = models.OneToOneField(Hufquiz, models.DO_NOTHING, primary_key=True)
-    username = models.ForeignKey(AuthUser, models.DO_NOTHING, db_column='username')
+class QuizapiHufquizresult(models.Model):
+    id = models.BigAutoField(primary_key=True)
     score_earned = models.IntegerField()
     duration_taken = models.IntegerField()
+    quiz = models.ForeignKey(QuizapiHufquiz, models.DO_NOTHING)
+    username = models.ForeignKey(AuthUser, models.DO_NOTHING, db_column='username')
 
     class Meta:
         managed = False
-        db_table = 'hufquizresult'
+        db_table = 'quizapi_hufquizresult'
         unique_together = (('quiz', 'username'),)
 
 
-class Hufuserans(models.Model):
-    username = models.OneToOneField(AuthUser, models.DO_NOTHING, db_column='username', primary_key=True)
-    quiz_qn = models.ForeignKey(Hufquizqn, models.DO_NOTHING)
+class QuizapiHufuserans(models.Model):
+    id = models.BigAutoField(primary_key=True)
     user_ans = models.IntegerField()
+    quiz_qn = models.ForeignKey(QuizapiHufquizqn, models.DO_NOTHING)
+    username = models.ForeignKey(AuthUser, models.DO_NOTHING, db_column='username')
 
     class Meta:
         managed = False
-        db_table = 'hufuserans'
+        db_table = 'quizapi_hufuserans'
         unique_together = (('username', 'quiz_qn'),)
 
 
