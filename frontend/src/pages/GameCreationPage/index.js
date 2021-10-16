@@ -1,33 +1,35 @@
-import React from "react";
-import "antd/dist/antd.css";
-import "./index.css";
-import { Form, Input, Button, InputNumber } from "antd";
-import { Link } from "react-router-dom";
+import React from 'react';
+import 'antd/dist/antd.css';
+import './index.css';
+import { Tag, Tooltip, Form, Input, Button, InputNumber } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
+import { Link } from 'react-router-dom';
+import cx from 'classnames';
 
 const GameCreationPage = () => {
   const onFinish = (values) => {
-    console.log("Success:", values);
+    console.log('Success:', values);
   };
 
   const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
+    console.log('Failed:', errorInfo);
   };
 
   return (
-    <div className="creation-page-container">
-      <div className="creation-page-header-container">
-        <h2 className="creation-page-heading">Game Creation!</h2>
+    <div className='creation-page-container'>
+      <div className='creation-page-header-container'>
+        <h2 className='creation-page-heading'>Game Creation!</h2>
       </div>
-      <div className="info-container">
-        <p className="text">
-          Hi <span className="text-highlight">James</span>,
+      <div className='info-container'>
+        <p className='text'>
+          Hi <span className='text-highlight'>James</span>,
         </p>
-        <p className="text">
+        <p className='text'>
           Please complete the following to proceed with the creation of your
           game.
         </p>
         <Form
-          name="basic"
+          name='basic'
           labelCol={{
             span: 8,
           }}
@@ -39,15 +41,15 @@ const GameCreationPage = () => {
           }}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
-          autoComplete="off"
+          autoComplete='off'
         >
           <Form.Item
-            label="GAME NAME: "
-            name="Game Name"
+            label='GAME NAME: '
+            name='Game Name'
             rules={[
               {
                 required: true,
-                message: "Please input the Game Name",
+                message: 'Please input the Game Name',
               },
               {
                 whitespace: true,
@@ -55,7 +57,7 @@ const GameCreationPage = () => {
               },
             ]}
           >
-            <Input placeholder="Enter name of the Game" />
+            <Input placeholder='Enter name of the Game' />
           </Form.Item>
 
           <Form.Item
@@ -64,7 +66,7 @@ const GameCreationPage = () => {
             rules={[
               {
                 required: true,
-                message: "Please input the Game Description",
+                message: 'Please input the Game Description',
               },
               {
                 whitespace: true,
@@ -72,7 +74,7 @@ const GameCreationPage = () => {
               },
             ]}
           >
-            <Input placeholder="Enter Game Description" />
+            <Input placeholder='Enter Game Description' />
           </Form.Item>
 
           <Form.Item
@@ -102,7 +104,7 @@ const GameCreationPage = () => {
             rules={[
               {
                 required: true,
-                message: "Please input the number of quizzes",
+                message: 'Please input the number of quizzes',
               },
             ]}
           >
@@ -110,12 +112,12 @@ const GameCreationPage = () => {
           </Form.Item>
 
           <Form.Item
-            label="NUMBER 0F QUESTIONS PER QUIZ: "
-            name="Number of Questions"
+            label='NUMBER 0F QUESTIONS PER QUIZ: '
+            name='Number of Questions'
             rules={[
               {
                 required: true,
-                message: "Please input the number of questions per quiz",
+                message: 'Please input the number of questions per quiz',
               },
             ]}
           >
@@ -124,14 +126,22 @@ const GameCreationPage = () => {
 
           <hr />
 
-          <div className="button">
-            <Button type="primary" htmlType="Back" className="backBtn">
-              <Link to={"/"}>Back</Link>
+          <div className='button'>
+            <Button
+              type='primary'
+              htmlType='Back'
+              className={cx('backBtn', 'creation-pagenav-buttons')}
+            >
+              <Link to={'/'}>Back</Link>
             </Button>
             <Form.Item>
-              <Button type="primary" htmlType="Submit" className="nextBtn">
+              <Button
+                type='primary'
+                htmlType='Submit'
+                className={cx('nextBtn', 'creation-pagenav-buttons')}
+              >
                 {/*To Do: Should only be able to Next when all the fields are validated */}
-                <Link to={"/editquiz"}>Next</Link>
+                <Link to={'/editquiz'}>Next</Link>
               </Button>
             </Form.Item>
           </div>

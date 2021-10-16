@@ -64,6 +64,6 @@ yarn build
 1. Migrate all the default Django tables to your MySQL schema.
 	> python manage.py migrate
 
-## 4. Running The Server
+## 5. Running The Server
 1. > python manage.py runserver
 2. Open http://localhost:8000

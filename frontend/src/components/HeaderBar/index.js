@@ -4,32 +4,57 @@ import { Link } from 'react-router-dom';
 import { MenuOutlined } from '@ant-design/icons';
 
 import './index.css';
+import ProfileModal from './components/ProfileModal';
 
 const { Header } = Layout;
 
-const menu = (
+const DropdownMenu = ({ logoutOnClick, profileOnClick }) => (
   <Menu>
-    <Menu.Item key='profile'>My Profile</Menu.Item>
+    <Menu.Item key='profile' onClick={profileOnClick}>
+      My Profile
+    </Menu.Item>
     <Menu.Item key='settings'>
       <Link to='/settings'>Settings</Link>
     </Menu.Item>
-    <Menu.Item key='logout'>Log Out</Menu.Item>
+    <Menu.Item key='logout' onClick={logoutOnClick}>
+      Log Out
+    </Menu.Item>
   </Menu>
 );
 
-const HeaderBar = ({ menuOnClick }) => {
+const HeaderBar = ({ menuOnClick, logoutOnClick, userInfo }) => {
+  const [showProfileModal, setShowProfileModal] = React.useState(false);
+
+  const handleOnClickProfileMenu = () => setShowProfileModal(true);
+  const handleOnCancelProfileMenu = () => setShowProfileModal(false);
+
   return (
     <Header className='header' style={{ padding: 0 }}>
       <div className='menu-trigger' onClick={menuOnClick}>
         <MenuOutlined />
       </div>
       <div className='avatar-container'>
-        <Dropdown overlay={menu} placement='bottomLeft' arrow>
+        <Dropdown
+          trigger={['hover', 'click']}
+          overlay={
+            <DropdownMenu
+              logoutOnClick={logoutOnClick}
+              profileOnClick={handleOnClickProfileMenu}
+            />
+          }
+          placement='bottomLeft'
+          arrow
+        >
           <Avatar style={{ color: '#f56a00', backgroundColor: '#fde3cf' }}>
-            U
+            {userInfo.userName[0]}
           </Avatar>
         </Dropdown>
       </div>
+      <ProfileModal
+        userInfo={userInfo}
+        visible={showProfileModal}
+        onCancel={handleOnCancelProfileMenu}
+      />
     </Header>
   );
 };
