@@ -35,6 +35,7 @@ const HeaderBar = ({ menuOnClick, logoutOnClick, userInfo }) => {
       </div>
       <div className='avatar-container'>
         <Dropdown
+          trigger={['hover', 'click']}
           overlay={
             <DropdownMenu
               logoutOnClick={logoutOnClick}

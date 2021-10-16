@@ -5,11 +5,14 @@ import './index.css';
 import { SearchOutlined } from '@ant-design/icons';
 import { useGameStore } from '../../services/zustand/game';
 import { GameCard } from '../../components';
+import GameModal from './components/GameModal';
 
 const GamesPage = () => {
   const { isLoading, games, fetchGames } = useGameStore();
   const [searchStr, setSearchStr] = React.useState('');
   const [filteredGames, setFilteredGames] = React.useState([]);
+  const [showGameModal, setShowGameModal] = React.useState(false);
+  const [currentGameInfo, setCurrentGameInfo] = React.useState(null);
 
   React.useEffect(() => {
     fetchGames();
@@ -29,6 +32,18 @@ const GamesPage = () => {
       setFilteredGames(updatedFilteredGames);
     },
     [games]
+  );
+
+  const handleOnClickGameCard = React.useCallback(
+    (gameItem) => {
+      setCurrentGameInfo(gameItem);
+      setShowGameModal(true);
+    },
+    [setShowGameModal]
+  );
+  const handleOnCancelGameCard = React.useCallback(
+    () => setShowGameModal(false),
+    [setShowGameModal]
   );
 
   React.useEffect(() => {
@@ -62,6 +77,14 @@ const GamesPage = () => {
           game you want tot start playing!
         </p>
         <div className='games-container'>
+          <GameModal
+            visible={showGameModal}
+            onCancel={handleOnCancelGameCard}
+            gameInfo={currentGameInfo}
+            onGameStart={() => {
+              console.log('start');
+            }}
+          />
           <List
             loading={isLoading}
             grid={{
@@ -73,9 +96,11 @@ const GamesPage = () => {
               <List.Item key={index}>
                 <Skeleton loading={isLoading} active>
                   <GameCard
+                    key={index}
                     title={item.title}
                     creator={item.creator}
                     tags={item.tags}
+                    onClick={() => handleOnClickGameCard(item)}
                   />
                 </Skeleton>
               </List.Item>
