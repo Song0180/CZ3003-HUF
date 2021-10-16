@@ -1,8 +1,7 @@
 import React from 'react';
 import 'antd/dist/antd.css';
 import './index.css';
-import { Tag, Tooltip, Form, Input, Button, InputNumber } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
+import { Form, Input, Button, InputNumber } from 'antd';
 import { Link } from 'react-router-dom';
 import cx from 'classnames';
 
@@ -53,7 +52,7 @@ const GameCreationPage = () => {
               },
               {
                 whitespace: true,
-                message: "Game Name cannot be a whitespace",
+                message: 'Game Name cannot be a whitespace',
               },
             ]}
           >
@@ -61,8 +60,8 @@ const GameCreationPage = () => {
           </Form.Item>
 
           <Form.Item
-            label="GAME DESCRIPTION"
-            name="Game Description"
+            label='GAME DESCRIPTION'
+            name='Game Description'
             rules={[
               {
                 required: true,
@@ -70,7 +69,7 @@ const GameCreationPage = () => {
               },
               {
                 whitespace: true,
-                message: "Game Name cannot be a whitespace",
+                message: 'Game Name cannot be a whitespace',
               },
             ]}
           >
@@ -78,29 +77,29 @@ const GameCreationPage = () => {
           </Form.Item>
 
           <Form.Item
-            label="INPUT GAME TAG"
-            name="Game Tag"
+            label='INPUT GAME TAG'
+            name='Game Tag'
             rules={[
               {
                 required: true,
-                message: "Please input the Game Tag",
+                message: 'Please input the Game Tag',
               },
               {
                 max: 20,
-                message: "Tags can only have a maximum 20 characters.",
+                message: 'Tags can only have a maximum 20 characters.',
               },
               {
-                pattern: "^[^s]+[-a-zA-Zs]+([-a-zA-Z]+)*$",
-                message: "Tags cannot contain whitespaces",
+                pattern: '^[^s]+[-a-zA-Zs]+([-a-zA-Z]+)*$',
+                message: 'Tags cannot contain whitespaces',
               },
             ]}
           >
-            <Input placeholder="Enter Game Tag" />
+            <Input placeholder='Enter Game Tag' />
           </Form.Item>
 
           <Form.Item
-            label="NUMBER OF QUIZZES: "
-            name="Number of Quizzes"
+            label='NUMBER OF QUIZZES: '
+            name='Number of Quizzes'
             rules={[
               {
                 required: true,
