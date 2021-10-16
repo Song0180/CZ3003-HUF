@@ -2,12 +2,15 @@ import React from 'react';
 import 'antd/dist/antd.css';
 import './index.css';
 import { Form, Input, Button, InputNumber } from 'antd';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import cx from 'classnames';
 
 const GameCreationPage = () => {
+  const history = useHistory();
   const onFinish = (values) => {
     console.log('Success:', values);
+    // route to the home page (just an example)
+    history.push('/');
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -140,7 +143,8 @@ const GameCreationPage = () => {
                 className={cx('nextBtn', 'creation-pagenav-buttons')}
               >
                 {/*To Do: Should only be able to Next when all the fields are validated */}
-                <Link to={'/editquiz'}>Next</Link>
+                {/* <Link to={'/editquiz'}>Next</Link> */}
+                Next
               </Button>
             </Form.Item>
           </div>
