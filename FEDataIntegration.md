@@ -2,7 +2,7 @@
 
 ## Before you start, makesure that you follow the [backend setup guide](https://github.com/Song0180/CZ3003-HUF#backend-setup) to have the server successfully running on your machine
 
-Also, we need use [axios](https://www.npmjs.com/package/axios) (a Promise based HTTP client for the browser and node.js) to make API calls to the server. This JS package is newly added, so let's install it on your machine.
+## Also, we need use [axios](https://www.npmjs.com/package/axios) (a Promise based HTTP client for the browser and node.js) to make API calls to the server. This JS package is newly added, so let's install it on your machine.
 
 1. make sure you are in the `frontend` folder
 2. run command `yarn install`
