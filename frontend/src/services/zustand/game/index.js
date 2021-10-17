@@ -32,6 +32,9 @@ export const useGameStore = create((set, get) => ({
       const quizzes = result.data;
       set({ currentGameQuizzes: quizzes });
     }
-    set({ isLoading: false, currentQuizQuetsions: mockQuizzes });
+    set({ isLoading: false });
+  },
+  fetchQuizQuestions: async (gameId, quizId) => {
+    set({ currentQuizQuetsions: mockQuizzes });
   },
 }));
