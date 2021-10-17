@@ -24,5 +24,8 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path('socialloginauth/<email>/', views.get_social_login_auth, name="social_login_auth"),
     # set auth token from social account, and get
+    
+    # forgot password
+    path('forgot_password/', views.forgot_password, name = 'forgot_password'),
 
 ]
