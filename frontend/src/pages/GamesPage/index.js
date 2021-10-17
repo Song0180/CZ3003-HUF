@@ -1,13 +1,15 @@
 import * as React from 'react';
-import { Input, List, Skeleton } from 'antd';
+import { Input, List, Skeleton, message } from 'antd';
 
 import './index.css';
 import { SearchOutlined } from '@ant-design/icons';
 import { useGameStore } from '../../services/zustand/game';
 import { GameCard } from '../../components';
 import GameModal from './components/GameModal';
+import { useHistory } from 'react-router';
 
 const GamesPage = () => {
+  const history = useHistory();
   const { isLoading, games, fetchGames } = useGameStore();
   const [searchStr, setSearchStr] = React.useState('');
   const [filteredGames, setFilteredGames] = React.useState([]);
@@ -15,7 +17,16 @@ const GamesPage = () => {
   const [currentGameInfo, setCurrentGameInfo] = React.useState(null);
 
   React.useEffect(() => {
-    fetchGames();
+    const fetchData = async () => {
+      const errorMessage = await fetchGames();
+      if (errorMessage) {
+        message.error('Failed to fetch games. Contact Admin for support.');
+        message.error(errorMessage);
+      } else {
+        message.success('Successfully fetched latest games list');
+      }
+    };
+    fetchData();
   }, [fetchGames]);
 
   React.useEffect(() => {
@@ -27,7 +38,7 @@ const GamesPage = () => {
       const lowercaseSearchValue = searchValue.toLowerCase();
       // filter games based on search string
       const updatedFilteredGames = games.filter((game) =>
-        game.title.toLowerCase().includes(lowercaseSearchValue)
+        game.game_name.toLowerCase().includes(lowercaseSearchValue)
       );
       setFilteredGames(updatedFilteredGames);
     },
@@ -45,6 +56,15 @@ const GamesPage = () => {
     () => setShowGameModal(false),
     [setShowGameModal]
   );
+
+  const handleOnClickGameStart = (gameId) => {
+    history.push({
+      pathname: '/gamequiz',
+      state: {
+        gameId,
+      },
+    });
+  };
 
   React.useEffect(() => {
     // display all games when search string is 0
@@ -81,9 +101,7 @@ const GamesPage = () => {
             visible={showGameModal}
             onCancel={handleOnCancelGameCard}
             gameInfo={currentGameInfo}
-            onGameStart={() => {
-              console.log('start');
-            }}
+            onGameStart={() => handleOnClickGameStart(currentGameInfo.game_id)}
           />
           <List
             loading={isLoading}
@@ -93,13 +111,12 @@ const GamesPage = () => {
             }}
             dataSource={filteredGames}
             renderItem={(item, index) => (
-              <List.Item key={index}>
+              <List.Item key={JSON.stringify(item) + index}>
                 <Skeleton loading={isLoading} active>
                   <GameCard
-                    key={index}
-                    title={item.title}
-                    creator={item.creator}
-                    tags={item.tags}
+                    title={item.game_name}
+                    creator={item.user_id}
+                    tag={item.game_tag}
                     onClick={() => handleOnClickGameCard(item)}
                   />
                 </Skeleton>
