@@ -116,6 +116,13 @@ REST_FRAMEWORK = {
 }
 
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST	 = 'smtp.gmail.com'
+EMAIL_HOST_PASSWORD = 'djangoreact'
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'cz3003huf@gmail.com'
+EMAIL_PORT = '587'
+
 AUTHENTICATION_BACKENDS = (
     'allauth.account.auth_backends.AuthenticationBackend',
     'django.contrib.auth.backends.ModelBackend',
