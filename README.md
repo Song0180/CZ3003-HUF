@@ -114,3 +114,4 @@ yarn build
 
 - Forgot Password: 
 	> http://localhost:8000/forgot_password
+	> enable https://myaccount.google.com/u/1/lesssecureapps to receive new password email
