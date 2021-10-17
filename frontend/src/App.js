@@ -20,6 +20,7 @@ import GameplayPage from './pages/GameplayPage';
 import GameCreationPage from './pages/GameCreationPage';
 import SettingsPage from './pages/SettingsPage';
 import { useAuthStore } from './services/zustand/auth';
+import GameQuizPage from './pages/GameQuizPage';
 
 const { Content } = Layout;
 const NotFoundRedirect = () => <Redirect to='/' />;
@@ -53,6 +54,7 @@ const App = () => {
               <Route path='/settings' exact component={SettingsPage} />
               <Route path='/games' exact component={GamesPage} />
               <Route path='/gameplay' exact component={GameplayPage} />
+              <Route path='/gamequiz' exact component={GameQuizPage} />
               <Route
                 path='/dashboard/editgame'
                 exact

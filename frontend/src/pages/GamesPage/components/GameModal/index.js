@@ -13,9 +13,9 @@ const GameModal = ({ visible, gameInfo, onCancel, onGameStart }) => {
     >
       {gameInfo && (
         <div>
-          <h1>{gameInfo.title}</h1>
-          <h3>Creator: {gameInfo.creator}</h3>
-          <p>Tag: {gameInfo.tags}</p>
+          <h1>{gameInfo.game_name}</h1>
+          <h3>Creator: {gameInfo.user_id}</h3>
+          <p>Tag: {gameInfo.game_tag}</p>
         </div>
       )}
 
