@@ -111,3 +111,6 @@ yarn build
   
 - Quiz Result:
 	> http://localhost:8000/hufquizoptions
+
+- Forgot Password: 
+	> http://localhost:8000/forgot_password
