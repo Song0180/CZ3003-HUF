@@ -14,6 +14,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 from rest_framework import status, viewsets
 from django.contrib.auth.models import User
+from django.core.mail import send_mail
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -42,6 +43,15 @@ def login_user(request):
 def logout_user(request):
     logout(request)
     return HttpResponse("successful logout")
+
+
+def forgot_password(request):
+    usr = User.objects.get(username = request.user.username)
+    new_password = usr.date_joined.strftime("%d-%m-%Y")
+    usr.set_password(new_password)
+    usr.save()
+    send_mail("your new password", new_password, from_email="cz3003huf@gmail.com", recipient_list=[usr.email])
+    return HttpResponse('your new password has been sent to your email')
 
 
 def home_page(request):

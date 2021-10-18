@@ -12,9 +12,10 @@ from django.conf import settings
 
 class HufGame(models.Model):
     game_id = models.AutoField(primary_key=True)
-    user_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, db_column='user_id')
+    username = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, to_field='username', db_column='username')
     game_name = models.CharField(max_length=20)
     game_tag = models.CharField(max_length=9)
     no_of_quiz = models.IntegerField()
     game_description = models.CharField(max_length=100, blank=True, null=True)
     total_no_qn = models.IntegerField()
+
