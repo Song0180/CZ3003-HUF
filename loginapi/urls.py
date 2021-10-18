@@ -26,6 +26,6 @@ urlpatterns = [
     # set auth token from social account, and get
     
     # forgot password
-    path('forgot_password/', views.forgot_password, name = 'forgot_password'),
+    path('forgot_password/<email>/', views.forgot_password, name = 'forgot_password'),
 
 ]
