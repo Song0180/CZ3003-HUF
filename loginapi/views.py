@@ -45,13 +45,14 @@ def logout_user(request):
     return HttpResponse("successful logout")
 
 
-def forgot_password(request):
-    usr = User.objects.get(username = request.user.username)
+def forgot_password(request, email):
+    usr = User.objects.get(email=email)
     new_password = usr.date_joined.strftime("%d-%m-%Y")
     usr.set_password(new_password)
     usr.save()
     send_mail("your new password", new_password, from_email="cz3003huf@gmail.com", recipient_list=[usr.email])
     return HttpResponse('your new password has been sent to your email')
+
 
 
 def home_page(request):
