@@ -115,7 +115,7 @@ const GamesPage = () => {
                 <Skeleton loading={isLoading} active>
                   <GameCard
                     title={item.game_name}
-                    creator={item.user_id}
+                    creator={item.username}
                     tag={item.game_tag}
                     onClick={() => handleOnClickGameCard(item)}
                   />
