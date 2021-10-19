@@ -20,9 +20,9 @@ const GameCreationPage = () => {
       total_no_qn: values.total_no_qn,
     };
     const result = await createNewGame(gameData);
-    if (result.data) {
+    if (typeof result !== 'string') {
       message.success(
-        `You have successfully created a new game${result.data.game_name}`
+        `You have successfully created a new game${result.game_name}`
       );
     } else {
       message.error(result);
