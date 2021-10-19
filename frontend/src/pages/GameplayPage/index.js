@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { GameplayDisplay } from '../../components/GameplayDisplay';
 import 'antd/dist/antd.css';
-import { Statistic, Row } from 'antd';
+import { Statistic, Row, message } from 'antd';
 import TimedPopUp from '../../components/TimedPopUp';
 import './index.css';
 import { useEffect, useState } from 'react';
@@ -19,7 +19,7 @@ const deadline = Date.now() + minutes;
 */
 
 const GameplayPage = () => {
-  const { currentQuizQuetsions, fetchQuizQuestions } = useGameStore();
+  const { isLoading, quizQuestions, fetchQuizQuestions, quizOptions, fetchQuizOptions } = useGameStore();
   const [userAnswers, setUserAnswers] = useState({});
   const [timedPopUp, setTimedPopUp] = useState(false);
 
@@ -30,6 +30,40 @@ const GameplayPage = () => {
     }, minutes);
   }, []);
 
+  React.useEffect(() => {
+    const fetchDataQuestion = async () => {
+      const errorMessage = await fetchQuizQuestions();
+      if (errorMessage) {
+        message.error('Failed to fetch quiz. Contact Admin for support.');
+        message.error(errorMessage);
+      } else {
+        message.success('Successfully fetched quiz');
+      }
+    };
+    fetchDataQuestion();
+  }, [fetchQuizQuestions]);
+
+  useEffect(() => {
+    console.log(quizQuestions);
+  }, [quizQuestions]);
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      const errorMessage = await fetchQuizOptions();
+      if (errorMessage) {
+        message.error('Failed to fetch quiz options. Contact Admin for support.');
+        message.error(errorMessage);
+      } else {
+        message.success('Successfully fetched quiz options');
+      }
+    };
+    fetchData();
+  }, [fetchQuizOptions]);
+
+  useEffect(() => {
+    console.log(quizOptions);
+  }, [quizOptions]);
+
   // Fetches data of quiz using gameId
   useEffect(() => {
     const gameId = 0;
@@ -39,11 +73,11 @@ const GameplayPage = () => {
   // Set options to be empty (when user loads the quiz page)
   useEffect(() => {
     const emptyAnswers = {};
-    currentQuizQuetsions.forEach((question) => {
+    quizQuestions.forEach((question) => {
       emptyAnswers[question.questionId] = null;
     });
     setUserAnswers(emptyAnswers);
-  }, [currentQuizQuetsions]);
+  }, [quizQuestions]);
 
   useEffect(() => {
     console.log(userAnswers);
@@ -62,7 +96,9 @@ const GameplayPage = () => {
       <Row>
         <div className='question-con'>
           <GameplayDisplay
-            quizQuestions={currentQuizQuetsions}
+            loading={isLoading}
+            quizQuestions={quizQuestions}
+            quizOptions = {quizOptions}
             currentAnswers={userAnswers}
             onAnswerQuestion={(newAnswers) => setUserAnswers(newAnswers)}
           />

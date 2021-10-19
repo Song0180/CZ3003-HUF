@@ -36,6 +36,34 @@ export const createGame = async (
       total_no_qn,
     });
     console.log(response);
+  } catch (err) {
+    return err.message;
+  }
+};
+// api function to call 'localhost:8000/hufquiz'
+export const fetchQuizQuestions = async () => {
+  try {
+    const response = await yelp.get('/hufquizqn', {});
+    return response;
+  } catch (err) {
+    return err.message;
+  }
+};
+
+// api function to call 'localhost:8000/hufquiz'
+export const fetchQuizOptions = async () => {
+  try {
+    const response = await yelp.get('/hufquizoptions', {});
+    return response;
+  } catch (err) {
+    return err.message;
+  }
+};
+
+// api function to call 'localhost:8000/hufquiz'
+export const fetchQuizResult = async () => {
+  try {
+    const response = await yelp.get('/hufquizresult', {});
     return response;
   } catch (err) {
     return err.message;

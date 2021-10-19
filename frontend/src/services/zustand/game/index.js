@@ -1,13 +1,19 @@
 import create from 'zustand';
 
-import { mockQuizzes } from './mockData';
-import { fetchGames, fetchQuizzes, createGame } from '../../api/game';
+import {
+  fetchGames,
+  fetchQuizzes,
+  createGame,
+  fetchQuizOptions,
+  fetchQuizQuestions,
+  fetchQuizResult,
+} from '../../api/game';
 
 const initialState = {
   isLoading: false,
   games: [],
   currentGameQuizzes: [],
-  currentQuizQuetsions: [],
+  quizQuestions: [],
 };
 
 export const useGameStore = create((set, get) => ({
@@ -38,7 +44,41 @@ export const useGameStore = create((set, get) => ({
   },
 
   fetchQuizQuestions: async (gameId, quizId) => {
-    set({ currentQuizQuetsions: mockQuizzes });
+    set({ isLoading: true });
+    const result = await fetchQuizQuestions(quizId);
+    if (typeof result === 'string') {
+      return result;
+    } else {
+      const questions = result.data;
+      console.log(questions);
+      set({ quizQuestions: questions });
+    }
+    set({ isLoading: false });
+  },
+
+  fetchQuizOptions: async (gameId, quizId) => {
+    set({ isLoading: true });
+    const result = await fetchQuizOptions(quizId);
+    if (typeof result === 'string') {
+      return result;
+    } else {
+      const options = result.data;
+      console.log(options);
+      set({ quizOptions: options });
+    }
+    set({ isLoading: false });
+  },
+
+  fetchQuizResult: async (gameId, quizId) => {
+    set({ isLoading: true });
+    const result = await fetchQuizResult(quizId);
+    if (typeof result === 'string') {
+      return result;
+    } else {
+      const quizresults = result.data;
+      set({ quizResults: quizresults });
+    }
+    set({ isLoading: false });
   },
 
   createNewGame: async (gameData) => {

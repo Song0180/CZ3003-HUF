@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { Radio, Space, Row, Button } from 'antd';
 import 'antd/dist/antd.css';
-
 import './index.css';
 
 /*
@@ -11,6 +10,7 @@ function to display the questions in the quiz and return the marks gotten (curre
 const GameplayDisplay = ({
   quizQuestions = [],
   currentAnswers = {},
+  quizOptions = [],
   onAnswerQuestion,
 }) => {
   const handleOnChangeQuestionAnswer = (questionId, answerValue) => {
@@ -19,31 +19,39 @@ const GameplayDisplay = ({
     onAnswerQuestion(newAnswers);
   };
 
+  React.useEffect(() => {
+    console.log(quizOptions);
+  }, [quizOptions]);
+
+  React.useEffect(() => {
+    console.log(quizQuestions);
+  }, [quizQuestions]);
+
   return (
     <div className='question-container'>
-      {quizQuestions.map((question, index) => {
+      {quizQuestions.map((question_name, index) => {
         return (
           <div key={index} className='question-container'>
             <Row>
               <h1>
-                Question {index + 1}) {question.question}
+                Question {index + 1}) {question_name}
               </h1>
             </Row>
             <Radio.Group
               name='radiogroup'
               onChange={(e) =>
                 handleOnChangeQuestionAnswer(
-                  question.questionId,
+                  question_name.quiz_qn_id,
                   e.target.value
                 )
               }
               defaultValue={null}
             >
               <Space direction='vertical'>
-                {question.options.map((option) => {
+                {quizOptions.map((option_id) => {
                   return (
-                    <Radio key={option.value} value={option.value}>
-                      {option.text}
+                    <Radio key={option_id.value} value={option_id.value}>
+                      {option_id.option_description}
                     </Radio>
                   );
                 })}
