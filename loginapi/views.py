@@ -7,7 +7,7 @@ from django.contrib import messages
 from django.shortcuts import redirect
 from .serializers import UserSerializer
 from allauth.socialaccount.models import SocialToken
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate, login, logout
 from rest_framework.authtoken.models import Token
@@ -38,10 +38,13 @@ def login_user(request):
 
     if user is not None:
         login(request, user)
-        return JsonResponse({'message':'successful log in'})
+        return HttpResponse("successful log in")
+        # return redirect('/')
 
     else:
-        return JsonResponse({'message':"unsuccessful log in"})
+        messages.success(request, ("there was an error logging in"))
+        return HttpResponse("login unsuccessful")
+        # return redirect('/login')
 
 
 @csrf_exempt
@@ -55,8 +58,7 @@ def logout_user(request):
 
     """
     logout(request)
-    return JsonResponse({'message':'successful logout'})
-    # return HttpResponse("successful logout")
+    return HttpResponse("successful logout")
 
 
 def forgot_password(request, email):
@@ -74,8 +76,8 @@ def forgot_password(request, email):
     usr.set_password(new_password)
     usr.save()
     send_mail("your new password", new_password, from_email="cz3003huf@gmail.com", recipient_list=[usr.email])
-    # return HttpResponse('your new password has been sent to your email')
-    return JsonResponse({'message':'your new password has been sent to your email'})
+    return HttpResponse('your new password has been sent to your email')
+
 
 
 def home_page(request):
@@ -94,8 +96,8 @@ def get_social_login_auth(request, email):
 
 def get_authenticated_user(request):
     if request.user.is_authenticated:
-        return JsonResponse({'message':request.user.username})
+        return HttpResponse(request.user.username)
     else:
-        return JsonResponse({'message':"not authenticated"})
+        return HttpResponse('not authenticated')
 
 # # Create your views here.
