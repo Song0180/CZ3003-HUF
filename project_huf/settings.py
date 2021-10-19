@@ -180,12 +180,13 @@ SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
 
 SITE_ID = 1
 
-LOGIN_REDIRECT_URL = "/"
+LOGIN_REDIRECT_URL = "http://localhost:3000/dashboard"
 
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQURIED = True
 
 CORS_ORIGIN_WHITELIST = ["http://localhost:3000"]
 
-# for the dev mode, you need to use localhost's id facebook does not support the name 127.0.0.1:8000
+# for tnpmhe dev mode, you need to use localhost's id facebook does not support the name 127.0.0.1:8000
 # little options for your page's signup.
+SOCIALACCOUNT_ADAPTER = "loginapi.my_adapter.MyAdapter"

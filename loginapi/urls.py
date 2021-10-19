@@ -18,14 +18,16 @@ urlpatterns = [
     path('logout/', views.logout_user, name="log_out"),
     path('authenticateuser/',views.get_authenticated_user, name = "get_user_name"),
 
-
     # Facebook login API
-    path('facebookapitest/', views.home_page, name='home_page'),  # redirect to html login file
     path('accounts/', include('allauth.urls')),
-    path('socialloginauth/<email>/', views.get_social_login_auth, name="social_login_auth"),
-    # set auth token from social account, and get
-    
+    path('rest-auth/fblogin/', views.FacebookLogin.as_view(), name='redirect'), 
+    path('rest-auth/fblogout/', views.User_logout, name = 'fb_logout'), 
+
     # forgot password
     path('forgot_password/<email>/', views.forgot_password, name = 'forgot_password'),
 
+    #ignore
+    path('facebookapitest/', views.home_page, name='home_page'),  # redirect to html login file
+    path('socialloginauth/<email>/', views.get_social_login_auth, name="social_login_auth"),
+    
 ]
