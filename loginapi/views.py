@@ -7,7 +7,7 @@ from django.contrib import messages
 from django.shortcuts import redirect
 from .serializers import UserSerializer
 from allauth.socialaccount.models import SocialToken
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate, login, logout
 from rest_framework.authtoken.models import Token
@@ -38,12 +38,12 @@ def login_user(request):
 
     if user is not None:
         login(request, user)
-        return HttpResponse("successful log in")
+        return JsonResponse({"message":"successful log in"})
         # return redirect('/')
 
     else:
-        messages.success(request, ("there was an error logging in"))
-        return HttpResponse("login unsuccessful")
+        # messages.success(request, ("there was an error logging in"))
+        return JsonResponse({"message":"login unsuccessful"})
         # return redirect('/login')
 
 
@@ -58,11 +58,11 @@ def logout_user(request):
 
     """
     logout(request)
-    return HttpResponse("successful logout")
+    return JsonResponse({"message":"successful logout"})
 
 
 def forgot_password(request, email):
-     """Sends new password to user email 
+    """Sends new password to user email 
      
     Args:
         request: the http request 
@@ -76,7 +76,7 @@ def forgot_password(request, email):
     usr.set_password(new_password)
     usr.save()
     send_mail("your new password", new_password, from_email="cz3003huf@gmail.com", recipient_list=[usr.email])
-    return HttpResponse('your new password has been sent to your email')
+    return JsonResponse('your new password has been sent to your email')
 
 
 
@@ -96,8 +96,8 @@ def get_social_login_auth(request, email):
 
 def get_authenticated_user(request):
     if request.user.is_authenticated:
-        return HttpResponse(request.user.username)
+        return JsonResponse(request.user.username)
     else:
-        return HttpResponse('not authenticated')
+        return JsonResponse('not authenticated')
 
 # # Create your views here.
