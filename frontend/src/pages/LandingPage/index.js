@@ -75,6 +75,27 @@ const onFinish = (values) => {
       .then(response => response.json())
       .then(
         data => {
+          console.log("This is the response :", data.message);
+          // Check this part
+          if (data.message == "login successful") {
+
+            useAuthStore.initialState.signedIn = true;
+
+          }
+        })
+      .catch(error => console.error(error))
+  }
+
+  facebookLogin = event => {
+    console.log(JSON.stringify(this.loginState.credentials))
+    fetch('https://cz3003-huf.herokuapp.com/accounts/facebook/login/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(this.loginState.credentials)
+    })
+      .then(response => response.json())
+      .then(
+        data => {
           console.log("This is the response :", data);
         })
       .catch(error => console.error(error))
