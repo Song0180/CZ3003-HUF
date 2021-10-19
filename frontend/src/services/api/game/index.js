@@ -18,23 +18,25 @@ export const fetchQuizzes = async (gameId) => {
   }
 };
 
-export const postGamesCreation = async (params) => {
+export const createGame = async (
+  username,
+  game_name,
+  game_tag,
+  no_of_quiz,
+  game_description,
+  total_no_qn
+) => {
   try {
-    const response = await yelp.post("/hufgames/", {
-      username: params.username,
-      game_name: params.game,
-      game_tag: params.game_tag,
-      game_description: params.game_description,
-      no_of_quiz: params.no_of_quiz,
-      total_no_qn: params.total_no_qn,
+    const response = await yelp.post('/hufgames/', {
+      username,
+      game_name,
+      game_tag,
+      no_of_quiz,
+      game_description,
+      total_no_qn,
     });
-    if (response.status === 200){
-      console.log("Login successfull");
-      console.log("data", response);
-    }
-    else{
-      console.log("Unsuccessful");
-    }
+    console.log(response);
+    return response;
   } catch (err) {
     return err.message;
   }
