@@ -7,7 +7,7 @@ from django.contrib import messages
 from django.shortcuts import redirect
 from .serializers import UserSerializer
 from allauth.socialaccount.models import SocialToken
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate, login, logout
 from rest_framework.authtoken.models import Token
@@ -15,7 +15,8 @@ from rest_framework.response import Response
 from rest_framework import status, viewsets
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
-
+import requests  
+import json
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
@@ -24,34 +25,57 @@ class UserViewSet(viewsets.ModelViewSet):
 
 @csrf_exempt
 def login_user(request):
-    username = request.POST.get('username')
-    password = request.POST.get('password')
+    """Logs user into app
+     
+    Args:
+        request: the http request 
+    Returns:
+        HttpResponse
+
+    """
+    received_json_data = json.loads(request.body.decode("utf-8"))
+    username = received_json_data['username']
+    password = received_json_data['password']
     user = authenticate(request, username=username, password=password)
 
     if user is not None:
         login(request, user)
-        return HttpResponse("successful log in")
-        # return redirect('/')
-
+        return JsonResponse({"message":"successful log in"})
+    
     else:
-        messages.success(request, ("there was an error logging in"))
-        return HttpResponse("login unsuccessful")
-        # return redirect('/login')
-
-
+        return JsonResponse({"message":"login unsuccessful"})
+       
+       
 @csrf_exempt
 def logout_user(request):
+    """Logs user out of app 
+     
+    Args:
+        request: the http request 
+    Returns:
+        HttpResponse
+
+    """
     logout(request)
-    return HttpResponse("successful logout")
+    return JsonResponse({"message":"successful logout"})
 
 
 def forgot_password(request, email):
+    """Sends new password to user email 
+     
+    Args:
+        request: the http request 
+        email: email of user 
+    Returns:
+        HttpResponse
+
+    """
     usr = User.objects.get(email=email)
     new_password = usr.date_joined.strftime("%d-%m-%Y")
     usr.set_password(new_password)
     usr.save()
     send_mail("your new password", new_password, from_email="cz3003huf@gmail.com", recipient_list=[usr.email])
-    return HttpResponse('your new password has been sent to your email')
+    return JsonResponse({"message":'your new password has been sent to your email'})
 
 
 
@@ -71,8 +95,8 @@ def get_social_login_auth(request, email):
 
 def get_authenticated_user(request):
     if request.user.is_authenticated:
-        return HttpResponse(request.user.username)
+        return JsonResponse({"message":request.user.username})
     else:
-        return HttpResponse('not authenticated')
+        return JsonResponse({"message":'not authenticated'})
 
 # # Create your views here.

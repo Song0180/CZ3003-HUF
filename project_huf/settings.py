@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-l(@#^_yxun^-bk@v4(mk0(vzus2r-pf4)epdwu@0+&j&xy9mab
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["cz3003-huf.herokuapp.com","127.0.0.1","localhost"]
 
 
 # Application definition
@@ -54,6 +54,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -86,18 +87,17 @@ WSGI_APPLICATION = 'project_huf.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 ## localdb
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'PROJECT_HUF',
-        'USER': 'admin',
-        'PASSWORD': 'password',
-        'HOST': 'localhost',
-        'PORT': '3306',
-    }
-}
-
-# remotedb
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'PROJECT_HUF',
+#         'USER': 'admin',
+#         'PASSWORD': 'password',
+#         'HOST': 'localhost',
+#         'PORT': '3306',
+#     }
+# }
+## remotedb
 DATABASES = {
        'default': {
         'ENGINE': 'django.db.backends.mysql',
