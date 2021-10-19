@@ -6,7 +6,7 @@ from gameapi.models import HufGame
 class HufQuiz(models.Model):
     quiz_id = models.AutoField(primary_key=True)
     game_id = models.ForeignKey(HufGame, on_delete=models.CASCADE, db_column='game_id')
-    quiz_duration = models.IntegerField()
+    quiz_duration = models.IntegerField(default=1, validators=[MaxValueValidator(100), MinValueValidator(1)])
     quiz_max_score = models.IntegerField()
     quiz_description = models.CharField(max_length=50, blank=True, null=True)
     no_of_qn = models.IntegerField()
