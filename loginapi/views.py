@@ -24,6 +24,14 @@ class UserViewSet(viewsets.ModelViewSet):
 
 @csrf_exempt
 def login_user(request):
+    """Logs user into app
+     
+    Args:
+        request: the http request 
+    Returns:
+        HttpResponse
+
+    """
     username = request.POST.get('username')
     password = request.POST.get('password')
     user = authenticate(request, username=username, password=password)
@@ -41,11 +49,28 @@ def login_user(request):
 
 @csrf_exempt
 def logout_user(request):
+    """Logs user out of app 
+     
+    Args:
+        request: the http request 
+    Returns:
+        HttpResponse
+
+    """
     logout(request)
     return HttpResponse("successful logout")
 
 
 def forgot_password(request, email):
+     """Sends new password to user email 
+     
+    Args:
+        request: the http request 
+        email: email of user 
+    Returns:
+        HttpResponse
+
+    """
     usr = User.objects.get(email=email)
     new_password = usr.date_joined.strftime("%d-%m-%Y")
     usr.set_password(new_password)
