@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-l(@#^_yxun^-bk@v4(mk0(vzus2r-pf4)epdwu@0+&j&xy9mab
 
 DEBUG = True
 
-ALLOWED_HOSTS = ["cz3003-huf.herokuapp.com","127.0.0.1","localhost"]
+ALLOWED_HOSTS = ["cz3003-huf.herokuapp.com", "127.0.0.1", "localhost"]
 
 
 # Application definition
@@ -86,7 +86,7 @@ WSGI_APPLICATION = 'project_huf.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-## localdb
+# localdb
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.mysql',
@@ -97,9 +97,21 @@ WSGI_APPLICATION = 'project_huf.wsgi.application'
 #         'PORT': '3306',
 #     }
 # }
-## remotedb
+# remotedb
 DATABASES = {
-       'default': {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'project_huf',
+        'USER': 'admin',
+        'PASSWORD': 'projecthuf',
+        'HOST': 'database-1.c4x9cbbouqsz.us-east-2.rds.amazonaws.com',
+        'PORT': '3306',
+    }
+}
+
+# remotedb
+DATABASES = {
+    'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'project_huf',
         'USER': 'admin',
@@ -117,7 +129,7 @@ REST_FRAMEWORK = {
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST	 = 'smtp.gmail.com'
+EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_PASSWORD = 'djangoreact'
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'cz3003huf@gmail.com'
