@@ -30,15 +30,10 @@ def login_user(request):
 
     if user is not None:
         login(request, user)
-
         return JsonResponse({'message':'successful log in'})
-        # return redirect('/')
 
     else:
-        messages.success(request, ("there was an error logging in"))
-        return JsonResponse({'message':'successful log in'})
-        # return HttpResponse("login unsuccessful")
-        # return redirect('/login')
+        return JsonResponse({'message':"unsuccessful log in"})
 
 
 @csrf_exempt
@@ -54,8 +49,8 @@ def forgot_password(request, email):
     usr.set_password(new_password)
     usr.save()
     send_mail("your new password", new_password, from_email="cz3003huf@gmail.com", recipient_list=[usr.email])
-    return HttpResponse('your new password has been sent to your email')
-
+    # return HttpResponse('your new password has been sent to your email')
+    return JsonResponse({'message':'your new password has been sent to your email'})
 
 
 def home_page(request):
@@ -74,8 +69,8 @@ def get_social_login_auth(request, email):
 
 def get_authenticated_user(request):
     if request.user.is_authenticated:
-        return HttpResponse(request.user.username)
+        return JsonResponse({'message':request.user.username})
     else:
-        return HttpResponse('not authenticated')
+        return JsonResponse({'message':"not authenticated"})
 
 # # Create your views here.
