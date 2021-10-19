@@ -1,15 +1,33 @@
 import React from 'react';
 import 'antd/dist/antd.css';
 import './index.css';
-import { Form, Input, Button, InputNumber } from 'antd';
+import { Form, Input, Button, InputNumber, message } from 'antd';
 import { Link, useHistory } from 'react-router-dom';
+import { useGameStore } from '../../services/zustand/game';
 import cx from 'classnames';
 
 const GameCreationPage = () => {
   const history = useHistory();
-  const onFinish = (values) => {
-    console.log('Success:', values);
-    history.push("dashboard/editquiz");
+  const { createNewGame } = useGameStore();
+
+  const onFinish = async (values) => {
+    const gameData = {
+      username: 'hufadmin',
+      game_name: values.game_name,
+      game_tag: values.game_tag,
+      no_of_quiz: values.no_of_quiz,
+      game_description: values.game_description,
+      total_no_qn: values.total_no_qn,
+    };
+    const result = await createNewGame(gameData);
+    if (typeof result !== 'string') {
+      message.success(
+        `You have successfully created a new game${result.game_name}`
+      );
+    } else {
+      message.error(result);
+    }
+    history.push('/');
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -46,7 +64,7 @@ const GameCreationPage = () => {
         >
           <Form.Item
             label='GAME NAME: '
-            name='Game Name'
+            name='game_name'
             rules={[
               {
                 required: true,
@@ -63,7 +81,7 @@ const GameCreationPage = () => {
 
           <Form.Item
             label='GAME DESCRIPTION'
-            name='Game Description'
+            name='game_description'
             rules={[
               {
                 required: true,
@@ -80,7 +98,7 @@ const GameCreationPage = () => {
 
           <Form.Item
             label='INPUT GAME TAG'
-            name='Game Tag'
+            name='game_tag'
             rules={[
               {
                 required: true,
@@ -92,7 +110,8 @@ const GameCreationPage = () => {
               },
               {
                 pattern: '^[^s]+[-a-zA-Zs]+([-a-zA-Z]+)*$',
-                message: 'Tags cannot contain whitespaces',
+                message:
+                  'The tag must be a descriptive string and cannot contain whitespaces',
               },
             ]}
           >
@@ -101,28 +120,30 @@ const GameCreationPage = () => {
 
           <Form.Item
             label='NUMBER OF QUIZZES: '
-            name='Number of Quizzes'
+            name='no_of_quiz'
             rules={[
               {
                 required: true,
                 message: 'Please input the number of quizzes',
               },
             ]}
+            initialValue={1}
           >
-            <InputNumber defaultValue={1} min={1} max={5} />
+            <InputNumber min={1} max={5} />
           </Form.Item>
 
           <Form.Item
             label='NUMBER 0F QUESTIONS PER QUIZ: '
-            name='Number of Questions'
+            name='total_no_qn'
             rules={[
               {
                 required: true,
                 message: 'Please input the number of questions per quiz',
               },
             ]}
+            initialValue={1}
           >
-            <InputNumber defaultValue={1} min={1} max={10} />
+            <InputNumber min={1} max={10} />
           </Form.Item>
 
           <hr />

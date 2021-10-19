@@ -17,3 +17,27 @@ export const fetchQuizzes = async (gameId) => {
     return err.message;
   }
 };
+
+export const createGame = async (
+  username,
+  game_name,
+  game_tag,
+  no_of_quiz,
+  game_description,
+  total_no_qn
+) => {
+  try {
+    const response = await yelp.post('/hufgames/', {
+      username,
+      game_name,
+      game_tag,
+      no_of_quiz,
+      game_description,
+      total_no_qn,
+    });
+    console.log(response);
+    return response;
+  } catch (err) {
+    return err.message;
+  }
+};
