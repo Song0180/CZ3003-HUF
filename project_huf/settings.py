@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-l(@#^_yxun^-bk@v4(mk0(vzus2r-pf4)epdwu@0+&j&xy9mab
 
 DEBUG = True
 
-ALLOWED_HOSTS = ["cz3003-huf.herokuapp.com","127.0.0.1"]
+ALLOWED_HOSTS = ["cz3003-huf.herokuapp.com","127.0.0.1","http://localhost:8000"]
 
 
 # Application definition
@@ -81,7 +81,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'project_huf.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
@@ -185,7 +184,7 @@ LOGIN_REDIRECT_URL = "/"
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQURIED = True
 
-CORS_ORIGIN_WHITELIST = ["http://localhost:3000"]
+CORS_ORIGIN_WHITELIST = ["http://localhost:3000","http://localhost:3001"]
 
 # for the dev mode, you need to use localhost's id facebook does not support the name 127.0.0.1:8000
 # little options for your page's signup.
