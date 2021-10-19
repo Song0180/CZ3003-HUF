@@ -7,7 +7,7 @@ from django.contrib import messages
 from django.shortcuts import redirect
 from .serializers import UserSerializer
 from allauth.socialaccount.models import SocialToken
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate, login, logout
 from rest_framework.authtoken.models import Token
@@ -30,19 +30,22 @@ def login_user(request):
 
     if user is not None:
         login(request, user)
-        return HttpResponse("successful log in")
+
+        return JsonResponse({'message':'successful log in'})
         # return redirect('/')
 
     else:
         messages.success(request, ("there was an error logging in"))
-        return HttpResponse("login unsuccessful")
+        return JsonResponse({'message':'successful log in'})
+        # return HttpResponse("login unsuccessful")
         # return redirect('/login')
 
 
 @csrf_exempt
 def logout_user(request):
     logout(request)
-    return HttpResponse("successful logout")
+    return JsonResponse({'message':'successful logout'})
+    # return HttpResponse("successful logout")
 
 
 def forgot_password(request, email):
