@@ -1,4 +1,6 @@
 from rest_framework import viewsets
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import SearchFilter
 from django.http import HttpResponse, JsonResponse
 
 from .serializers import HufQuizSerializer, HufQuizOptionSerializer, HufQuizQnSerializer, HufQuizResultSerializer
@@ -11,6 +13,9 @@ from .models import HufQuiz
 class HufQuizViewSet(viewsets.ModelViewSet):
     queryset = HufQuiz.objects.all()
     serializer_class = HufQuizSerializer
+
+    filter_backends = [DjangoFilterBackend, SearchFilter]
+    filter_fields = ['game_id']
 
 
 class HufQuizOptionViewSet(viewsets.ModelViewSet):
@@ -27,10 +32,6 @@ class HufQuizResultViewSet(viewsets.ModelViewSet):
     queryset = HufQuizResult.objects.all().order_by('quiz_id', 'user_id')
     serializer_class = HufQuizResultSerializer
 
-
-# class HufUserAnsViewSet(viewsets.ModelViewSet):
-#     queryset = HufUserAns.objects.all().order_by('username', 'quiz_qn_id')
-#     serializer_class = HufUserAnsSerializer
 
 # @api_view(["POST"])
 # def postUserAns(request):
