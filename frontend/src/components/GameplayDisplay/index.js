@@ -18,23 +18,18 @@ const GameplayDisplay = ({
     newAnswers[questionId] = answerValue;
     onAnswerQuestion(newAnswers);
   };
+  console.log(quizOptions);
+  console.log(quizQuestions);
 
-  React.useEffect(() => {
-    console.log(quizOptions);
-  }, [quizOptions]);
-
-  React.useEffect(() => {
-    console.log(quizQuestions);
-  }, [quizQuestions]);
 
   return (
     <div className='question-container'>
-      {quizQuestions.map((question_name, index) => {
+      {quizQuestions.map((question_name, quiz_qn_id) => {
         return (
-          <div key={index} className='question-container'>
+          <div key={quiz_qn_id} className='question-container'>
             <Row>
               <h1>
-                Question {index + 1}) {question_name}
+                Question {quiz_qn_id + 1}) {question_name}
               </h1>
             </Row>
             <Radio.Group

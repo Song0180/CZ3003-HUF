@@ -66,7 +66,7 @@ const GameplayPage = () => {
 
   // Fetches data of quiz using gameId
   useEffect(() => {
-    const gameId = 0;
+    const gameId = 1;
     fetchQuizQuestions(gameId);
   }, [fetchQuizQuestions]);
 
