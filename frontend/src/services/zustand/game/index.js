@@ -1,7 +1,8 @@
 import create from 'zustand';
 
 import { mockQuizzes } from './mockData';
-import { fetchGames, fetchQuizzes } from '../../api/game';
+import { fetchGames, fetchQuizzes, postGamesCreation} from '../../api/game';
+
 
 const initialState = {
   isLoading: false,
@@ -12,10 +13,11 @@ const initialState = {
 
 export const useGameStore = create((set, get) => ({
   ...initialState,
+
   fetchGames: async () => {
     set({ isLoading: true });
     const result = await fetchGames();
-    if (typeof result === 'string') {
+    if (typeof result === "string") {
       return result;
     } else {
       const games = result.data;
@@ -23,10 +25,11 @@ export const useGameStore = create((set, get) => ({
     }
     set({ isLoading: false });
   },
+
   fetchGameQuiz: async (gameId) => {
     set({ isLoading: true });
     const result = await fetchQuizzes(gameId);
-    if (typeof result === 'string') {
+    if (typeof result === "string") {
       return result;
     } else {
       const quizzes = result.data;
@@ -34,7 +37,20 @@ export const useGameStore = create((set, get) => ({
     }
     set({ isLoading: false });
   },
+
   fetchQuizQuestions: async (gameId, quizId) => {
     set({ currentQuizQuetsions: mockQuizzes });
   },
+
+  postGamesCreation: async() => {
+    const data = get({
+      username: "hufadmin",
+      game_name: "",
+      no_of_quiz: "",
+      total_no_qn: "",
+      game_tag: "",
+      game_description: "",
+    });
+    postGamesCreation(data);
+  }
 }));
