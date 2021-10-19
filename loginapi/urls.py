@@ -22,7 +22,7 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path('rest-auth/fblogin/', views.FacebookLogin.as_view(), name='redirect'), 
     path('rest-auth/fblogout/', views.User_logout, name = 'fb_logout'), 
-
+    path('rest-auth/token/', views.getFacebookAccessToken, name='fb_access_token'),
     # forgot password
     path('forgot_password/<email>/', views.forgot_password, name = 'forgot_password'),
 

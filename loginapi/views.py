@@ -22,6 +22,7 @@ from rest_framework.decorators import api_view, authentication_classes,permissio
 from django.core.mail import send_mail
 import requests
 import json
+from .models import SocialaccountSocialtoken
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -33,10 +34,11 @@ class FacebookLogin(SocialLoginView):
     adapter_class = FacebookOAuth2Adapter
 
 def post(self, request, *args, **kwargs):
-
     response = super(FacebookLogin, self).post(request, *args, **kwargs)
-    token = Token.objects.get(key=response.data['key'])
-    return Response({'token': token.key, 'id': token.user_id})
+    print(response)
+    token = SocialToken.objects.get(key=response.data['key'])
+    print(token)
+    return Response({'token': token.key, 'id': token.username})
 
 
 @api_view(["POST"])
@@ -124,6 +126,9 @@ def get_social_login_auth(request, email):
         account__user=user, account__provider='facebook')
     Token.objects.create(user=user)
 
+def getFacebookAccessToken(request):
+    user = SocialaccountSocialtoken.objects.get()
+    return JsonResponse({'token':user.token}) 
 
 def get_authenticated_user(request):
     if request.user.is_authenticated:
