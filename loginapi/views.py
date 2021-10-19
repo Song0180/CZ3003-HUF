@@ -15,7 +15,8 @@ from rest_framework.response import Response
 from rest_framework import status, viewsets
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
-
+import requests  
+import json
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
@@ -32,8 +33,15 @@ def login_user(request):
         HttpResponse
 
     """
-    username = request.POST.get('username')
-    password = request.POST.get('password')
+    received_json_data = json.loads(request.body.decode("utf-8"))
+    username = received_json_data['username']
+    password = received_json_data['password']
+    # print()
+    # # print(received_json_data.password)
+    
+    # username = request.POST.get('username')
+    # password = request.POST.get('password')
+    # print(username)
     user = authenticate(request, username=username, password=password)
 
     if user is not None:
@@ -76,7 +84,7 @@ def forgot_password(request, email):
     usr.set_password(new_password)
     usr.save()
     send_mail("your new password", new_password, from_email="cz3003huf@gmail.com", recipient_list=[usr.email])
-    return JsonResponse('your new password has been sent to your email')
+    return JsonResponse({"message":'your new password has been sent to your email'})
 
 
 
@@ -96,8 +104,8 @@ def get_social_login_auth(request, email):
 
 def get_authenticated_user(request):
     if request.user.is_authenticated:
-        return JsonResponse(request.user.username)
+        return JsonResponse({"message":request.user.username})
     else:
-        return JsonResponse('not authenticated')
+        return JsonResponse({"message":'not authenticated'})
 
 # # Create your views here.
