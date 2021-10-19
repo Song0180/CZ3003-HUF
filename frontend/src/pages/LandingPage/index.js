@@ -13,7 +13,8 @@ import { useAuthStore } from '../../services/zustand/auth';
 import './index.css';
 
 const { TabPane } = Tabs;
-+class LandingPage extends Component {
+
+class LandingPage extends Component {
   /*
 // const LandingPage = () => {
 
@@ -38,7 +39,7 @@ const onFinish = (values) => {
 
   registerState = {
     credentials:
-      { id: 25, email: '', username: '', password: '', }
+      { email: '', username: '', password: '' }
   }
 
   registerInputChanged = event => {
@@ -55,7 +56,7 @@ const onFinish = (values) => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(this.registerState.credentials)
     })
-      //.then(response => response.json())
+      .then(response => response.json())
       .then(
         data => {
           console.log("This is the response :", data);
@@ -71,7 +72,7 @@ const onFinish = (values) => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(this.loginState.credentials)
     })
-      //.then(response => response.json())
+      .then(response => response.json())
       .then(
         data => {
           console.log("This is the response :", data);
