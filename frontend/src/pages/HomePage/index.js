@@ -3,14 +3,16 @@ import { Card } from 'antd';
 import { useHistory } from 'react-router-dom';
 
 import './index.css';
+import { useAuthStore } from '../../services/zustand/auth';
 
 const HomePage = () => {
+  const { userInfo } = useAuthStore();
   const history = useHistory();
   return (
     <div className='container' id='home-container'>
       <div className='info-container'>
         <p className='text'>
-          Hi <span className='text-highlight'>James</span>,
+          Hi <span className='text-highlight'>{userInfo.username}</span>,
         </p>
         <p className='text'>
           Please select <span className='text-highlight'>view game</span> to

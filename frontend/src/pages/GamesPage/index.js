@@ -7,9 +7,11 @@ import { useGameStore } from '../../services/zustand/game';
 import { GameCard } from '../../components';
 import GameModal from './components/GameModal';
 import { useHistory } from 'react-router';
+import { useAuthStore } from '../../services/zustand/auth';
 
 const GamesPage = () => {
   const history = useHistory();
+  const { userInfo } = useAuthStore();
   const { isLoading, games, fetchGames } = useGameStore();
   const [searchStr, setSearchStr] = React.useState('');
   const [filteredGames, setFilteredGames] = React.useState([]);
@@ -93,8 +95,8 @@ const GamesPage = () => {
       </div>
       <div className='info-container'>
         <p className='text'>
-          Hi <span className='text-highlight'>James</span>, Please select the
-          game you want tot start playing!
+          Hi <span className='text-highlight'>{userInfo.username}</span>, Please
+          select the game you want tot start playing!
         </p>
         <div className='games-container'>
           <GameModal
