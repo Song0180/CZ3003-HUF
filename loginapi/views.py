@@ -24,6 +24,7 @@ import requests
 import json
 from .models import SocialaccountSocialtoken
 
+from django.shortcuts import render,get_object_or_404
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
@@ -54,9 +55,9 @@ def login_user(request):
 
     if user is not None:
         login(request, user)
-        return JsonResponse({"message": "successful log in"})
+        return JsonResponse({"username": username, "email":user.email,"userid":user.id })
     else:
-        return JsonResponse({"message": "login unsuccessful"})
+        return HttpResponse('Unauthorized', status=401)
 
 
 @csrf_exempt

@@ -181,7 +181,7 @@ SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
 
 SITE_ID = 1
 
-LOGIN_REDIRECT_URL = "http://localhost:3000/dashboard"
+LOGIN_REDIRECT_URL = "http://localhost:3000/"
 
 SOCIALACCOUNT_ADAPTER = "loginapi.my_adapter.MyAdapter"
 
