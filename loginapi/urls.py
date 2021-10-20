@@ -13,6 +13,7 @@ urlpatterns = [
     # signup
     path('auth/', obtain_auth_token),  # post request to obtain users' auth token
 
+
     # login
     path('login/', views.login_user, name="login"),
     path('logout/', views.logout_user, name="log_out"),
@@ -20,12 +21,16 @@ urlpatterns = [
 
 
     # Facebook login API
-    path('facebookapitest/', views.home_page, name='home_page'),  # redirect to html login file
     path('accounts/', include('allauth.urls')),
-    path('socialloginauth/<email>/', views.get_social_login_auth, name="social_login_auth"),
-    # set auth token from social account, and get
+    path('rest-auth/fblogin/', views.FacebookLogin.as_view(), name='redirect'), 
+    path('rest-auth/token/', views.facebook_access_token, name='fb_access_token'),
+    path('rest-auth/fblogout/', views.facebook_logout, name="fblogout"),
+    
     
     # forgot password
     path('forgot_password/<email>/', views.forgot_password, name = 'forgot_password'),
 
+    #ignore
+    path('facebookapitest/', views.home_page, name='home_page'),  # redirect to html login file
+    
 ]
