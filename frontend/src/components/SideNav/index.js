@@ -2,12 +2,7 @@ import * as React from 'react';
 import { Layout, Menu } from 'antd';
 
 import { Link, useLocation, useHistory } from 'react-router-dom';
-import {
-  HomeOutlined,
-  UserOutlined,
-  SettingOutlined,
-  PlayCircleOutlined,
-} from '@ant-design/icons';
+import { HomeOutlined, UserOutlined, SettingOutlined } from '@ant-design/icons';
 
 import './index.css';
 
@@ -46,9 +41,6 @@ const SideNav = ({ isMenuClosed }) => {
         </Menu.Item>
         <Menu.Item key='/settings' icon={<SettingOutlined />} title={null}>
           <Link to='/settings'>Settings</Link>
-        </Menu.Item>
-        <Menu.Item key='4' icon={<PlayCircleOutlined />}>
-          <Link to='/gameplay'>Gameplay</Link>
         </Menu.Item>
       </Menu>
     </Sider>

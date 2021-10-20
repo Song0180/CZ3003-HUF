@@ -9,9 +9,9 @@ export const fetchGames = async () => {
   }
 };
 
-export const fetchQuizzes = async (gameId) => {
+export const fetchQuizzes = async (game_id) => {
   try {
-    const response = await yelp.get('/hufquiz', {});
+    const response = await yelp.get('/hufquiz', { params: { game_id } });
     return response;
   } catch (err) {
     return err.message;
@@ -35,11 +35,12 @@ export const createGame = async (
       game_description,
       total_no_qn,
     });
-    console.log(response);
+    return response;
   } catch (err) {
     return err.message;
   }
 };
+
 // api function to call 'localhost:8000/hufquiz'
 export const fetchQuizQuestions = async () => {
   try {
@@ -69,3 +70,4 @@ export const fetchQuizResult = async () => {
     return err.message;
   }
 };
+  

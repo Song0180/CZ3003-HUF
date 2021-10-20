@@ -111,7 +111,7 @@ const GameCreationPage = () => {
                 message: 'Tags can only have a maximum 20 characters.',
               },
               {
-                pattern: '^[^s]+[-a-zA-Zs]+([-a-zA-Z]+)*$',
+                type: 'string',
                 message:
                   'The tag must be a descriptive string and cannot contain whitespaces',
               },
