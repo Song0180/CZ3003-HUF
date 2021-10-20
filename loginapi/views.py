@@ -37,21 +37,52 @@ def post(self, request, *args, **kwargs):
     response = super(FacebookLogin, self).post(request, *args, **kwargs)
     print(response)
     token = SocialToken.objects.get(key=response.data['key'])
-    print(token)
+    print('login',token)
     return Response({'token': token.key, 'id': token.username})
 
 
-@api_view(["POST"])
-def User_logout(request):
-    try:
-        access_token = SocialToken.objects.filter(
-        account__user=request.user, account__provider='Facebook')
-        social_token = [items.delete() for items in access_token]
-    except:
-        pass
-    request.user.auth_token.delete()
 
-    logout_user(request)
+def facebook_access_token(request):
+    user = SocialaccountSocialtoken.objects.get()
+    return JsonResponse({'token':user.token}) 
+
+
+@csrf_exempt
+def facebook_logout(request):
+    try:
+        social_token = SocialToken.objects.filter(
+            account__user=request.user, account__provider='facebook')
+        
+        x = [items.delete() for items in social_token]
+
+        return JsonResponse({"message": 'success'})
+    except:
+        return JsonResponse({"message": 'you are not logged in'})
+    # Token.objects.create(user=user)
+
+
+def get_authenticated_user(request):
+    if request.user.is_authenticated:
+        return JsonResponse({"message": request.user.username})
+    else:
+        return JsonResponse({"message": 'not authenticated'})
+
+# @api_view(["GET"])
+# def User_logout(request):
+    # try:
+    # return JsonResponse({"message": request.user.username})
+    # if request.user.is_authenticated:
+    #     return Response('req_user',request.user.username)
+
+    # access_token = SocialToken.objects.filter(
+    # account__user=request.user, account__provider='Facebook')
+    # print('logout',access_token)
+    # social_token = [items.delete() for items in access_token]
+    # except:
+    #     pass
+    # request.user.auth_token.delete()
+
+    # logout_user(request)
 
     return Response('User Logged out successfully')
 
@@ -119,21 +150,6 @@ def home_page(request):
     return render(request, "login.html")
 
 
-@csrf_exempt
-def get_social_login_auth(request, email):
-    user = User.objects.get(email=email)
-    social_token = SocialToken.objects.filter(
-        account__user=user, account__provider='facebook')
-    Token.objects.create(user=user)
 
-def getFacebookAccessToken(request):
-    user = SocialaccountSocialtoken.objects.get()
-    return JsonResponse({'token':user.token}) 
-
-def get_authenticated_user(request):
-    if request.user.is_authenticated:
-        return JsonResponse({"message": request.user.username})
-    else:
-        return JsonResponse({"message": 'not authenticated'})
 
 # # Create your views here.
