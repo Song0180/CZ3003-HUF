@@ -5,14 +5,16 @@ import { Form, Input, Button, InputNumber, message } from 'antd';
 import { Link, useHistory } from 'react-router-dom';
 import { useGameStore } from '../../services/zustand/game';
 import cx from 'classnames';
+import { useAuthStore } from '../../services/zustand/auth';
 
 const GameCreationPage = () => {
   const history = useHistory();
+  const { userInfo } = useAuthStore();
   const { createNewGame } = useGameStore();
 
   const onFinish = async (values) => {
     const gameData = {
-      username: 'hufadmin',
+      username: userInfo.username,
       game_name: values.game_name,
       game_tag: values.game_tag,
       no_of_quiz: values.no_of_quiz,
@@ -41,7 +43,7 @@ const GameCreationPage = () => {
       </div>
       <div className='info-container'>
         <p className='text'>
-          Hi <span className='text-highlight'>James</span>,
+          Hi <span className='text-highlight'>{userInfo.username}</span>,
         </p>
         <p className='text'>
           Please complete the following to proceed with the creation of your

@@ -35,7 +35,6 @@ const HeaderBar = ({ menuOnClick, logoutOnClick, userInfo }) => {
       </div>
       <div className='avatar-container'>
         <Dropdown
-          trigger={['hover', 'click']}
           overlay={
             <DropdownMenu
               logoutOnClick={logoutOnClick}
@@ -46,7 +45,7 @@ const HeaderBar = ({ menuOnClick, logoutOnClick, userInfo }) => {
           arrow
         >
           <Avatar style={{ color: '#f56a00', backgroundColor: '#fde3cf' }}>
-            {userInfo.userName[0]}
+            {userInfo.username ? userInfo.username[0].toUpperCase() : 'U'}
           </Avatar>
         </Dropdown>
       </div>
