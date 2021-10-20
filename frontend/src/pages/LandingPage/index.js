@@ -17,8 +17,13 @@ const LandingPage = () => {
   const { login, register } = useAuthStore();
   const [activeTabKey, setActiveTabKey] = React.useState('1');
 
-  const onFinishLogin = (values) => {
-    login(values.username, values.password);
+  const onFinishLogin = async (values) => {
+    const result = await login(values.username, values.password);
+    if (typeof result === 'string') {
+      message.error(
+        'Login failed. Please check your credentials and try again.'
+      );
+    }
   };
 
   const onFinishRegister = async (values) => {
