@@ -21,6 +21,7 @@ export const useAuthStore = create((set, get) => ({
       set({ isLoading: true });
       const result = await login(username, password);
       if (typeof result === 'string') {
+        set({ isLoading: false });
         return result;
       } else {
         if (result.data) {
@@ -38,10 +39,11 @@ export const useAuthStore = create((set, get) => ({
             userInfo,
             signedIn: true,
             loginTimeStamp: dayjs(),
+            isLoading: false,
           });
+          return userInfo;
         }
       }
-      set({ isLoading: false });
     }
   },
   logout: async () => {

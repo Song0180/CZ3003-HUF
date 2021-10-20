@@ -23,6 +23,8 @@ const LandingPage = () => {
       message.error(
         'Login failed. Please check your credentials and try again.'
       );
+    } else if (result) {
+      message.success(`Welcome, ${result.username}.`);
     }
   };
 
