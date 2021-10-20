@@ -7,25 +7,29 @@ router = routers.DefaultRouter()
 router.register(r'hufusers', views.UserViewSet)
 
 urlpatterns = [
+
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-
     # signup
     path('auth/', obtain_auth_token),  # post request to obtain users' auth token
-
     # login
     path('login/', views.login_user, name="login"),
     path('logout/', views.logout_user, name="log_out"),
     path('authenticateuser/',views.get_authenticated_user, name = "get_user_name"),
-
-
-    # Facebook login API
-    path('facebookapitest/', views.home_page, name='home_page'),  # redirect to html login file
-    path('accounts/', include('allauth.urls')),
-    path('socialloginauth/<email>/', views.get_social_login_auth, name="social_login_auth"),
-    # set auth token from social account, and get
-    
     # forgot password
     path('forgot_password/<email>/', views.forgot_password, name = 'forgot_password'),
 
+
+
+################################################FACEBOOK LOGIN########################################################
+
+    path('accounts/', include('allauth.urls')),
+    path('rest-auth/fblogin/', views.FacebookLogin.as_view(), name='redirect'), 
+    path('rest-auth/token/', views.facebook_access_token, name='fb_access_token'),
+    path('rest-auth/fblogout/', views.facebook_logout, name="fblogout"),
+    
+################################################FACEBOOK LOGIN########################################################
+    
+    # path('facebookapitest/', views.home_page, name='home_page'),  # redirect to html login file
+    
 ]

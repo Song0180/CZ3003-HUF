@@ -171,7 +171,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# facebook login settings
+################################################FACEBOOK LOGIN########################################################
+
 FACEBOOK_APP_ID = '616342046035222'
 FACEBOOK_APP_SECRET = 'b6e597fdd4ff872a5ce8be79344a8a6a'
 SOCIAL_AUTH_FACEBOOK_SCOPE = ['email', 'user_link']
@@ -180,12 +181,17 @@ SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
 
 SITE_ID = 1
 
-LOGIN_REDIRECT_URL = "/"
+LOGIN_REDIRECT_URL = "http://localhost:3000/dashboard"
+
+SOCIALACCOUNT_ADAPTER = "loginapi.my_adapter.MyAdapter"
+
+################################################FACEBOOK LOGIN########################################################
+
 
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQURIED = True
 
 CORS_ORIGIN_WHITELIST = ["http://localhost:3000"]
 
-# for the dev mode, you need to use localhost's id facebook does not support the name 127.0.0.1:8000
+# for tnpmhe dev mode, you need to use localhost's id facebook does not support the name 127.0.0.1:8000
 # little options for your page's signup.
