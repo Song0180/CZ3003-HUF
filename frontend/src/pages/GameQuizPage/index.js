@@ -34,7 +34,6 @@ const GameQuizPage = ({ location }) => {
     history.push({
       pathname: '/gameplay',
       state: {
-        gameId: gameInfo.game_id,
         quizId: currentQuizInfo.quiz_id,
       },
     });

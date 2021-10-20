@@ -4,7 +4,6 @@ import {
   fetchGames,
   fetchQuizzes,
   createGame,
-  fetchQuizOptions,
   fetchQuizQuestions,
   fetchQuizResult,
 } from '../../api/game';
@@ -55,10 +54,11 @@ export const useGameStore = create((set, get) => ({
     set({ isLoading: false });
   },
 
-  fetchQuizQuestions: async (gameId, quizId) => {
+  fetchQuizQuestions: async (quizId) => {
     set({ isLoading: true });
     const result = await fetchQuizQuestions(quizId);
     if (typeof result === 'string') {
+      set({ isLoading: false });
       return result;
     } else {
       const questions = result.data;
@@ -68,20 +68,7 @@ export const useGameStore = create((set, get) => ({
     set({ isLoading: false });
   },
 
-  fetchQuizOptions: async (gameId, quizId) => {
-    set({ isLoading: true });
-    const result = await fetchQuizOptions(quizId);
-    if (typeof result === 'string') {
-      return result;
-    } else {
-      const options = result.data;
-      console.log(options);
-      set({ quizOptions: options });
-    }
-    set({ isLoading: false });
-  },
-
-  fetchQuizResult: async (gameId, quizId) => {
+  fetchQuizResult: async (quizId) => {
     set({ isLoading: true });
     const result = await fetchQuizResult(quizId);
     if (typeof result === 'string') {
@@ -112,7 +99,6 @@ export const useGameStore = create((set, get) => ({
       game_description,
       total_no_qn
     );
-    console.log(result);
     set({ isLoading: false });
     if (typeof result === 'string') {
       return result;

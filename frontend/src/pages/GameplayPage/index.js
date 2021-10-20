@@ -18,10 +18,15 @@ const deadline = Date.now() + minutes;
   function to include the components needed and display the information for Quiz Gameplay
 */
 
-const GameplayPage = () => {
-  const { isLoading, quizQuestions, fetchQuizQuestions, quizOptions, fetchQuizOptions } = useGameStore();
+const GameplayPage = ({ location }) => {
+  const { isLoading, quizQuestions, fetchQuizQuestions } = useGameStore();
   const [userAnswers, setUserAnswers] = useState({});
   const [timedPopUp, setTimedPopUp] = useState(false);
+
+  const quizId = React.useMemo(
+    () => location.state.quizId,
+    [location.state.quizId]
+  );
 
   // To Spawn pop up message when the timer has run out of time
   useEffect(() => {
@@ -32,37 +37,14 @@ const GameplayPage = () => {
 
   React.useEffect(() => {
     const fetchDataQuestion = async () => {
-      const errorMessage = await fetchQuizQuestions();
+      const errorMessage = await fetchQuizQuestions(quizId);
       if (errorMessage) {
         message.error('Failed to fetch quiz. Contact Admin for support.');
         message.error(errorMessage);
-      } else {
-        message.success('Successfully fetched quiz');
       }
     };
     fetchDataQuestion();
-  }, [fetchQuizQuestions]);
-
-  useEffect(() => {
-    console.log(quizQuestions);
-  }, [quizQuestions]);
-
-  React.useEffect(() => {
-    const fetchData = async () => {
-      const errorMessage = await fetchQuizOptions();
-      if (errorMessage) {
-        message.error('Failed to fetch quiz options. Contact Admin for support.');
-        message.error(errorMessage);
-      } else {
-        message.success('Successfully fetched quiz options');
-      }
-    };
-    fetchData();
-  }, [fetchQuizOptions]);
-
-  useEffect(() => {
-    console.log(quizOptions);
-  }, [quizOptions]);
+  }, [fetchQuizQuestions, quizId]);
 
   // Fetches data of quiz using gameId
   useEffect(() => {
@@ -79,10 +61,6 @@ const GameplayPage = () => {
     setUserAnswers(emptyAnswers);
   }, [quizQuestions]);
 
-  useEffect(() => {
-    console.log(userAnswers);
-  }, [userAnswers]);
-
   return (
     <div>
       <div className='header-container'>
@@ -98,23 +76,12 @@ const GameplayPage = () => {
           <GameplayDisplay
             loading={isLoading}
             quizQuestions={quizQuestions}
-            quizOptions = {quizOptions}
+            // quizOptions={quizOptions}
             currentAnswers={userAnswers}
             onAnswerQuestion={(newAnswers) => setUserAnswers(newAnswers)}
           />
         </div>
       </Row>
-      <div>
-        <h3>Your answers:</h3>
-        {Object.keys(userAnswers).map((questionId) => {
-          return (
-            <p key={questionId}>
-              QuestionId: {questionId}, AnswerValue:{' '}
-              {userAnswers[questionId] ?? 'No answer'}
-            </p>
-          );
-        })}
-      </div>
     </div>
   );
 };

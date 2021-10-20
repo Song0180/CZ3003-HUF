@@ -18,9 +18,6 @@ const GameplayDisplay = ({
     newAnswers[questionId] = answerValue;
     onAnswerQuestion(newAnswers);
   };
-  console.log(quizOptions);
-  console.log(quizQuestions);
-
 
   return (
     <div className='question-container'>
