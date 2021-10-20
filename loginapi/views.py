@@ -20,7 +20,6 @@ from rest_framework import status, viewsets
 from django.contrib.auth.models import User
 from rest_framework.decorators import api_view, authentication_classes,permission_classes
 from django.core.mail import send_mail
-
 import requests
 import json
 from .models import SocialaccountSocialtoken
@@ -31,43 +30,11 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
 
 
-class FacebookLogin(SocialLoginView):
-    adapter_class = FacebookOAuth2Adapter
-
-def post(self, request, *args, **kwargs):
-    response = super(FacebookLogin, self).post(request, *args, **kwargs)
-    print(response)
-    token = SocialToken.objects.get(key=response.data['key'])
-    print('login',token)
-    return Response({'token': token.key, 'id': token.username})
-
-
-
-def facebook_access_token(request):
-    user = SocialaccountSocialtoken.objects.get()
-    return JsonResponse({'token':user.token}) 
-
-
-@csrf_exempt
-def facebook_logout(request):
-    try:
-        social_token = SocialToken.objects.filter(
-            account__user=request.user, account__provider='facebook')
-        
-        x = [items.delete() for items in social_token]
-
-        return JsonResponse({"message": 'success'})
-    except:
-        return JsonResponse({"message": 'you are not logged in'})
-    # Token.objects.create(user=user)
-
-
 def get_authenticated_user(request):
     if request.user.is_authenticated:
         return JsonResponse({"message": request.user.username})
     else:
         return JsonResponse({"message": 'not authenticated'})
-
 
 
 @csrf_exempt
@@ -124,12 +91,40 @@ def forgot_password(request, email):
     return JsonResponse({"message": 'your new password has been sent to your email'})
 
 
-def home_page(request):
-    if request.method == 'POST':
-        request.POST.get("user.socialaccount_set.all.0.get_profile_url()")
-    return render(request, "login.html")
+
+################################################FACEBOOK LOGIN########################################################
+
+class FacebookLogin(SocialLoginView):
+    adapter_class = FacebookOAuth2Adapter
+
+def post(self, request, *args, **kwargs):
+    response = super(FacebookLogin, self).post(request, *args, **kwargs)
+    token = SocialToken.objects.get(key=response.data['key'])
+    return Response({'token': token})
+
+def facebook_access_token(request):
+    user = SocialaccountSocialtoken.objects.get()
+    return JsonResponse({'token':user.token}) 
+
+@csrf_exempt
+def facebook_logout(request):
+    try:
+        social_token = SocialToken.objects.filter(
+            account__user=request.user, account__provider='facebook')
+        
+        x = [items.delete() for items in social_token]
+
+        return JsonResponse({"message": 'success'})
+    except:
+        return JsonResponse({"message": 'you are not logged in'})
+
+################################################FACEBOOK LOGIN########################################################
 
 
 
 
-# # Create your views here.
+# def home_page(request):
+#     if request.method == 'POST':
+#         request.POST.get("user.socialaccount_set.all.0.get_profile_url()")
+#     return render(request, "login.html")
+# Create your views here.
