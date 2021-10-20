@@ -59,11 +59,11 @@ const GamesPage = () => {
     [setShowGameModal]
   );
 
-  const handleOnClickGameStart = (gameId) => {
+  const handleOnClickGameStart = (gameInfo) => {
     history.push({
       pathname: '/gamequiz',
       state: {
-        gameId,
+        gameInfo,
       },
     });
   };
@@ -103,7 +103,7 @@ const GamesPage = () => {
             visible={showGameModal}
             onCancel={handleOnCancelGameCard}
             gameInfo={currentGameInfo}
-            onGameStart={() => handleOnClickGameStart(currentGameInfo.game_id)}
+            onGameStart={() => handleOnClickGameStart(currentGameInfo)}
           />
           <List
             loading={isLoading}

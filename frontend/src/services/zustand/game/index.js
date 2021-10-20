@@ -17,6 +17,7 @@ export const useGameStore = create((set, get) => ({
     set({ isLoading: true });
     const result = await fetchGames();
     if (typeof result === 'string') {
+      set({ isLoading: false });
       return result;
     } else {
       const games = result.data;
@@ -29,10 +30,21 @@ export const useGameStore = create((set, get) => ({
     set({ isLoading: true });
     const result = await fetchQuizzes(gameId);
     if (typeof result === 'string') {
+      set({ isLoading: false });
       return result;
     } else {
-      const quizzes = result.data;
-      set({ currentGameQuizzes: quizzes });
+      // const quizzes = result.data;
+      const dummyQuizzes = [
+        {
+          quiz_id: 'asdasd',
+          game_id: '1231asd',
+          quiz_duration: 10,
+          quiz_max_score: 100,
+          quiz_description: 'a quiz',
+          no_of_qn: 2,
+        },
+      ];
+      set({ currentGameQuizzes: dummyQuizzes });
     }
     set({ isLoading: false });
   },
