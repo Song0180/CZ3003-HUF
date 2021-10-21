@@ -50,7 +50,7 @@ const App = () => {
           />
           <Content className={cx('site-layout-background', 'content')}>
             <Switch>
-              <Route path='/' exact component={HomePage} />
+              <Route path='/home' exact component={HomePage} />
               <Route path='/dashboard' exact component={DashboardPage} />
               <Route path='/leaderboard' exact component={LeaderBoardPage} />
               <Route path='/settings' exact component={SettingsPage} />
