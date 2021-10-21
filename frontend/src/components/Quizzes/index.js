@@ -24,6 +24,9 @@ const Quizzes = (props) => {
     <p className="maintext">
         <span className="text-highlight">Quiz {props.quizno}</span>
       </p>
+    <p className="qntext">
+        <span className="qntext"> Level of Difficulty: {props.quizno}</span>
+      </p>
       <hr />
 
       <Form.Item
