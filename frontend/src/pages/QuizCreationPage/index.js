@@ -58,6 +58,10 @@ const QuizCreationPage = ({ location }) => {
       {/* <QuizNumber quizNumber = {"3"} NumberofQns = {"5"}/> */}
       </div>
       <hr />
+        
+     <h3 className='qntext'>
+     Please note that each quiz will only be unlocked after player has completed the previous quiz. The quizzes are required to increase sequentially in dificulty level. 
+     </h3> 
 
       <div className='button'>
       <Button
