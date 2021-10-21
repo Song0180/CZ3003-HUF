@@ -39,6 +39,7 @@ yarn build
 - Python 3.9.0
 - MYSQL Workbench 
 
+
 ## 2. Setting Up the Virtual Environment
 1. Set up a new virtual environment
 	> python -m venv env
@@ -49,21 +50,68 @@ yarn build
 3. Install required libraries
     > pip install -r requirements.txt 
 
+
 ## 3. Set-up MySQL Workbench
-1. Create new schema
-	> Name: project_huf
+1. Create new SQL connection (Remote)
+   
+	a. Connection Name:
+	> remote project_huf
+ 
+	b. Hostname:
+	> database-1.c4x9cbbouqsz.us-east-2.rds.amazonaws.com
 
-2. Create authentication user
-	> create user admin identified by ‘password';
+	c. Port:
+	> 3306
 
-	> grant all on project_huf.* to ‘admin’@’%’;
-	
-	> flush priviledges;
+	d. Username:
+	> admin
+   
+	e. Password:
+	> projecthuf
+
+	f. Default Schema:
+	> project_huf
+
 
 ## 4. Setting up Project 
-1. Migrate all the default Django tables to your MySQL schema.
+1. Delete all the migrations file (If there is any)
+   
+	a. Open up 'loginapi', 'gameapi', 'quizapi' folders
+   
+	b. Open up 'migrations folder inside those 3 folders
+
+	c. Delete all the files *except __init__.py*
+   
+
+2. Migrate all the default Django tables to your MySQL schema.
+	> python manage.py makemigrations
+
 	> python manage.py migrate
 
-## 4. Running The Server
+## 5. Running The Server
 1. > python manage.py runserver
 2. Open http://localhost:8000
+
+## 6. List of API URLs
+
+- Login:
+	> http://localhost:8000/hufuser
+
+- Game:
+	> http://localhost:8000/hufgames
+  
+- Quiz:
+	> http://localhost:8000/hufquiz
+  
+- Quiz Question:
+	> http://localhost:8000/hufquizqn
+
+- Quiz Option:
+	> http://localhost:8000/hufquizoptions
+  
+- Quiz Result:
+	> http://localhost:8000/hufquizoptions
+
+- Forgot Password: 
+	> http://localhost:8000/forgot_password
+	> enable https://myaccount.google.com/u/1/lesssecureapps to receive new password email

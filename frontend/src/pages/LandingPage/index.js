@@ -1,48 +1,89 @@
 import * as React from 'react';
 
-import { Form, Input, Button, Checkbox, Card, Tabs } from 'antd';
-import { UserOutlined, MailOutlined, LockOutlined, FacebookFilled } from '@ant-design/icons';
+import { Form, Input, Button, Checkbox, Card, Tabs, message } from 'antd';
+import {
+  UserOutlined,
+  MailOutlined,
+  LockOutlined,
+  FacebookFilled,
+} from '@ant-design/icons';
+import { useAuthStore } from '../../services/zustand/auth';
 
 import './index.css';
 
 const { TabPane } = Tabs;
 
-function callback(key) {
-  console.log(key);
-}
-
 const LandingPage = () => {
-  const onFinish = (values) => {
-    console.log('Received values of form: ', values);
+  const { login, register } = useAuthStore();
+  const [activeTabKey, setActiveTabKey] = React.useState('1');
+
+  const onFinishLogin = async (values) => {
+    const result = await login(values.username, values.password);
+    if (typeof result === 'string') {
+      message.error(
+        'Login failed. Please check your credentials and try again.'
+      );
+    } else if (result) {
+      message.success(`Welcome, ${result.username}.`);
+    }
+  };
+
+  const onFinishRegister = async (values) => {
+    const result = await register(
+      values.email,
+      values.username,
+      values.password
+    );
+    if (typeof result === 'string') {
+      message.error(result);
+    } else {
+      setActiveTabKey('1');
+      message.success(
+        `Welcome, ${result.data.username}! You have successfully registered a new account!`
+      );
+    }
   };
 
   return (
-    <div className="site-card-wrapper">
-      <Card title="Profile" bordered={true} style={{ width: 400 }} headStyle={{ fontSize: 24, }}>
-
-        <Tabs defaultActiveKey="1" onChange={callback}>
-          <TabPane tab="Sign In" key="1">
+    <div className='site-card-wrapper'>
+      <Card
+        title='Profile'
+        bordered={true}
+        className='login-card'
+        headStyle={{ fontSize: 24, color: '#ff8a00', fontWeight: 'bold' }}
+      >
+        <Tabs
+          activeKey={activeTabKey}
+          onTabClick={(key, e) => {
+            setActiveTabKey(key);
+          }}
+        >
+          <TabPane tab='Sign In' key='1'>
             <Form
-              name="normal_login"
-              className="login-form"
-              initialValues={{
-                remember: true,
-              }}
-              onFinish={onFinish}
+              name='normal_login'
+              className='login-form'
+              initialValues={{ remember: true }}
+              onFinish={onFinishLogin}
             >
               <Form.Item
-                name="mail"
+                name='username'
                 rules={[
                   {
                     required: true,
-                    message: 'Please input your mail!',
+                    message: 'Please input your username!',
                   },
                 ]}
               >
-                <Input prefix={<MailOutlined className="site-form-item-icon" />} placeholder="E-Mail" />
+                <Input
+                  name='username'
+                  className='login-input'
+                  type='text'
+                  prefix={<MailOutlined className='site-form-item-icon' />}
+                  placeholder='Username'
+                />
               </Form.Item>
               <Form.Item
-                name="password"
+                name='password'
                 rules={[
                   {
                     required: true,
@@ -51,43 +92,57 @@ const LandingPage = () => {
                 ]}
               >
                 <Input
-                  prefix={<LockOutlined className="site-form-item-icon" />}
-                  type="password"
-                  placeholder="Password"
+                  name='password'
+                  className='login-input'
+                  prefix={<LockOutlined className='site-form-item-icon' />}
+                  type='password'
+                  placeholder='Password'
                 />
               </Form.Item>
 
-              <Form.Item name="remember" valuePropName="checked" noStyle>
-                <Checkbox className="login-form-checkbox">Keep me signed in</Checkbox>
+              <Form.Item name='remember' valuePropName='checked' noStyle>
+                <Checkbox className='login-form-checkbox'>
+                  Keep me signed in
+                </Checkbox>
               </Form.Item>
               <Form.Item>
-                <a className="login-form-forgot" href="">
-                  Forgot password
-                </a>
+                <div className='login-form-forgot'>Forgot password</div>
               </Form.Item>
 
               <Form.Item>
-                <Button type="primary" shape="round" htmlType="submit" className="login-form-button">
-                  Sign in
-                </Button>
-                or
-                <Button type="primary" shape="round" icon={<FacebookFilled />} htmlType="submit" className="fb-login-form-button">
-                  Sign in with Facebook
-                </Button>
+                <div className='login-button-container'>
+                  <Button
+                    type='primary'
+                    shape='round'
+                    htmlType='submit'
+                    className='login-form-button'
+                  >
+                    Sign in
+                  </Button>
+                  or
+                  <Button
+                    type='primary'
+                    shape='round'
+                    icon={<FacebookFilled />}
+                    onClick={() => {
+                      console.log('clicked');
+                    }}
+                    className='fb-login-form-button'
+                  >
+                    Sign in with Facebook
+                  </Button>
+                </div>
               </Form.Item>
             </Form>
           </TabPane>
-          <TabPane tab="Register" key="2">
+          <TabPane tab='Register' key='2'>
             <Form
-              name="normal_login"
-              className="login-form"
-              initialValues={{
-                remember: true,
-              }}
-              onFinish={onFinish}
+              name='normal_login'
+              className='login-form'
+              onFinish={onFinishRegister}
             >
               <Form.Item
-                name="Name"
+                name='username'
                 rules={[
                   {
                     required: true,
@@ -95,69 +150,113 @@ const LandingPage = () => {
                   },
                 ]}
               >
-                <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Name" />
+                <Input
+                  name='username'
+                  className='login-input'
+                  prefix={<UserOutlined className='site-form-item-icon' />}
+                  placeholder='Name'
+                />
               </Form.Item>
 
               <Form.Item
-                name="mail"
+                name='email'
                 rules={[
                   {
+                    type: 'email',
+                    message: 'Please enter a valid email address.',
+                  },
+                  {
                     required: true,
-                    message: 'Please Enter your E-Mail!',
+                    message: 'Please enter your email address!',
                   },
                 ]}
               >
-                <Input prefix={<MailOutlined className="site-form-item-icon" />} placeholder="E-Mail" />
+                <Input
+                  name='email'
+                  className='login-input'
+                  prefix={<MailOutlined className='site-form-item-icon' />}
+                  placeholder='E-Mail'
+                />
               </Form.Item>
               <Form.Item
-                name="password"
+                name='password'
                 rules={[
                   {
                     required: true,
                     message: 'Please Enter your Password!',
                   },
+                  {
+                    min: 8,
+                    message: 'Password must have at least 8 characters',
+                  },
                 ]}
               >
                 <Input
-                  prefix={<LockOutlined className="site-form-item-icon" />}
-                  type="password"
-                  placeholder="Password"
+                  name='password'
+                  className='login-input'
+                  prefix={<LockOutlined className='site-form-item-icon' />}
+                  type='password'
+                  placeholder='Password'
                 />
               </Form.Item>
+
               <Form.Item
-                name="password"
+                name='reconfirmPassword'
                 rules={[
                   {
                     required: true,
                     message: 'Reconfirm your Password!',
                   },
+                  ({ getFieldValue }) => ({
+                    validator(_, value) {
+                      if (!value || getFieldValue('password') === value) {
+                        return Promise.resolve();
+                      }
+                      return Promise.reject(
+                        new Error('The two passwords entered do not match!')
+                      );
+                    },
+                  }),
                 ]}
               >
                 <Input
-                  prefix={<LockOutlined className="site-form-item-icon" />}
-                  type="password"
-                  placeholder="Reconfirm Password"
+                  name='reconfirmPassword'
+                  className='login-input'
+                  prefix={<LockOutlined className='site-form-item-icon' />}
+                  type='password'
+                  placeholder='Reconfirm Password'
                 />
-              </Form.Item>
-              <Form.Item name="remember" valuePropName="checked" noStyle>
-                <Checkbox className="login-form-checkbox">I accept the terms and the privacy policy</Checkbox>
               </Form.Item>
 
               <Form.Item>
-                <br />
-                <Button type="primary" shape="round" htmlType="submit" className="login-form-button">
-                  Register
-                </Button>
-                or
-                <Button type="primary" shape="round" icon={<FacebookFilled />} htmlType="submit" className="fb-login-form-button">
-                  Register with Facebook
-                </Button>
+                <div className='login-button-container'>
+                  <Button
+                    type='primary'
+                    shape='round'
+                    htmlType='submit'
+                    className='login-form-button'
+                  >
+                    Register
+                  </Button>
+                  <span>or</span>
+                  <Button
+                    type='primary'
+                    shape='round'
+                    icon={<FacebookFilled />}
+                    className='fb-login-form-button'
+                    onClick={() => {
+                      console.log('clicked');
+                    }}
+                  >
+                    Register with Facebook
+                  </Button>
+                </div>
               </Form.Item>
             </Form>
           </TabPane>
         </Tabs>
-      </Card >
-    </div >
+      </Card>
+    </div>
   );
 };
 
