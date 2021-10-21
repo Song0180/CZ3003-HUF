@@ -2,17 +2,13 @@ import * as React from 'react';
 import { GameplayDisplay } from '../../components/GameplayDisplay';
 import 'antd/dist/antd.css';
 import { Statistic, Row, message } from 'antd';
-import TimedPopUp from '../../components/TimedPopUp';
+// import TimedPopUp from '../../components/TimedPopUp';
+import Timer from '../../components/Timer';
 import './index.css';
 import { useEffect, useState } from 'react';
 import { useGameStore } from '../../services/zustand/game';
 
-/*
-  function to set the timer for the quiz
-*/
-const { Countdown } = Statistic;
-const minutes = 1000 * 60 * 10; // Example, this is for 10 mins
-const deadline = Date.now() + minutes;
+
 
 /*
   function to include the components needed and display the information for Quiz Gameplay
@@ -21,19 +17,26 @@ const deadline = Date.now() + minutes;
 const GameplayPage = ({ location }) => {
   const { isLoading, quizQuestions, fetchQuizQuestions } = useGameStore();
   const [userAnswers, setUserAnswers] = useState({});
-  const [timedPopUp, setTimedPopUp] = useState(false);
+  // const [timedPopUp, setTimedPopUp] = useState(false);
+
+  //   /*
+  // function to set the timer for the quiz
+  // */
+  // const { Countdown } = Statistic;
+  // const minutes = 1000 * 60 * 10; // Example, this is for 10 mins
+  // const deadline = Date.now() + minutes;
 
   const quizId = React.useMemo(
     () => location.state.quizId,
     [location.state.quizId]
   );
 
-  // To Spawn pop up message when the timer has run out of time
-  useEffect(() => {
-    setTimeout(() => {
-      setTimedPopUp(true);
-    }, minutes);
-  }, []);
+  // // To Spawn pop up message when the timer has run out of time
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     setTimedPopUp(true);
+  //   }, minutes);
+  // }, []);
 
   React.useEffect(() => {
     const fetchDataQuestion = async () => {
@@ -66,8 +69,9 @@ const GameplayPage = ({ location }) => {
       <div className='header-container'>
         <h2 style={{ color: 'orange' }}> CLOCKWORKS | Quiz 1 </h2>
         <div className='timer-con'>
-          <Countdown title='Timer' value={deadline} />
-          <TimedPopUp trigger={timedPopUp} setTrigger={setTimedPopUp} />
+          <Timer onLoad = {Timer()} />
+          {/* <Countdown title='Timer' value={deadline} /> */}
+          {/* <TimedPopUp trigger={timedPopUp} setTrigger={setTimedPopUp} /> */}
         </div>
       </div>
 
