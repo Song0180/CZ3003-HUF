@@ -55,8 +55,16 @@ const App = () => {
               <Route path='/leaderboard' exact component={LeaderBoardPage} />
               <Route path='/settings' exact component={SettingsPage} />
               <Route path='/games' exact component={GamesPage} />
-              <Route path='/gameplay' exact component={GameplayPage} />
-              <Route path='/gamequiz' exact component={GameQuizPage} />
+              <Route
+                path='/game/:game_id/:game_name/:quiz_id'
+                exact
+                component={GameplayPage}
+              />
+              <Route
+                path='/game/:game_id/:game_name'
+                exact
+                component={GameQuizPage}
+              />
               <Route
                 path='/dashboard/editgame'
                 exact
