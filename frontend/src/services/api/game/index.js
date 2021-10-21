@@ -41,6 +41,7 @@ export const createGame = async (
   }
 };
 
+
 // api function to call 'localhost:8000/hufquiz'
 export const fetchQuizQuestions = async (quiz_id) => {
   try {
@@ -55,6 +56,15 @@ export const fetchQuizQuestions = async (quiz_id) => {
 export const fetchQuizResult = async () => {
   try {
     const response = await yelp.get('/hufquizresult', {});
+    return response;
+  } catch (err) {
+    return err.message;
+  }
+};
+
+export const fetchQuizLeaderBoard = async (quiz_id) => {
+  try {
+    const response = await yelp.get('/hufquizresult/', { params: { quiz_id } });
     return response;
   } catch (err) {
     return err.message;

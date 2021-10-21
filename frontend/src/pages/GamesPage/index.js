@@ -60,12 +60,7 @@ const GamesPage = () => {
   );
 
   const handleOnClickGameStart = (gameInfo) => {
-    history.push({
-      pathname: '/gamequiz',
-      state: {
-        gameInfo,
-      },
-    });
+    history.push(`/game/${gameInfo.game_id}/${gameInfo.game_name}`);
   };
 
   React.useEffect(() => {

@@ -1,24 +1,30 @@
-import * as React from "react";
-import { GameplayDisplay } from "../../components/GameplayDisplay";
-import "antd/dist/antd.css";
-import { Row, message } from "antd";
+import * as React from 'react';
+import { GameplayDisplay } from '../../components/GameplayDisplay';
+import { Statistic, Row, message } from 'antd';
 import Timer from "../../components/Timer";
-import "./index.css";
-import { useEffect, useState } from "react";
-import { useGameStore } from "../../services/zustand/game";
+import TimedPopUp from '../../components/TimedPopUp';
+import './index.css';
+import { useEffect, useState } from 'react';
+import { useGameStore } from '../../services/zustand/game';
+import { useParams } from 'react-router';
+
+/*
+  function to set the timer for the quiz
+*/
+const { Countdown } = Statistic;
+const minutes = 1000 * 60 * 10; // Example, this is for 10 mins
+const deadline = Date.now() + minutes;
 
 /*
   function to include the components needed and display the information for Quiz Gameplay
 */
 
-const GameplayPage = ({ location }) => {
-  const { isLoading, quizQuestions, fetchQuizQuestions } = useGameStore();
+const GameplayPage = () => {
+  const { game_id, quiz_id } = useParams();
+  const { isLoading, currentQuizQuetsions, fetchQuizQuestions } = useGameStore();
   const [userAnswers, setUserAnswers] = useState({});
-
-  const quizId = React.useMemo(
-    () => location.state.quizId,
-    [location.state.quizId]
-  );
+  const [timedPopUp, setTimedPopUp] = useState(false);
+  console.log(game_id, quiz_id);
 
   // Error message if failed to fetch and show data
   React.useEffect(() => {
@@ -34,9 +40,8 @@ const GameplayPage = ({ location }) => {
 
   // Fetches data of quiz using gameId
   useEffect(() => {
-    const gameId = 1;
-    fetchQuizQuestions(gameId);
-  }, [fetchQuizQuestions]);
+    fetchQuizQuestions(game_id);
+  }, [fetchQuizQuestions, game_id]);
 
   // Set options to be empty (when user loads the quiz page)
   useEffect(() => {

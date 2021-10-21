@@ -1,5 +1,6 @@
-export { HeaderBar } from './HeaderBar';
-export { SideNav } from './SideNav';
-export { SiteFooter } from './SiteFooter';
-export { GameplayDisplay } from './GameplayDisplay';
-export { GameCard } from './GameCard';
+export * from './HeaderBar';
+export * from './SideNav';
+export * from './SiteFooter';
+export * from './GameplayDisplay';
+export * from './GameCard';
+export * from './LeaderBoard';

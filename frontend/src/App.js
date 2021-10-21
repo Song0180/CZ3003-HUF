@@ -21,6 +21,7 @@ import GameCreationPage from './pages/GameCreationPage';
 import SettingsPage from './pages/SettingsPage';
 import { useAuthStore } from './services/zustand/auth';
 import GameQuizPage from './pages/GameQuizPage';
+import LeaderBoardPage from './pages/LeaderBoardPage';
 
 const { Content } = Layout;
 const NotFoundRedirect = () => <Redirect to='/' />;
@@ -51,10 +52,19 @@ const App = () => {
             <Switch>
               <Route path='/' exact component={HomePage} />
               <Route path='/dashboard' exact component={DashboardPage} />
+              <Route path='/leaderboard' exact component={LeaderBoardPage} />
               <Route path='/settings' exact component={SettingsPage} />
               <Route path='/games' exact component={GamesPage} />
-              <Route path='/gameplay' exact component={GameplayPage} />
-              <Route path='/gamequiz' exact component={GameQuizPage} />
+              <Route
+                path='/game/:game_id/:game_name/:quiz_id'
+                exact
+                component={GameplayPage}
+              />
+              <Route
+                path='/game/:game_id/:game_name'
+                exact
+                component={GameQuizPage}
+              />
               <Route
                 path='/dashboard/editgame'
                 exact
