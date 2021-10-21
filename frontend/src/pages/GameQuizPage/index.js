@@ -1,24 +1,20 @@
 import React from 'react';
 import { message, List, Skeleton } from 'antd';
+import { useHistory, useParams } from 'react-router';
 
 import { useGameStore } from '../../services/zustand/game';
 import { useAuthStore } from '../../services/zustand/auth';
 import QuizCard from './components/QuizCard';
 import QuizModal from './components/QuizModal';
-import { useHistory } from 'react-router';
 
 const GameQuizPage = ({ location }) => {
   const history = useHistory();
+  const { game_id, game_name } = useParams();
   const { userInfo } = useAuthStore();
   const { isLoading, fetchGameQuiz, currentGameQuizzes } = useGameStore();
   const [showQuizModal, setShowQuizModal] = React.useState(false);
   const [currentQuizInfo, setCurrentQuizInfo] = React.useState(null);
   const [currentQuizIndex, setCurrentQuizIndex] = React.useState(null);
-
-  const gameInfo = React.useMemo(
-    () => location.state.gameInfo,
-    [location.state.gameInfo]
-  );
 
   const handleOnClickQuizCard = (quizInfo, index) => {
     setCurrentQuizInfo(quizInfo);
@@ -31,33 +27,27 @@ const GameQuizPage = ({ location }) => {
   };
 
   const handleOnQuizStart = () => {
-    history.push({
-      pathname: '/gameplay',
-      state: {
-        gameId: gameInfo.game_id,
-        quizId: currentQuizInfo.quiz_id,
-      },
-    });
+    history.push(`/game/${game_id}/${game_name}/${currentQuizInfo.quiz_id}`);
   };
 
   React.useEffect(() => {
     const fetchQuizData = async () => {
-      const errorMessage = await fetchGameQuiz(gameInfo.game_id);
+      const errorMessage = await fetchGameQuiz(game_id);
       if (errorMessage) {
         message.error(
-          'Failed to fetch quizzes for this game. Contact Admin for support.'
+          'Failed to fetch quizzes for this game. Check the URL or Contact Admin for support.'
         );
         message.error(errorMessage);
       }
     };
     fetchQuizData();
-  }, [fetchGameQuiz, gameInfo.game_id]);
+  }, [fetchGameQuiz, game_id]);
 
   return (
     <div className='game-page-container'>
       <div className='game-page-header-container'>
         <h2 className='game-page-heading'>
-          {gameInfo.game_name.toUpperCase()}
+          {game_name ? game_name.toUpperCase() : '...'}
         </h2>
       </div>
       <div className='info-container'>
@@ -66,7 +56,7 @@ const GameQuizPage = ({ location }) => {
         </p>
         <p className='text'>
           Welcome to the game{' '}
-          <span className='text-highlight'>{gameInfo.game_name}!</span>
+          <span className='text-highlight'>{game_name}!</span>
         </p>
         {currentGameQuizzes.length > 0 ? (
           <p className='text'>
@@ -78,7 +68,7 @@ const GameQuizPage = ({ location }) => {
         )}
         <div className='games-container'>
           <QuizModal
-            gameName={gameInfo.game_name}
+            gameName={game_name}
             visible={showQuizModal}
             quizInfo={currentQuizInfo}
             quizIndex={currentQuizIndex}
