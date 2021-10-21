@@ -162,8 +162,12 @@ const LandingPage = () => {
                 name='email'
                 rules={[
                   {
+                    type: 'email',
+                    message: 'Please enter a valid email address.',
+                  },
+                  {
                     required: true,
-                    message: 'Please Enter your E-Mail!',
+                    message: 'Please enter your email address!',
                   },
                 ]}
               >
