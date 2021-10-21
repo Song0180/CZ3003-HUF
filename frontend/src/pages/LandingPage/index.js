@@ -1,5 +1,7 @@
 import * as React from 'react';
 import { Component } from 'react';
+import ReactDOM from 'react-dom';
+import FacebookLogin from 'react-facebook-login';
 
 import { Form, Input, Button, Checkbox, Card, Tabs } from 'antd';
 import {
@@ -11,6 +13,7 @@ import {
 import { useAuthStore } from '../../services/zustand/auth';
 
 import './index.css';
+import { resolveOnChange } from 'antd/lib/input/Input';
 
 const { TabPane } = Tabs;
 
@@ -48,6 +51,7 @@ const onFinish = (values) => {
     this.setState({ credentials: cred });
   }
 
+
   // Django Register
   djangoRegister = event => {
     console.log(JSON.stringify(this.registerState.credentials))
@@ -77,31 +81,74 @@ const onFinish = (values) => {
         data => {
           console.log("This is the response :", data.message);
           // Check this part
-          if (data.message == "login successful") {
+          if (data.message == "successful log in") {
 
-            useAuthStore.initialState.signedIn = true;
+          } else {
+            // TODO : Wrong password/username popup
 
           }
         })
       .catch(error => console.error(error))
   }
 
-  facebookLogin = event => {
-    console.log(JSON.stringify(this.loginState.credentials))
+  fbResponse = (response) => {
+    console.log("Response from Facebook :", response);
+  }
+
+  // Facebook Login - Under Progress
+  facebookLogin1 = event => {
+    console.log("Facebook Login Attempt")
+    // Get Request
     fetch('https://cz3003-huf.herokuapp.com/accounts/facebook/login/', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(this.loginState.credentials)
+      mode: 'no-cors',
+      credentials: 'include',
+      method: 'GET',
+      headers: {
+        // 'Content-Type': 'application/json',
+        'Content-Type': 'Authorization',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': 'true',
+      },
     })
-      .then(response => response.json())
-      .then(
-        data => {
-          console.log("This is the response :", data);
-        })
+      // Response 
+      .then(dataWrappedByPromise => dataWrappedByPromise.text())
+      .then(function (html) {
+
+        // Convert the HTML string into a document object
+        var parser = new DOMParser();
+        var doc = parser.parseFromString(html, 'text/html');
+        console.log(doc)
+      })
+      //   .then(
+      //   data => {
+      //   return this.facebookLogin2()
+      // })
+
+
+      // If authenticated -> proceed to Home Page
       .catch(error => console.error(error))
   }
 
+  facebookLogin2 = event => {
+    console.log("Get Token")
+    // Get Request
+    fetch('https://cz3003-huf.herokuapp.com/rest-auth/token', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      // Response 
+      .then(response => response.json())
+      .then(data => { console.log("This is the response :", data) })
+      // If authenticated -> proceed to Home Page
+      .catch(error => console.error(error))
+  }
+
+
+
   render() {
+
     return (
       <div className='site-card-wrapper' >
         <Card
@@ -170,25 +217,28 @@ const onFinish = (values) => {
                     <Button
                       type='primary'
                       shape='round'
-                      // htmlType='submit'
+                      htmlType='submit'
                       className='login-form-button'
                       onClick={this.djangoLogin}
                     >
                       Sign in
                     </Button>
+                    <br />
                     or
-                    <Button
-                      type='primary'
-                      shape='round'
-                      icon={<FacebookFilled />}
-                      htmlType='submit'
-                      className='fb-login-form-button'
-                    >
-                      Sign in with Facebook
-                    </Button>
                   </div>
                 </Form.Item>
               </Form>
+              <Button
+                type='primary'
+                shape='round'
+                href='https://cz3003-huf.herokuapp.com/accounts/facebook/login/'
+                icon={<FacebookFilled />}
+                // htmlType='submit'
+                className='fb-login-form-button'
+                onClick={this.facebookLogin2}
+              >
+                Sign in with Facebook
+              </Button>
             </TabPane>
             <TabPane tab='Register' key='2'>
               <Form
