@@ -8,14 +8,12 @@ import { Link } from 'react-router-dom';
 //function to include the components needed and display the information for dashboard
 const DashboardPage = () => {
   return (
-    <div>
-
-      <div className='container1'>
-        <h1>My Dashboard</h1>
-      </div>
-
-      <div className='container2'>
-        <div className='item'>
+    <div className='dashboard-container'>
+      {/* <div className='game-page-header-container'> */}
+      <h2 className='dashboard-heading'>My Dashboard</h2>
+        
+      <div className='stats-container'>
+        <div className='t1'>
           <Stats />                 {/* stats component */}
         </div>
         <div className='item'>
@@ -23,21 +21,21 @@ const DashboardPage = () => {
         </div>
       </div>
         
-      <div className='container3'>
-        <div className='container3-item'>
+      <div className='dashboard-footer'>
+        <div className='footer-item'>
           <Button type="primary">
             {/* internal link to edit game page */}
             <Link to={'dashboard/editgame'}>Edit Game</Link>    
           </Button>
         </div>
-        <div className='container3-item'>
+        <div className='footer-item'>
           <Button type="primary">
             {/* internal link to edit quiz page */}
             <Link to={'dashboard/editquiz'}>Edit Quiz</Link>    
           </Button>
         </div>
       </div>
-      
+
     </div>
   );
 };

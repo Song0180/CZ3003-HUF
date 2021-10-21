@@ -13,13 +13,18 @@ function onChange(value) {
 //function to include the components needed and display the information for edit game page
 const EditGamePage = () => {
   return (
-    <div>
-      <div className='container1'>
-        <h1>Edit Game Page</h1>
-        {/* popup window component with its parameter information */}
-        <Pop btnName='Delete Game' title='Delete Game Confirmation' desc='Are you sure you want to delete this game?' danger='true'/>
-      </div>
-      
+    <div className='edit-container'>
+
+        <div className='delete' >
+          <Pop 
+          btnName='Delete Game' 
+          title='Delete Game Confirmation' 
+          desc='Are you sure you want to delete this game?' 
+          danger='true'
+          />
+        </div> 
+        <h2 className='heading'>Edit Game Page</h2>  
+
       {/* 
       form to collect user input to update database when user edits the game 
 
@@ -29,7 +34,7 @@ const EditGamePage = () => {
       max{}: max value for input number field
       defaultValue{}: default value that is displayed for input number field
       */}
-      <div className='container2'>
+      <div className='form-container'>
         <Form>
           <Form.Item label="Game Name">
             <Input placeholder="Enter Game Name" />
@@ -46,15 +51,17 @@ const EditGamePage = () => {
         </Form>
       </div>
 
-      <div className='container3'>
-        <Button type="primary">
-          {/* internal link back to dashboard page */}
-          <Link to={'/dashboard'}>Back</Link>   
-        </Button>
+      <div className='footer'>
+        <div className='footer-item'>
+          <Button type="primary">
+            {/* internal link back to dashboard page */}
+            <Link to={'/dashboard'}>Back</Link>   
+          </Button>
+        </div>
         {/* popup window component with its parameter information */}
         <Pop btnName='Save Changes' title='Save Confirmation' desc='Confirm changes?'/>
       </div>
-      
+
     </div>
   );
 };
