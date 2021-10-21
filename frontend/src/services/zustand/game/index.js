@@ -1,13 +1,19 @@
 import create from 'zustand';
 
 import { mockQuizzes } from './mockData';
-import { fetchGames, fetchQuizzes, createGame } from '../../api/game';
+import {
+  fetchGames,
+  fetchQuizzes,
+  createGame,
+  fetchQuizLeaderBoard,
+} from '../../api/game';
 
 const initialState = {
   isLoading: false,
   games: [],
   currentGameQuizzes: [],
   currentQuizQuetsions: [],
+  currentQuizLeaderBoardData: [],
 };
 
 export const useGameStore = create((set, get) => ({
@@ -51,6 +57,36 @@ export const useGameStore = create((set, get) => ({
 
   fetchQuizQuestions: async (gameId, quizId) => {
     set({ currentQuizQuetsions: mockQuizzes });
+  },
+
+  fetchQuizLeaderBoard: async (quizId) => {
+    set({ isLoading: true });
+    const result = await fetchQuizLeaderBoard(quizId);
+    console.log(result);
+    const dummyLB = [
+      {
+        username: 'haha',
+        score: 20,
+      },
+      {
+        username: 'haha2',
+        score: 10,
+      },
+      {
+        username: 'haha3',
+        score: 5,
+      },
+      {
+        username: 'haha4',
+        score: 2,
+      },
+      {
+        username: 'haha5',
+        score: 1,
+      },
+    ];
+    set({ currentQuizLeaderBoardData: dummyLB });
+    set({ isLoading: false });
   },
 
   createNewGame: async (gameData) => {
