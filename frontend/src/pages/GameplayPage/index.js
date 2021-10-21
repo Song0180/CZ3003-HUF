@@ -1,19 +1,11 @@
 import * as React from 'react';
 import { GameplayDisplay } from '../../components/GameplayDisplay';
-import { Statistic, Row, message } from 'antd';
+import { Row, message } from 'antd';
 import Timer from "../../components/Timer";
-import TimedPopUp from '../../components/TimedPopUp';
 import './index.css';
 import { useEffect, useState } from 'react';
 import { useGameStore } from '../../services/zustand/game';
 import { useParams } from 'react-router';
-
-/*
-  function to set the timer for the quiz
-*/
-const { Countdown } = Statistic;
-const minutes = 1000 * 60 * 10; // Example, this is for 10 mins
-const deadline = Date.now() + minutes;
 
 /*
   function to include the components needed and display the information for Quiz Gameplay
@@ -21,22 +13,20 @@ const deadline = Date.now() + minutes;
 
 const GameplayPage = () => {
   const { game_id, quiz_id } = useParams();
-  const { isLoading, currentQuizQuetsions, fetchQuizQuestions } = useGameStore();
+  const { isLoading, fetchQuizQuestions, quizQuestions } = useGameStore();
   const [userAnswers, setUserAnswers] = useState({});
-  const [timedPopUp, setTimedPopUp] = useState(false);
-  console.log(game_id, quiz_id);
 
   // Error message if failed to fetch and show data
   React.useEffect(() => {
     const fetchDataQuestion = async () => {
-      const errorMessage = await fetchQuizQuestions(quizId);
+      const errorMessage = await fetchQuizQuestions(quiz_id);
       if (errorMessage) {
         message.error("Failed to fetch quiz. Contact Admin for support.");
         message.error(errorMessage);
       }
     };
     fetchDataQuestion();
-  }, [fetchQuizQuestions, quizId]);
+  }, [fetchQuizQuestions, quiz_id]);
 
   // Fetches data of quiz using gameId
   useEffect(() => {
@@ -47,7 +37,7 @@ const GameplayPage = () => {
   useEffect(() => {
     const emptyAnswers = {};
     quizQuestions.forEach((question) => {
-      emptyAnswers[question.questionId] = null;
+      emptyAnswers[question.quiz_qn_id] = null;
     });
     setUserAnswers(emptyAnswers);
   }, [quizQuestions]);

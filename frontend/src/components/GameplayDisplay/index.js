@@ -10,7 +10,6 @@ function to display the questions in the quiz and return the marks gotten (curre
 const GameplayDisplay = ({
   quizQuestions = [],
   currentAnswers = {},
-  quizOptions = [],
   onAnswerQuestion,
 }) => {
   const handleOnChangeQuestionAnswer = (questionId, answerValue) => {
@@ -40,7 +39,7 @@ const GameplayDisplay = ({
               defaultValue={null}
             >
               <Space direction='vertical'>
-                {quizOptions.map((option_id) => {
+                {quizQuestions.map((option_id) => {
                   return (
                     <Radio key={option_id.value} value={option_id.value}>
                       {option_id.option_description}

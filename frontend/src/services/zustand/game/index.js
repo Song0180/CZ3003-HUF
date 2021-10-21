@@ -14,7 +14,6 @@ const initialState = {
   games: [],
   currentGameQuizzes: [],
   quizQuestions: [],
-  currentQuizQuetsions: [],
   currentQuizLeaderBoardData: [],
 };
 

@@ -23,7 +23,7 @@ function Timer(props) {
     setTimeout(() => {
       setTimedPopUp(true);
     }, minutes);
-  }, []);
+  });
 
   return (
     <div>
