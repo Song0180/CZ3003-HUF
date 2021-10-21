@@ -11,7 +11,7 @@ desc: text description that will be displayed in the popup window
 danger: boolean type. set 'true' if you want the button to be indicated red, else 'false' for blue
 */
 
-const Pop = ({ btnName, title, desc, danger}) => {
+const Pop = ({ btnName, title, desc, danger, onOk}) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
   
     //for popup window
@@ -21,6 +21,7 @@ const Pop = ({ btnName, title, desc, danger}) => {
     
     //to handle event when 'ok' is selected from popup
     const handleOk = () => {
+      onOk();
       setIsModalVisible(false);
     };
     
