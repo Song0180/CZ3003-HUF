@@ -7,9 +7,11 @@ import { useGameStore } from '../../services/zustand/game';
 import { GameCard } from '../../components';
 import GameModal from './components/GameModal';
 import { useHistory } from 'react-router';
+import { useAuthStore } from '../../services/zustand/auth';
 
 const GamesPage = () => {
   const history = useHistory();
+  const { userInfo } = useAuthStore();
   const { isLoading, games, fetchGames } = useGameStore();
   const [searchStr, setSearchStr] = React.useState('');
   const [filteredGames, setFilteredGames] = React.useState([]);
@@ -57,13 +59,8 @@ const GamesPage = () => {
     [setShowGameModal]
   );
 
-  const handleOnClickGameStart = (gameId) => {
-    history.push({
-      pathname: '/gamequiz',
-      state: {
-        gameId,
-      },
-    });
+  const handleOnClickGameStart = (gameInfo) => {
+    history.push(`/game/${gameInfo.game_id}/${gameInfo.game_name}`);
   };
 
   React.useEffect(() => {
@@ -93,15 +90,15 @@ const GamesPage = () => {
       </div>
       <div className='info-container'>
         <p className='text'>
-          Hi <span className='text-highlight'>James</span>, Please select the
-          game you want tot start playing!
+          Hi <span className='text-highlight'>{userInfo.username}</span>, Please
+          select the game you want tot start playing!
         </p>
         <div className='games-container'>
           <GameModal
             visible={showGameModal}
             onCancel={handleOnCancelGameCard}
             gameInfo={currentGameInfo}
-            onGameStart={() => handleOnClickGameStart(currentGameInfo.game_id)}
+            onGameStart={() => handleOnClickGameStart(currentGameInfo)}
           />
           <List
             loading={isLoading}
@@ -115,7 +112,7 @@ const GamesPage = () => {
                 <Skeleton loading={isLoading} active>
                   <GameCard
                     title={item.game_name}
-                    creator={item.user_id}
+                    creator={item.username}
                     tag={item.game_tag}
                     onClick={() => handleOnClickGameCard(item)}
                   />

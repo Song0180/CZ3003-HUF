@@ -13,14 +13,14 @@ const ProfileModal = ({ visible, onCancel, userInfo }) => {
     >
       <div id='profile-modal-container'>
         <Avatar size='large' id='profile-avatar'>
-          {userInfo.userName[0]}
+          {userInfo.username ? userInfo.username[0].toUpperCase() : 'U'}
         </Avatar>
         <Descriptions column={1} style={{ width: '50%' }}>
           <Descriptions.Item label='Username'>
-            {userInfo.userName}
+            {userInfo.username}
           </Descriptions.Item>
           <Descriptions.Item label='User ID'>
-            {userInfo.userId}
+            {userInfo.userid}
           </Descriptions.Item>
           <Descriptions.Item label='Email'>{userInfo.email}</Descriptions.Item>
         </Descriptions>

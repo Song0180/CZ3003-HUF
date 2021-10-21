@@ -1,64 +1,39 @@
 import React from 'react';
 import 'antd/dist/antd.css';
 import './index.css';
-import { Tag, Tooltip, Form, Input, Button, InputNumber } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
-import { Link } from 'react-router-dom';
+import { Form, Input, Button, InputNumber, message } from 'antd';
+import { Link, useHistory } from 'react-router-dom';
+import { useGameStore } from '../../services/zustand/game';
 import cx from 'classnames';
+import { useAuthStore } from '../../services/zustand/auth';
 
 const GameCreationPage = () => {
-  const onFinish = (values) => {
-    console.log('Success:', values);
+  const history = useHistory();
+  const { userInfo } = useAuthStore();
+  const { createNewGame } = useGameStore();
+
+  const onFinish = async (values) => {
+    const gameData = {
+      username: userInfo.username,
+      game_name: values.game_name,
+      game_tag: values.game_tag,
+      no_of_quiz: values.no_of_quiz,
+      game_description: values.game_description,
+      total_no_qn: values.total_no_qn,
+    };
+    const result = await createNewGame(gameData);
+    if (typeof result !== 'string') {
+      message.success(
+        `You have successfully created a new game${result.game_name}`
+      );
+    } else {
+      message.error(result);
+    }
+    history.push('/');
   };
 
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
-  };
-
-  const [tags, setTags] = React.useState(['Games']);
-  const [inputValue, setInputValue] = React.useState('');
-  const [inputVisible, setInputVisible] = React.useState(false);
-  const [editInputIndex, setEditInputIndex] = React.useState(-1);
-  const [editInputValue, setEditInputValue] = React.useState('');
-  const inputRef = React.useRef();
-  const saveEditInputRef = React.useRef();
-
-  const showInput = () => {
-    setInputVisible(true);
-    setTimeout(() => {
-      if (inputRef.current) {
-        inputRef.current.focus();
-      }
-    });
-  };
-
-  const handleInputChange = (value) => {
-    setInputValue(value);
-  };
-
-  const handleEditInputChange = (value) => {
-    setEditInputValue(value);
-  };
-
-  const handleInputConfirm = () => {
-    if (inputValue && tags.indexOf(inputValue) === -1) {
-      setTags([...tags, inputValue]);
-    }
-    setInputValue('');
-    setInputVisible(false);
-  };
-
-  const handleEditInputConfirm = () => {
-    const newTags = [...tags];
-    newTags[editInputIndex] = editInputValue;
-    setTags(newTags);
-    setEditInputIndex(-1);
-    setEditInputValue('');
-  };
-
-  const handleClose = (removeTag) => {
-    const newTags = tags.filter((tag) => tag !== removeTag);
-    setTags(newTags);
   };
 
   return (
@@ -68,7 +43,7 @@ const GameCreationPage = () => {
       </div>
       <div className='info-container'>
         <p className='text'>
-          Hi <span className='text-highlight'>James</span>,
+          Hi <span className='text-highlight'>{userInfo.username}</span>,
         </p>
         <p className='text'>
           Please complete the following to proceed with the creation of your
@@ -91,11 +66,15 @@ const GameCreationPage = () => {
         >
           <Form.Item
             label='GAME NAME: '
-            name='Game Name'
+            name='game_name'
             rules={[
               {
                 required: true,
                 message: 'Please input the Game Name',
+              },
+              {
+                whitespace: true,
+                message: 'Game Name cannot be a whitespace',
               },
             ]}
           >
@@ -103,12 +82,16 @@ const GameCreationPage = () => {
           </Form.Item>
 
           <Form.Item
-            label='DESCRIPTION'
-            name='Game Description'
+            label='GAME DESCRIPTION'
+            name='game_description'
             rules={[
               {
                 required: true,
                 message: 'Please input the Game Description',
+              },
+              {
+                whitespace: true,
+                message: 'Game Name cannot be a whitespace',
               },
             ]}
           >
@@ -116,102 +99,53 @@ const GameCreationPage = () => {
           </Form.Item>
 
           <Form.Item
+            label='INPUT GAME TAG'
+            name='game_tag'
+            rules={[
+              {
+                required: true,
+                message: 'Please input the Game Tag',
+              },
+              {
+                max: 20,
+                message: 'Tags can only have a maximum 20 characters.',
+              },
+              {
+                type: 'string',
+                message:
+                  'The tag must be a descriptive string and cannot contain whitespaces',
+              },
+            ]}
+          >
+            <Input placeholder='Enter Game Tag' />
+          </Form.Item>
+
+          <Form.Item
             label='NUMBER OF QUIZZES: '
-            name='Number of Quizzes'
+            name='no_of_quiz'
             rules={[
               {
                 required: true,
                 message: 'Please input the number of quizzes',
               },
             ]}
+            initialValue={1}
           >
-            <InputNumber defaultValue={1} min={1} max={5} />
+            <InputNumber min={1} max={5} />
           </Form.Item>
 
           <Form.Item
             label='NUMBER 0F QUESTIONS PER QUIZ: '
-            name='Number of Questions'
+            name='total_no_qn'
             rules={[
               {
                 required: true,
                 message: 'Please input the number of questions per quiz',
               },
             ]}
+            initialValue={1}
           >
-            <InputNumber defaultValue={1} min={1} max={10} />
-          </Form.Item>
-
-          <Form.Item label='ENTER RELEVANT GAME TAGS'>
-            <div>
-              {tags.map((tag, index) => {
-                if (editInputIndex === index) {
-                  return (
-                    <Input
-                      ref={saveEditInputRef}
-                      key={tag}
-                      size='small'
-                      className='tag-input'
-                      value={editInputValue}
-                      onChange={(e) => handleEditInputChange(e.target.value)}
-                      onBlur={handleEditInputConfirm}
-                      onPressEnter={handleEditInputConfirm}
-                    />
-                  );
-                }
-                const isLongTag = tag.length > 20;
-
-                const tagElem = (
-                  <Tag
-                    className='edit-tag'
-                    key={tag}
-                    closable={index !== 0}
-                    onClose={() => handleClose(tag)}
-                  >
-                    <span
-                      onDoubleClick={(e) => {
-                        if (index !== 0) {
-                          setEditInputIndex(index);
-                          setEditInputValue(tag);
-                          setTimeout(() => {
-                            if (saveEditInputRef.current) {
-                              saveEditInputRef.current.focus();
-                            }
-                          });
-                          e.preventDefault();
-                        }
-                      }}
-                    >
-                      {isLongTag ? `${tag.slice(0, 20)}...` : tag}
-                    </span>
-                  </Tag>
-                );
-                return isLongTag ? (
-                  <Tooltip title={tag} key={tag}>
-                    {tagElem}
-                  </Tooltip>
-                ) : (
-                  tagElem
-                );
-              })}
-
-              {inputVisible && (
-                <Input
-                  ref={inputRef}
-                  type='text'
-                  size='small'
-                  className='tag-input'
-                  value={inputValue}
-                  onChange={(e) => handleInputChange(e.target.value)}
-                  onBlur={handleInputConfirm}
-                  onPressEnter={handleInputConfirm}
-                />
-              )}
-              {!inputVisible && (
-                <Tag className='site-tag-plus' onClick={showInput}>
-                  <PlusOutlined /> New Tag
-                </Tag>
-              )}
-            </div>
+            <InputNumber min={1} max={10} />
           </Form.Item>
 
           <hr />
@@ -230,8 +164,7 @@ const GameCreationPage = () => {
                 htmlType='Submit'
                 className={cx('nextBtn', 'creation-pagenav-buttons')}
               >
-                {/*To Do: Should only be able to Next when all the fields are validated */}
-                <Link to={'/editquiz'}>Next</Link>
+                Next
               </Button>
             </Form.Item>
           </div>
