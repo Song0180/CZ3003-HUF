@@ -39,10 +39,10 @@ const GameplayDisplay = ({
               defaultValue={null}
             >
               <Space direction='vertical'>
-                {quizQuestions.map((option_id) => {
+                {question_name.options.map((option_id) => {
                   return (
-                    <Radio key={option_id.option_id} value={option_id.option_id}>
-                      {console.log(option_id)}
+                    <Radio key={option_id.value} value={option_id}>
+                      {console.log(option_id.value)}
                       {option_id.option_description}
                     </Radio>
                   );
