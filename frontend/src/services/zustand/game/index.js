@@ -6,6 +6,9 @@ import {
   fetchQuizzes,
   createGame,
   fetchQuizLeaderBoard,
+  createQuiz,
+  createQn,
+  createOptions
 } from '../../api/game';
 
 const initialState = {
@@ -116,4 +119,81 @@ export const useGameStore = create((set, get) => ({
       return result.data;
     }
   },
+
+  createNewQuiz: async (quizData) => {
+    set ({ isLoading: true});
+    const {
+      quiz_id,
+      game_id,
+      quiz_duration,
+      quiz_max_score,
+      quiz_description,
+      no_of_qn,
+    } = quizData;
+
+    const result = await createQuiz(
+      quiz_id,
+      game_id,
+      quiz_duration,
+      quiz_max_score,
+      quiz_description,
+      no_of_qn,
+    );
+    console.log(result);
+    set ({ isLoading: false });
+    if (typeof result == 'string'){
+      return result;
+    } else if (result.status === 201){
+      return result.data;
+    }
+  },
+
+  createNewQn: async (qnData) => {
+    set ({ isLoading: true});
+    const {
+      quiz_qn_id,
+      quiz_id,
+      correct_ans,
+      question_name,
+      score_per_qn,
+    } = qnData;
+
+    const result = await createQn(
+      quiz_qn_id,
+      quiz_id,
+      correct_ans,
+      question_name,
+      score_per_qn,
+    );
+    console.log(result);
+    set ({ isLoading: false });
+    if (typeof result == 'string'){
+      return result;
+    } else if (result.status === 201){
+      return result.data;
+    }
+  },
+
+  createNewOptions: async (optionsData) => {
+    set ({ isLoading: true});
+    const {
+      quiz_qn_id,
+      option_id,
+      option_description,
+    } = optionsData;
+
+    const result = await createOptions(
+      quiz_qn_id,
+      option_id,
+      option_description,
+    );
+    console.log(result);
+    set ({ isLoading: false });
+    if (typeof result == 'string'){
+      return result;
+    } else if (result.status === 201){
+      return result.data;
+    }
+  },
+
 }));
