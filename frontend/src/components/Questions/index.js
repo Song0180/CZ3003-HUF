@@ -1,8 +1,30 @@
 import * as React from 'react';
-import { Form, Input, InputNumber} from "antd";
+import { Form, Input, InputNumber, message} from "antd";
 import "./index.css";
+import { useGameStore } from '../../services/zustand/game';
+import { OptionNumbers } from '../OptionsNumbers';
 
 const Questions = props => {
+
+  const { createNewQuiz } = useGameStore();
+
+  const onFinish = async (values) => {
+    const qnData = {
+      quiz_qn_id: props.qnno,
+      quiz_id: props.quiz_id,
+      correct_ans: values.correct_ans,
+      question_name: values.question_name,
+      score_per_qn: values.score_per_qn,
+    };
+    const qnResult = await createNewQuiz(qnData);
+    if (typeof qnResult == 'string') {
+      message.error(qnResult);
+    }
+  };
+
+  const onFinishFailed = (errorInfo) => {
+    console.log('Failed:', errorInfo);
+  };
 
   return (
     <Form
@@ -16,79 +38,35 @@ const Questions = props => {
     initialValues={{
       remember: true,
     }}
-    autoComplete="off"
+    onFinish={onFinish}
+    onFinishFailed={onFinishFailed}
+    autoComplete='off'
   >
     <p className="qntext">
         <span className="text-highlight">Question {props.qnno}</span>
       </p>
     <Form.Item
         label="Question"
-        name="Question"
+        name="question_name"
         rules={[
           {
             required: true,
             message: 'Please input question!',
+          },
+          {
+            whitespace: true,
+            message: 'Question cannot be a whitespace',
           },
         ]}
       >
         <Input placeholder="Enter Question" />
       </Form.Item>
 
-      <Form.Item
-        label="Option 1"
-        name="Option 1"
-        rules={[
-          {
-            required: true,
-            message: 'Empty! Please input first option!',
-          },
-        ]}
-      >
-        <Input placeholder="Enter Option 1" />
-      </Form.Item>
-
-      <Form.Item
-        label="Option 2"
-        name="Option 2"
-        rules={[
-          {
-            required: true,
-            message: 'Empty! Please input second option!',
-          },
-        ]}
-      >
-        <Input placeholder="Enter Option 2" />
-      </Form.Item>
-
-      <Form.Item
-        label="Option 3"
-        name="Option 3"
-        rules={[
-          {
-            required: true,
-            message: 'Empty! Please input third option!',
-          },
-        ]}
-      >
-        <Input placeholder="Enter Option 3" />
-      </Form.Item>
-
-      <Form.Item
-        label="Option 4"
-        name="Option 4"
-        rules={[
-          {
-            required: true,
-            message: 'Empty! Please input fourth option!',
-          },
-        ]}
-      >
-        <Input placeholder="Enter Option 4" />
-      </Form.Item>
+      <OptionNumbers quiz_qn_id = {props.qnno}/>
 
       <Form.Item
         label="Correct Answer"
-        name="Correct Answer"
+        name="correct_ansr"
         rules={[
           {
             required: true,
@@ -99,17 +77,16 @@ const Questions = props => {
       </Form.Item>
 
       <Form.Item
-        label="Question Score"
-        name="Question Score"
+        label="Score set per Question: "
+        name="score_per_qn"
         rules={[
           {
             required: true,
           },
         ]}
       >
-        <InputNumber min={1} max={5} defaultValue={1}/> 
+        <InputNumber min={1} max={1} defaultValue={1}/> 
       </Form.Item>
-      
     </Form>
   )
 }
