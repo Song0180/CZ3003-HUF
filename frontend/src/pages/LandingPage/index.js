@@ -32,58 +32,63 @@ const LandingPage = () => {
 
 
 
-  fbResponse = (response) => {
-    console.log("Response from Facebook :", response);
-  }
+  // fbResponse = (response) => {
+  //   console.log("Response from Facebook :", response);
+  // }
 
-  // Facebook Login - Under Progress
-  facebookLogin1 = event => {
-    console.log("Facebook Login Attempt")
-    // Get Request
-    fetch('https://cz3003-huf.herokuapp.com/accounts/facebook/login/', {
-      mode: 'no-cors',
-      credentials: 'include',
-      method: 'GET',
-      headers: {
-        // 'Content-Type': 'application/json',
-        'Content-Type': 'Authorization',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Credentials': 'true',
-      },
-    })
-      // Response 
-      .then(dataWrappedByPromise => dataWrappedByPromise.text())
-      .then(function (html) {
+  // // Facebook Login - Under Progress
+  // facebookLogin1 = event => {
+  //   console.log("Facebook Login Attempt")
+  //   // Get Request
+  //   fetch('https://cz3003-huf.herokuapp.com/accounts/facebook/login/', {
+  //     mode: 'no-cors',
+  //     credentials: 'include',
+  //     method: 'GET',
+  //     headers: {
+  //       // 'Content-Type': 'application/json',
+  //       'Content-Type': 'Authorization',
+  //       'Access-Control-Allow-Origin': '*',
+  //       'Access-Control-Allow-Credentials': 'true',
+  //     },
+  //   })
+  //     // Response 
+  //     .then(dataWrappedByPromise => dataWrappedByPromise.text())
+  //     .then(function (html) {
 
-        // Convert the HTML string into a document object
-        var parser = new DOMParser();
-        var doc = parser.parseFromString(html, 'text/html');
-        console.log(doc)
-      })
-      //   .then(
-      //   data => {
-      //   return this.facebookLogin2()
-      // })
+  //       // Convert the HTML string into a document object
+  //       var parser = new DOMParser();
+  //       var doc = parser.parseFromString(html, 'text/html');
+  //       console.log(doc)
+  //     })
+  //     //   .then(
+  //     //   data => {
+  //     //   return this.facebookLogin2()
+  //     // })
 
 
-      // If authenticated -> proceed to Home Page
-      .catch(error => console.error(error))
-  }
+  //     // If authenticated -> proceed to Home Page
+  //     .catch(error => console.error(error))
+  // }
 
-  facebookLogin2 = event => {
-    console.log("Get Token")
-    // Get Request
-    fetch('https://cz3003-huf.herokuapp.com/rest-auth/token', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      // Response 
-      .then(response => response.json())
-      .then(data => { console.log("This is the response :", data) })
-      // If authenticated -> proceed to Home Page
-      .catch(error => console.error(error))
+  // facebookLogin2 = event => {
+  //   console.log("Get Token")
+  //   // Get Request
+  //   fetch('https://cz3003-huf.herokuapp.com/rest-auth/token', {
+  //     method: 'GET',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //   })
+  //     // Response 
+  //     .then(response => response.json())
+  //     .then(data => { console.log("This is the response :", data) })
+  //     // If authenticated -> proceed to Home Page
+  //     .catch(error => console.error(error))
+  // }
+
+  const responseFacebook=(response)=>{
+    console.log(response);
+    console.log(response.accessToken);
   }
 
   const onFinishRegister = async (values) => {
@@ -177,19 +182,25 @@ const LandingPage = () => {
                     Sign in
                   </Button>
                   or
-                  <Button
+                  {/* <div>*/}
+                    <FacebookLogin 
+                    appId = "566862107737771"
+                    autoLoad = {true}
+                    fields = "name,email,picture"
+                    callback = {responseFacebook}/>
+                  {/* <Button
                     type='primary'
                     shape='round'
                     icon={<FacebookFilled />}
-                    href='https://cz3003-huf.herokuapp.com/accounts/facebook/login/'
+                    href='http://localhost:8000/accounts/facebook/login/'
                     onClick={() => {
-                      facebookLogin2()
+                      // facebookLogin2()
                       console.log('clicked');
                     }}
                     className='fb-login-form-button'
-                  >
+                  > */}
                     Sign in with Facebook
-                  </Button>
+                  {/* </Button> */}
                 </div>
               </Form.Item>
             </Form>
