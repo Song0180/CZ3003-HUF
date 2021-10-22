@@ -1,4 +1,5 @@
 import * as React from 'react';
+// import FacebookLogin from 'react-facebook-login';
 
 import { Form, Input, Button, Checkbox, Card, Tabs, message } from 'antd';
 import {
@@ -10,6 +11,7 @@ import {
 import { useAuthStore } from '../../services/zustand/auth';
 
 import './index.css';
+// import { resolveOnChange } from 'antd/lib/input/Input';
 
 const { TabPane } = Tabs;
 
@@ -26,6 +28,60 @@ const LandingPage = () => {
     } else if (result) {
       message.success(`Welcome, ${result.username}.`);
     }
+  };
+
+  const fbResponse = (response) => {
+    console.log('Response from Facebook :', response);
+  };
+
+  // Facebook Login - Under Progress
+  const facebookLogin1 = (event) => {
+    console.log('Facebook Login Attempt');
+    // Get Request
+    fetch('https://cz3003-huf.herokuapp.com/accounts/facebook/login/', {
+      mode: 'no-cors',
+      credentials: 'include',
+      method: 'GET',
+      headers: {
+        // 'Content-Type': 'application/json',
+        'Content-Type': 'Authorization',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Credentials': 'true',
+      },
+    })
+      // Response
+      .then((dataWrappedByPromise) => dataWrappedByPromise.text())
+      .then(function (html) {
+        // Convert the HTML string into a document object
+        var parser = new DOMParser();
+        var doc = parser.parseFromString(html, 'text/html');
+        console.log(doc);
+      })
+      //   .then(
+      //   data => {
+      //   return this.facebookLogin2()
+      // })
+
+      // If authenticated -> proceed to Home Page
+      .catch((error) => console.error(error));
+  };
+
+  const facebookLogin2 = (event) => {
+    console.log('Get Token');
+    // Get Request
+    fetch('https://cz3003-huf.herokuapp.com/rest-auth/token', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      // Response
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('This is the response :', data);
+      })
+      // If authenticated -> proceed to Home Page
+      .catch((error) => console.error(error));
   };
 
   const onFinishRegister = async (values) => {
@@ -108,7 +164,6 @@ const LandingPage = () => {
               <Form.Item>
                 <div className='login-form-forgot'>Forgot password</div>
               </Form.Item>
-
               <Form.Item>
                 <div className='login-button-container'>
                   <Button
@@ -124,7 +179,9 @@ const LandingPage = () => {
                     type='primary'
                     shape='round'
                     icon={<FacebookFilled />}
+                    href='https://cz3003-huf.herokuapp.com/accounts/facebook/login/'
                     onClick={() => {
+                      // facebookLogin2();
                       console.log('clicked');
                     }}
                     className='fb-login-form-button'
