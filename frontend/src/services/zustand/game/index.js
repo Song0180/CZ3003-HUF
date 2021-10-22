@@ -40,18 +40,18 @@ export const useGameStore = create((set, get) => ({
       set({ isLoading: false });
       return result;
     } else {
-      // const quizzes = result.data;
-      const dummyQuizzes = [
-        {
-          quiz_id: 'asdasd',
-          game_id: '1231asd',
-          quiz_duration: 10,
-          quiz_max_score: 100,
-          quiz_description: 'a quiz',
-          no_of_qn: 2,
-        },
-      ];
-      set({ currentGameQuizzes: dummyQuizzes });
+      const quizzes = result.data;
+      // const dummyQuizzes = [
+      //   {
+      //     quiz_id: 'asdasd',
+      //     game_id: '1231asd',
+      //     quiz_duration: 10,
+      //     quiz_max_score: 100,
+      //     quiz_description: 'a quiz',
+      //     no_of_qn: 2,
+      //   },
+      // ];
+      set({ currentGameQuizzes: quizzes });
     }
     set({ isLoading: false });
   },
