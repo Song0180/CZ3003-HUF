@@ -8,7 +8,7 @@ const QuestionNumber = props => {
     return(
         [...Array(n)].map((elementInArray, index) => ( 
             <div className="" key={index+1}>  
-            <Questions qnno = {index+1}/> 
+            <Questions qnno = {index+1} quiz_id = {props.quiz_id}/> 
             </div> 
             )
         )
