@@ -22,9 +22,10 @@ import SettingsPage from './pages/SettingsPage';
 import { useAuthStore } from './services/zustand/auth';
 import GameQuizPage from './pages/GameQuizPage';
 import LeaderBoardPage from './pages/LeaderBoardPage';
+import QuizCreationPage from './pages/QuizCreationPage';
 
 const { Content } = Layout;
-const NotFoundRedirect = () => <Redirect to='/' />;
+const NotFoundRedirect = () => <Redirect to='/home' />;
 
 const App = () => {
   const { signedIn, logout, userInfo } = useAuthStore();
@@ -76,6 +77,11 @@ const App = () => {
                 component={EditQuizPage}
               />
               <Route path='/gamecreation' exact component={GameCreationPage} />
+              <Route
+                path='/gamecreation/quizcreation'
+                exact
+                component={QuizCreationPage}
+              />
               <Route component={NotFoundRedirect} />
             </Switch>
           </Content>
