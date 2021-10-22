@@ -3,7 +3,7 @@ import {  Form, Input, Button, InputNumber } from 'antd';
 import { Link } from 'react-router-dom';
 import { Pop } from '../../components/Popup';
 import './index.css';
-import TextArea from 'rc-textarea';
+import cx from 'classnames';
 
 //function to update input number when user click on the +/- sign
 function onChange(value) {
@@ -14,10 +14,13 @@ function onChange(value) {
 const EditGamePage = () => {
   return (
     <div>
-      <div className='container1'>
-        <h1>Edit Game Page</h1>
-        {/* popup window component with its parameter information */}
-        <Pop btnName='Delete Game' title='Delete Game Confirmation' desc='Are you sure you want to delete this game?' danger='true'/>
+      <div className='editgame-container'>
+        <div className='editgame-header-container'>
+          <h1 className='editgame-heading'>Edit Game</h1>
+          {/* popup window component with its parameter information */}
+          <Pop btnName='Delete Game' title='Delete Game Confirmation' desc='Are you sure you want to delete this game?' danger='true'/>
+        </div>
+        
       </div>
       
       {/* 
@@ -29,30 +32,113 @@ const EditGamePage = () => {
       max{}: max value for input number field
       defaultValue{}: default value that is displayed for input number field
       */}
-      <div className='container2'>
-        <Form>
-          <Form.Item label="Game Name">
-            <Input placeholder="Enter Game Name" />
+      <div className='info-container'>
+        <Form name='basic'  labelCol={{span: 8,}} wrapperCol={{span: 10,}}initialValues={{remember: true,}}>
+        <Form.Item
+            label='GAME NAME: '
+            name='game_name'
+            rules={[
+              {
+                required: true,
+                message: 'Please input the Game Name',
+              },
+              {
+                whitespace: true,
+                message: 'Game Name cannot be a whitespace',
+              },
+            ]}
+          >
+            <Input placeholder='Enter name of the Game' />
           </Form.Item>
-          <Form.Item label="Game Description">
-            <TextArea placeholder="Enter Game Description" cols={40}/>
-          </Form.Item>
-          <Form.Item label="Number of Quizzes">
-            <InputNumber min={1} max={10} defaultValue={1} onChange={onChange} />
-          </Form.Item>
-          <Form.Item label="Number of Questions per Quiz">
-            <InputNumber min={1} max={10} defaultValue={1} onChange={onChange} />
-          </Form.Item>
-        </Form>
-      </div>
 
-      <div className='container3'>
-        <Button type="primary">
-          {/* internal link back to dashboard page */}
-          <Link to={'/dashboard'}>Back</Link>   
-        </Button>
-        {/* popup window component with its parameter information */}
-        <Pop btnName='Save Changes' title='Save Confirmation' desc='Confirm changes?'/>
+          <Form.Item
+            label='GAME DESCRIPTION'
+            name='game_description'
+            rules={[
+              {
+                required: true,
+                message: 'Please input the Game Description',
+              },
+              {
+                whitespace: true,
+                message: 'Game Name cannot be a whitespace',
+              },
+            ]}
+          >
+            <Input placeholder='Enter Game Description' />
+          </Form.Item>
+
+          <Form.Item
+            label='INPUT GAME TAG'
+            name='game_tag'
+            rules={[
+              {
+                required: true,
+                message: 'Please input the Game Tag',
+              },
+              {
+                max: 20,
+                message: 'Tags can only have a maximum 20 characters.',
+              },
+              {
+                type: 'string',
+                message:
+                  'The tag must be a descriptive string and cannot contain whitespaces',
+              },
+            ]}
+          >
+            <Input placeholder='Enter Game Tag' />
+          </Form.Item>
+
+          <Form.Item
+            label='NUMBER OF QUIZZES: '
+            name='no_of_quiz'
+            rules={[
+              {
+                required: true,
+                message: 'Please input the number of quizzes',
+              },
+            ]}
+            initialValue={1}
+          >
+            <InputNumber min={1} max={5} defaultValue={1} onChange={onChange}/>
+          </Form.Item>
+
+          <Form.Item
+            label='NUMBER 0F QUESTIONS PER QUIZ: '
+            name='total_no_qn'
+            rules={[
+              {
+                required: true,
+                message: 'Please input the number of questions per quiz',
+              },
+            ]}
+            initialValue={1}
+          >
+            <InputNumber min={1} max={5} defaultValue={1} onChange={onChange}/>
+          </Form.Item>
+        
+          <hr/>
+
+          <div className='button'>
+            <Button
+              type='primary'
+              htmlType='Back'
+              className={cx('backBtn', 'creation-pagenav-buttons')}
+            >
+              <Link to={'/dashboard'}>Back</Link>
+            </Button>
+            <Form.Item>
+              <Button
+                type='primary'
+                htmlType='Submit'
+                className={cx('nextBtn', 'creation-pagenav-buttons')}
+              >
+                Next
+              </Button>
+            </Form.Item>
+          </div>
+        </Form>
       </div>
       
     </div>
