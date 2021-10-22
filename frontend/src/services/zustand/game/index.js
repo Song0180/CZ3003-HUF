@@ -97,7 +97,7 @@ export const useGameStore = create((set, get) => ({
       game_tag,
       no_of_quiz,
       game_description,
-      total_no_qn,
+      no_of_qn_per_quiz: total_no_qn,
     } = gameData;
 
     const result = await createGame(

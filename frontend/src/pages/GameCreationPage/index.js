@@ -1,11 +1,11 @@
 import React from 'react';
-import 'antd/dist/antd.css';
-import './index.css';
+import cx from 'classnames';
 import { Form, Input, Button, InputNumber, message } from 'antd';
 import { Link, useHistory } from 'react-router-dom';
+
 import { useGameStore } from '../../services/zustand/game';
-import cx from 'classnames';
 import { useAuthStore } from '../../services/zustand/auth';
+import './index.css';
 
 const GameCreationPage = () => {
   const history = useHistory();
@@ -19,17 +19,20 @@ const GameCreationPage = () => {
       game_tag: values.game_tag,
       no_of_quiz: values.no_of_quiz,
       game_description: values.game_description,
-      total_no_qn: values.total_no_qn,
+      no_of_qn_per_quiz: values.no_of_qn_per_quiz,
     };
     const result = await createNewGame(gameData);
     if (typeof result !== 'string') {
       message.success(
-        `You have successfully created a new game${result.game_name}`
+        `You have successfully created a new game ${result.game_name}`
       );
+      history.push({
+        pathname: '/gamecreation/quizcreation',
+        state: { gameData },
+      });
     } else {
       message.error(result);
     }
-    history.push('/');
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -65,7 +68,7 @@ const GameCreationPage = () => {
           autoComplete='off'
         >
           <Form.Item
-            label='GAME NAME: '
+            label='Game Name'
             name='game_name'
             rules={[
               {
@@ -82,7 +85,7 @@ const GameCreationPage = () => {
           </Form.Item>
 
           <Form.Item
-            label='GAME DESCRIPTION'
+            label='Game Description'
             name='game_description'
             rules={[
               {
@@ -99,7 +102,7 @@ const GameCreationPage = () => {
           </Form.Item>
 
           <Form.Item
-            label='INPUT GAME TAG'
+            label='Game Tag'
             name='game_tag'
             rules={[
               {
@@ -107,8 +110,8 @@ const GameCreationPage = () => {
                 message: 'Please input the Game Tag',
               },
               {
-                max: 20,
-                message: 'Tags can only have a maximum 20 characters.',
+                max: 9,
+                message: 'Tags can only have a maximum of 9 characters.',
               },
               {
                 type: 'string',
@@ -121,7 +124,7 @@ const GameCreationPage = () => {
           </Form.Item>
 
           <Form.Item
-            label='NUMBER OF QUIZZES: '
+            label='Number of Quizzes: '
             name='no_of_quiz'
             rules={[
               {
@@ -135,8 +138,8 @@ const GameCreationPage = () => {
           </Form.Item>
 
           <Form.Item
-            label='NUMBER 0F QUESTIONS PER QUIZ: '
-            name='total_no_qn'
+            label='Number of Quetsions per Quiz: '
+            name='no_of_qn_per_quiz'
             rules={[
               {
                 required: true,
