@@ -25,7 +25,7 @@ const GameplayDisplay = ({
           <div key={quiz_qn_id} className='question-container'>
             <Row>
               <h1>
-                Question {quiz_qn_id + 1}) {question_name}
+                Question {quiz_qn_id + 1}) {question_name.question_name}
               </h1>
             </Row>
             <Radio.Group
@@ -41,7 +41,8 @@ const GameplayDisplay = ({
               <Space direction='vertical'>
                 {quizQuestions.map((option_id) => {
                   return (
-                    <Radio key={option_id.value} value={option_id.value}>
+                    <Radio key={option_id.option_id} value={option_id.option_id}>
+                      {console.log(option_id)}
                       {option_id.option_description}
                     </Radio>
                   );
