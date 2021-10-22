@@ -6,6 +6,7 @@ import TimedPopUp from '../../components/TimedPopUp';
 import './index.css';
 import { useEffect, useState } from 'react';
 import { useGameStore } from '../../services/zustand/game';
+import { useParams } from 'react-router';
 
 /*
   function to set the timer for the quiz
@@ -19,9 +20,11 @@ const deadline = Date.now() + minutes;
 */
 
 const GameplayPage = () => {
+  const { game_id, quiz_id } = useParams();
   const { currentQuizQuetsions, fetchQuizQuestions } = useGameStore();
   const [userAnswers, setUserAnswers] = useState({});
   const [timedPopUp, setTimedPopUp] = useState(false);
+  console.log(game_id, quiz_id);
 
   // To Spawn pop up message when the timer has run out of time
   useEffect(() => {
@@ -32,9 +35,8 @@ const GameplayPage = () => {
 
   // Fetches data of quiz using gameId
   useEffect(() => {
-    const gameId = 0;
-    fetchQuizQuestions(gameId);
-  }, [fetchQuizQuestions]);
+    fetchQuizQuestions(game_id);
+  }, [fetchQuizQuestions, game_id]);
 
   // Set options to be empty (when user loads the quiz page)
   useEffect(() => {

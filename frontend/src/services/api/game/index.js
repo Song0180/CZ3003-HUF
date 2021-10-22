@@ -40,3 +40,12 @@ export const createGame = async (
     return err.message;
   }
 };
+
+export const fetchQuizLeaderBoard = async (quiz_id) => {
+  try {
+    const response = await yelp.get('/hufquizresult/', { params: { quiz_id } });
+    return response;
+  } catch (err) {
+    return err.message;
+  }
+};

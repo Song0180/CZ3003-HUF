@@ -7,9 +7,6 @@ from django.http import HttpResponse, JsonResponse
 from .serializers import HufQuizSerializer, HufQuizOptionSerializer, HufQuizQnSerializer, HufQuizResultSerializer
 from .models import HufQuiz, HufQuizOption, HufQuizQn, HufQuizResult
 
-from .serializers import HufQuizSerializer
-from .models import HufQuiz
-
 
 class HufQuizViewSet(viewsets.ModelViewSet):
     queryset = HufQuiz.objects.all()
@@ -33,8 +30,12 @@ class HufQuizOptionViewSet(viewsets.ModelViewSet):
 
 
 class HufQuizResultViewSet(viewsets.ModelViewSet):
-    queryset = HufQuizResult.objects.all().order_by('quiz_id', 'user_id')
+    # queryset = HufQuizResult.objects.all().order_by('quiz_id', 'user_id')
+    queryset = HufQuizResult.objects.order_by('-score_earned')[:5]
     serializer_class = HufQuizResultSerializer
+
+    filter_backends = [DjangoFilterBackend, SearchFilter]
+    filter_fields = ['quiz_id']
 
 # @api_view(["POST"])
 # def postUserAns(request):
@@ -68,9 +69,6 @@ class HufQuizResultViewSet(viewsets.ModelViewSet):
 #     return JsonResponse({"UserAnswer": "Completed"})
 #
 #
-# def getQuizTopFive(request,id):
-#     queryset = HufQuizResult.objects.filter(quizid=id).order_by('-score_earned')[:5].values()
-#     return JsonResponse({"models_to_return": list(queryset)})
 #
 # def getCorrectAns(request, id):
 #     queryset = HufQuizQn.objects.filter(quiz_qn_id = id).order_by().values()
