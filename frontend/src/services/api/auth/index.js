@@ -25,30 +25,24 @@ export const register = async (email, username, password) => {
   }
 };
 
-export const facebookLogin = async (username, password) => {
+// authenticate via facebook api token
+export const facebookLogin = async (access_token) => {
   try {
-    // const response = await yelp.post('/login/', {
-    //   username,
-    //   password,
-    // });
-    // console.log(response);
-    // return response;
+    const response = await yelp.post('/rest-auth/fblogin/', {
+      access_token,
+    });
+    return response;
   } catch (err) {
     return err.message;
   }
 };
 
-// facebookLogin = event => {
-//   console.log(JSON.stringify(this.loginState.credentials))
-//   fetch('https://cz3003-huf.herokuapp.com/accounts/facebook/login/', {
-//     method: 'POST',
-//     headers: { 'Content-Type': 'application/json' },
-//     body: JSON.stringify(this.loginState.credentials)
-//   })
-//     .then(response => response.json())
-//     .then(
-//       data => {
-//         console.log("This is the response :", data);
-//       })
-//     .catch(error => console.error(error))
-// }
+// calls API to verify authentication. If success, userinfo will be returned
+export const facebookVerifyLoginAuth = async () => {
+  try {
+    const response = await yelp.get('/authenticateuser/', {});
+    return response;
+  } catch (err) {
+    return err.message;
+  }
+};
