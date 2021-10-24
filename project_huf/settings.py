@@ -192,6 +192,7 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQURIED = True
 
 CORS_ORIGIN_WHITELIST = ["http://localhost:3000"]
+CORS_ALLOW_CREDENTIALS = True
 
 # for tnpmhe dev mode, you need to use localhost's id facebook does not support the name 127.0.0.1:8000
 # little options for your page's signup.
