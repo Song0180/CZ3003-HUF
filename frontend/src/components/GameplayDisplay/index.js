@@ -1,7 +1,9 @@
 import * as React from 'react';
-import { Radio, Space, Row, Button } from 'antd';
+import { Radio, Space, Row, Button, Alert } from 'antd';
 import 'antd/dist/antd.css';
 import './index.css';
+import { ScoreCalculator } from '../ScoreCalculator';
+import { useState } from 'react';
 
 /*
 function to display the questions in the quiz and return the marks gotten (currenty not done)
@@ -18,8 +20,24 @@ const GameplayDisplay = ({
     onAnswerQuestion(newAnswers);
   };
 
+  //Shows alert when not all question answered and show an alert
+  const [showAlert, setShowAlert] = useState(false)
+  const onFinish=(e)=>{
+    console.log(e)
+    setTimeout(() =>{
+      setShowAlert(true)
+    }, 2000)
+  }
+  function checkOptions (){
+    // Check if all options are filled else throw a warning message "Not all questions are answered."
+    
+  }
+
   return (
     <div className='question-container'>
+      {/* error when not all questionsa are answered but not implemented. */}
+      {showAlert &&
+      <Alert type='error' message='Not all questions are answered' closable/>} 
       {quizQuestions.map((question_name, quiz_qn_id) => {
         return (
           <div key={quiz_qn_id} className='question-container'>
@@ -36,13 +54,13 @@ const GameplayDisplay = ({
                   e.target.value
                 )
               }
+
               defaultValue={null}
             >
               <Space direction='vertical'>
                 {question_name.options.map((option_id) => {
                   return (
                     <Radio key={option_id.value} value={option_id}>
-                      {console.log(option_id.value)}
                       {option_id.option_description}
                     </Radio>
                   );
@@ -53,11 +71,13 @@ const GameplayDisplay = ({
         );
       })}
       <br />
+      
       <div className='button-container'>
-        <Button
+        <ScoreCalculator quizQuestions = {quizQuestions} currentAnswers={currentAnswers}/>
+        <Button 
           type='primary'
           style={{ background: 'orange', borderColor: 'orange' }}
-        >
+        > 
           Finish Quiz
         </Button>
       </div>
