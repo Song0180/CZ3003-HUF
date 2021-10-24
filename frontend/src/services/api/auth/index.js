@@ -40,7 +40,11 @@ export const facebookLogin = async (access_token) => {
 // calls API to verify authentication. If success, userinfo will be returned
 export const facebookVerifyLoginAuth = async () => {
   try {
-    const response = await yelp.get('/authenticateuser/', {});
+    const response = await yelp.get('/authenticateuser/', {
+      headers: {
+        withCredentials: true,
+      },
+    });
     return response;
   } catch (err) {
     return err.message;

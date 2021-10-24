@@ -81,6 +81,7 @@ export const useAuthStore = create((set, get) => ({
     }
   },
   facebookLogin: async (accessToken) => {
+    console.log(accessToken);
     set({ isLoading: true });
     const result = await facebookLogin(accessToken);
     if (typeof result === 'string') {
@@ -88,6 +89,7 @@ export const useAuthStore = create((set, get) => ({
       return result;
     } else if (result.data) {
       const authResult = await facebookVerifyLoginAuth();
+      console.log(authResult);
       if (typeof authResult === 'string' || authResult.data.message) {
         set({ isLoading: false });
         return typeof authResult === 'string'
