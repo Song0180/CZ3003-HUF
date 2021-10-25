@@ -22,7 +22,7 @@ from rest_framework.decorators import api_view, authentication_classes,permissio
 from django.core.mail import send_mail
 import requests
 import json
-from .models import SocialaccountSocialtoken
+from .models import SocialaccountSocialtoken, SocialaccountSocialaccount
 
 from django.shortcuts import render,get_object_or_404
 
@@ -103,6 +103,17 @@ def post(self, request, *args, **kwargs):
     token = SocialToken.objects.get(key=response.data['key'])
     return Response({'token': token})
 
+
+def get_info(request):
+    body_unicode = request.body.decode('utf-8')
+    body = json.loads(body_unicode)
+    content = body['access_token']
+    account = SocialaccountSocialtoken.objects.get(token=content)
+    fbusr = SocialaccountSocialaccount.objects.get(id=account.account_id)
+    final_dictionary = json.loads(fbusr.extra_data)
+    usr = User.objects.get(first_name=final_dictionary['first_name'])
+    return JsonResponse({"username": usr.username, "email":usr.email,"userid":usr.id })
+  
 
 ################################################FACEBOOK LOGIN########################################################
 

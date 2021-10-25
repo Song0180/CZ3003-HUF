@@ -23,6 +23,7 @@ urlpatterns = [
 
     path('rest-auth/fblogin/', views.FacebookLogin.as_view(), name='redirect'), 
     path('authenticateuser/',views.get_authenticated_user, name = "get_user_name"),
+    path('getinfo/',views.get_info, name = "get_info"),
     
 ################################################FACEBOOK LOGIN########################################################
     
