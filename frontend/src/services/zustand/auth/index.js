@@ -87,7 +87,7 @@ export const useAuthStore = create((set, get) => ({
     if (typeof result === 'string') {
       set({ isLoading: false });
       return result;
-    } else if (result.data) {
+    } else if (result.status === 200) {
       const authResult = await facebookVerifyLoginAuth();
       console.log(authResult);
       if (typeof authResult === 'string' || authResult.data.message) {
