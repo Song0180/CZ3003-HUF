@@ -103,7 +103,7 @@ def post(self, request, *args, **kwargs):
     token = SocialToken.objects.get(key=response.data['key'])
     return Response({'token': token})
 
-
+# @csrf_exempt
 def get_info(request):
     body_unicode = request.body.decode('utf-8')
     body = json.loads(body_unicode)
