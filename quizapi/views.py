@@ -3,10 +3,13 @@ from rest_framework.views import APIView
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter
 from django.http import HttpResponse, JsonResponse
+from django.core import serializers
+from django.views.decorators.csrf import csrf_exempt
 
+from django.contrib.auth.models import User
 from .serializers import HufQuizSerializer, HufQuizOptionSerializer, HufQuizQnSerializer, HufQuizResultSerializer
 from .models import HufQuiz, HufQuizOption, HufQuizQn, HufQuizResult
-
+import json
 
 class HufQuizViewSet(viewsets.ModelViewSet):
     queryset = HufQuiz.objects.all()
@@ -36,6 +39,19 @@ class HufQuizResultViewSet(viewsets.ModelViewSet):
 
     filter_backends = [DjangoFilterBackend, SearchFilter]
     filter_fields = ['quiz_id']
+
+
+@csrf_exempt
+def getQuizTopFive(request):
+    body_unicode = request.body.decode('utf-8')
+    body = json.loads(body_unicode)
+    quiz_id = body['quiz_id']
+    topfive = HufQuizResult.objects.filter(quiz_id=quiz_id).order_by('-score_earned')[:5].values('id',"quiz_id","score_earned", "duration_taken", "user_id", 'user_id_id__username')
+    topfivelist = list(topfive)
+    return JsonResponse({"topfive":topfivelist})
+
+
+
 
 # @api_view(["POST"])
 # def postUserAns(request):
