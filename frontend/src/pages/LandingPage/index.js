@@ -2,12 +2,7 @@ import * as React from 'react';
 import FacebookLogin from 'react-facebook-login';
 
 import { Form, Input, Button, Checkbox, Card, Tabs, message, Spin } from 'antd';
-import {
-  UserOutlined,
-  MailOutlined,
-  LockOutlined,
-  FacebookFilled,
-} from '@ant-design/icons';
+import { UserOutlined, MailOutlined, LockOutlined } from '@ant-design/icons';
 import { useAuthStore } from '../../services/zustand/auth';
 
 import './index.css';
@@ -44,8 +39,6 @@ const LandingPage = () => {
       );
     }
   };
-
-  const handleOnClickFacebookRegister = async () => {};
 
   const responseFacebook = async (response) => {
     const result = await facebookLogin(response.accessToken);
@@ -249,15 +242,13 @@ const LandingPage = () => {
                     Register
                   </Button>
                   <span>or</span>
-                  <Button
-                    type='primary'
-                    shape='round'
-                    icon={<FacebookFilled />}
-                    className='fb-login-form-button'
-                    onClick={handleOnClickFacebookRegister}
-                  >
-                    Register with Facebook
-                  </Button>
+                  <FacebookLogin
+                    appId='566862107737771'
+                    callback={responseFacebook}
+                    icon='fa-facebook'
+                    textButton=' Register with Facebook'
+                    cssClass='fb-login-form-button'
+                  />
                 </div>
               </Form.Item>
             </Form>
