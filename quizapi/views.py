@@ -33,12 +33,11 @@ class HufQuizOptionViewSet(viewsets.ModelViewSet):
 
 
 class HufQuizResultViewSet(viewsets.ModelViewSet):
-    # queryset = HufQuizResult.objects.all().order_by('quiz_id', 'user_id')
-    queryset = HufQuizResult.objects.order_by('-score_earned')[:5]
+    queryset = HufQuizResult.objects.all()
     serializer_class = HufQuizResultSerializer
 
     filter_backends = [DjangoFilterBackend, SearchFilter]
-    filter_fields = ['quiz_id']
+    filter_fields = ['user_id']
 
 
 @csrf_exempt
