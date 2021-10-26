@@ -5,8 +5,8 @@ import { USER_INFO_SESSION_STORAGE_FIELD } from '../../api/auth/constants';
 import {
   login,
   register,
+  facebookLoginGetUserInfo,
   facebookLogin,
-  facebookVerifyLoginAuth,
 } from '../../api/auth';
 
 const cachedUserInfo = localStorage.getItem(USER_INFO_SESSION_STORAGE_FIELD);
@@ -88,15 +88,12 @@ export const useAuthStore = create((set, get) => ({
       set({ isLoading: false });
       return result;
     } else if (result.data) {
-      const authResult = await facebookVerifyLoginAuth();
-      console.log(authResult);
-      if (typeof authResult === 'string' || authResult.data.message) {
+      const userInfoResult = await facebookLoginGetUserInfo(accessToken);
+      if (typeof userInfoResult === 'string') {
         set({ isLoading: false });
-        return typeof authResult === 'string'
-          ? authResult
-          : authResult.data.message;
-      } else {
-        completeLogin(authResult.data);
+        return userInfoResult;
+      } else if (userInfoResult.data) {
+        return completeLogin(userInfoResult.data, set);
       }
     }
     set({ isLoading: false });
