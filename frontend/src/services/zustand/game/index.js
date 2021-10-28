@@ -66,7 +66,10 @@ export const useGameStore = create((set, get) => ({
       set({ isLoading: false });
       return result;
     } else {
-      set({ currentQuizLeaderBoardData: result.data, isLoading: false });
+      set({
+        currentQuizLeaderBoardData: result.data ? result.data.topfive : [],
+        isLoading: false,
+      });
     }
   },
 

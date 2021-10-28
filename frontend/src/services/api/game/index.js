@@ -43,7 +43,7 @@ export const createGame = async (
 
 export const fetchQuizLeaderBoard = async (quiz_id) => {
   try {
-    const response = await yelp.get('/hufquizresult/', { params: { quiz_id } });
+    const response = await yelp.post('/quiztopfive/', { quiz_id });
     return response;
   } catch (err) {
     return err.message;
