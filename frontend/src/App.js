@@ -53,7 +53,11 @@ const App = () => {
             <Switch>
               <Route path='/home' exact component={HomePage} />
               <Route path='/dashboard' exact component={DashboardPage} />
-              <Route path='/leaderboard' exact component={LeaderBoardPage} />
+              <Route
+                path='/leaderboard/:quiz_id'
+                exact
+                component={LeaderBoardPage}
+              />
               <Route path='/settings' exact component={SettingsPage} />
               <Route path='/games' exact component={GamesPage} />
               <Route
