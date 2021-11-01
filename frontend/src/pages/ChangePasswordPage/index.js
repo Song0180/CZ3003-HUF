@@ -1,14 +1,25 @@
 import * as React from "react";
-import { Form, Input, Button } from "antd";
-
+import { Form, Input, Button, message } from "antd";
+import { useAuthStore } from "../../services/zustand/auth";
 import "./index.css";
 
 const ChangePasswordPage = () => {
   const [form] = Form.useForm();
-  const onFinish = (values) => {
+  const { changePassword } = useAuthStore();
+
+  const onFinish = async (values) => {
     form.resetFields();
     let email = values.email;
     console.log(email);
+    const result = await changePassword(email);
+    console.log(result);
+    if (typeof result !== "string") {
+      message.success(`Success! ${result.message}`);
+    } else {
+      message.error(
+        `Please ensure that you have entered a valid email address. ${result}`
+      );
+    }
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -16,29 +27,47 @@ const ChangePasswordPage = () => {
   };
 
   return (
-    <div className="changepassword-page-container">
-      <h1 id="app-heading">HUF</h1>
-      <h3>Change Password?</h3>
-      <span>We’ll email you the instructions shortly.</span>
-      <br />
-      <Form
-        form={form}
-        initialValues={{
-          remember: true,
-        }}
-        onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
-        autoComplete="off"
-      >
-        <Form.Item name="email" label="Email" rules={[{ type: "email" }]}>
-          <Input />
-        </Form.Item>
-        <Form.Item>
-          <Button type="primary" htmlType="submit">
-            Send Password Reset
-          </Button>
-        </Form.Item>
-      </Form>
+    <div className="change-password-page-container">
+      <div className="change-password-page-header-container">
+        <h2 className="change-password-page-heading">Change Password</h2>
+      </div>
+      <div className="reset-info-container">
+        <img src="/HUF-logo.png" alt="HUF Logo" className="reset-home-logo" />
+        <h3>Change Password?</h3>
+        <span>We’ll email you the instructions shortly.</span>
+        <br />
+        <Form
+          form={form}
+          initialValues={{
+            remember: true,
+          }}
+          onFinish={onFinish}
+          onFinishFailed={onFinishFailed}
+          autoComplete="off"
+        >
+          <Form.Item
+            name="email"
+            label="Email"
+            rules={[
+              { type: "email" },
+              {
+                required: true,
+                message: "Please input your email address!",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+
+          <Form.Item>
+            <div className="btn">
+              <Button type="primary" htmlType="submit">
+                Send Password Reset
+              </Button>
+            </div>
+          </Form.Item>
+        </Form>
+      </div>
     </div>
   );
 };

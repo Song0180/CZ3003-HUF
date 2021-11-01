@@ -1,13 +1,14 @@
-import create from 'zustand';
-import dayjs from 'dayjs';
-import { USER_INFO_SESSION_STORAGE_FIELD } from '../../api/auth/constants';
+import create from "zustand";
+import dayjs from "dayjs";
+import { USER_INFO_SESSION_STORAGE_FIELD } from "../../api/auth/constants";
 
 import {
   login,
   register,
   facebookLoginGetUserInfo,
   facebookLogin,
-} from '../../api/auth';
+  changePassword,
+} from "../../api/auth";
 
 const cachedUserInfo = localStorage.getItem(USER_INFO_SESSION_STORAGE_FIELD);
 const signedIn = Boolean(localStorage.getItem(USER_INFO_SESSION_STORAGE_FIELD));
@@ -47,7 +48,7 @@ export const useAuthStore = create((set, get) => ({
     if (!signedIn) {
       set({ isLoading: true });
       const result = await login(username, password);
-      if (typeof result === 'string') {
+      if (typeof result === "string") {
         set({ isLoading: false });
         return result;
       } else {
@@ -70,9 +71,9 @@ export const useAuthStore = create((set, get) => ({
     set({ isLoading: true });
     const result = await register(email, username, password);
     set({ isLoading: false });
-    if (typeof result === 'string') {
-      if (result.includes('400')) {
-        return 'A user with that username already exists.';
+    if (typeof result === "string") {
+      if (result.includes("400")) {
+        return "A user with that username already exists.";
       } else {
         return result;
       }
@@ -84,12 +85,12 @@ export const useAuthStore = create((set, get) => ({
     console.log(accessToken);
     set({ isLoading: true });
     const result = await facebookLogin(accessToken);
-    if (typeof result === 'string') {
+    if (typeof result === "string") {
       set({ isLoading: false });
       return result;
     } else if (result.data) {
       const userInfoResult = await facebookLoginGetUserInfo(accessToken);
-      if (typeof userInfoResult === 'string') {
+      if (typeof userInfoResult === "string") {
         set({ isLoading: false });
         return userInfoResult;
       } else if (userInfoResult.data) {
@@ -97,5 +98,17 @@ export const useAuthStore = create((set, get) => ({
       }
     }
     set({ isLoading: false });
+  },
+
+  changePassword: async (email) => {
+    set({ isLoading: true });
+    const result = await changePassword(email);
+    console.log(result);
+    set({ isLoading: false });
+    if (typeof result === "string") {
+      return result;
+    } else if (result.status === 200) {
+      return result.data;
+    }
   },
 }));
