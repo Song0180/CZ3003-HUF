@@ -27,11 +27,13 @@ const LeaderBoard = ({ data, isLoading }) => {
                     marginRight: '20px',
                   }}
                 >
-                  {item.username ? item.username[0].toUpperCase() : 'U'}
+                  {item.user_id_id__username
+                    ? item.user_id_id__username[0].toUpperCase()
+                    : 'U'}
                 </Avatar>
-                <span>{item.username}</span>
+                <span>{item.user_id_id__username}</span>
               </div>
-              <span className='lb-item-element'>{item.score}</span>
+              <span className='lb-item-element'>{item.score_earned}</span>
             </div>
           </List.Item>
         )}

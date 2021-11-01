@@ -85,31 +85,15 @@ export const useGameStore = create((set, get) => ({
   fetchQuizLeaderBoard: async (quizId) => {
     set({ isLoading: true });
     const result = await fetchQuizLeaderBoard(quizId);
-    console.log(result);
-    const dummyLB = [
-      {
-        username: 'haha',
-        score: 20,
-      },
-      {
-        username: 'haha2',
-        score: 10,
-      },
-      {
-        username: 'haha3',
-        score: 5,
-      },
-      {
-        username: 'haha4',
-        score: 2,
-      },
-      {
-        username: 'haha5',
-        score: 1,
-      },
-    ];
-    set({ currentQuizLeaderBoardData: dummyLB });
-    set({ isLoading: false });
+    if (typeof result === 'string') {
+      set({ isLoading: false });
+      return result;
+    } else {
+      set({
+        currentQuizLeaderBoardData: result.data ? result.data.topfive : [],
+        isLoading: false,
+      });
+    }
   },
 
   createNewGame: async (gameData) => {
@@ -120,7 +104,7 @@ export const useGameStore = create((set, get) => ({
       game_tag,
       no_of_quiz,
       game_description,
-      total_no_qn,
+      no_of_qn_per_quiz: total_no_qn,
     } = gameData;
 
     const result = await createGame(

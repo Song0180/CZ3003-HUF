@@ -109,18 +109,6 @@ DATABASES = {
     }
 }
 
-# remotedb
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'project_huf',
-        'USER': 'admin',
-        'PASSWORD': 'projecthuf',
-        'HOST': 'database-1.c4x9cbbouqsz.us-east-2.rds.amazonaws.com',
-        'PORT': '3306',
-    }
-}
-
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
@@ -139,6 +127,7 @@ AUTHENTICATION_BACKENDS = (
     'allauth.account.auth_backends.AuthenticationBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -185,17 +174,16 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 ################################################FACEBOOK LOGIN########################################################
 
-FACEBOOK_APP_ID = '616342046035222'
-FACEBOOK_APP_SECRET = 'b6e597fdd4ff872a5ce8be79344a8a6a'
+FACEBOOK_APP_ID = '566862107737771'
+FACEBOOK_APP_SECRET = '536091e90e3d80dd2ba51bf43929f110'
 SOCIAL_AUTH_FACEBOOK_SCOPE = ['email', 'user_link']
 SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
     'fields': 'id, name, email, link '}
 
 SITE_ID = 1
 
-LOGIN_REDIRECT_URL = "http://localhost:3000/"
+LOGIN_REDIRECT_URL = "http://localhost:3000/home/"
 
-SOCIALACCOUNT_ADAPTER = "loginapi.my_adapter.MyAdapter"
 
 ################################################FACEBOOK LOGIN########################################################
 
@@ -204,6 +192,11 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQURIED = True
 
 CORS_ORIGIN_WHITELIST = ["http://localhost:3000"]
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',
+]
 
 # for tnpmhe dev mode, you need to use localhost's id facebook does not support the name 127.0.0.1:8000
 # little options for your page's signup.
+# SOCIALACCOUNT_ADAPTER = "loginapi.my_adapter.MyAdapter"

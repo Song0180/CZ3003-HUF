@@ -1,12 +1,8 @@
 import * as React from 'react';
+import FacebookLogin from 'react-facebook-login';
 
-import { Form, Input, Button, Checkbox, Card, Tabs, message } from 'antd';
-import {
-  UserOutlined,
-  MailOutlined,
-  LockOutlined,
-  FacebookFilled,
-} from '@ant-design/icons';
+import { Form, Input, Button, Checkbox, Card, Tabs, message, Spin } from 'antd';
+import { UserOutlined, MailOutlined, LockOutlined } from '@ant-design/icons';
 import { useAuthStore } from '../../services/zustand/auth';
 
 import './index.css';
@@ -14,7 +10,7 @@ import './index.css';
 const { TabPane } = Tabs;
 
 const LandingPage = () => {
-  const { login, register } = useAuthStore();
+  const { isLoading, login, register, facebookLogin } = useAuthStore();
   const [activeTabKey, setActiveTabKey] = React.useState('1');
 
   const onFinishLogin = async (values) => {
@@ -41,6 +37,13 @@ const LandingPage = () => {
       message.success(
         `Welcome, ${result.data.username}! You have successfully registered a new account!`
       );
+    }
+  };
+
+  const responseFacebook = async (response) => {
+    const result = await facebookLogin(response.accessToken);
+    if (typeof result === 'string') {
+      message.error(result);
     }
   };
 
@@ -99,7 +102,6 @@ const LandingPage = () => {
                   placeholder='Password'
                 />
               </Form.Item>
-
               <Form.Item name='remember' valuePropName='checked' noStyle>
                 <Checkbox className='login-form-checkbox'>
                   Keep me signed in
@@ -108,7 +110,6 @@ const LandingPage = () => {
               <Form.Item>
                 <div className='login-form-forgot'>Forgot password</div>
               </Form.Item>
-
               <Form.Item>
                 <div className='login-button-container'>
                   <Button
@@ -120,19 +121,21 @@ const LandingPage = () => {
                     Sign in
                   </Button>
                   or
-                  <Button
-                    type='primary'
-                    shape='round'
-                    icon={<FacebookFilled />}
-                    onClick={() => {
-                      console.log('clicked');
-                    }}
-                    className='fb-login-form-button'
-                  >
-                    Sign in with Facebook
-                  </Button>
+                  <FacebookLogin
+                    appId='566862107737771'
+                    callback={responseFacebook}
+                    icon='fa-facebook'
+                    textButton=' Login with Facebook'
+                    cssClass='fb-login-form-button'
+                  />
                 </div>
               </Form.Item>
+              {isLoading && (
+                <>
+                  Loading
+                  <Spin />
+                </>
+              )}
             </Form>
           </TabPane>
           <TabPane tab='Register' key='2'>
@@ -162,8 +165,12 @@ const LandingPage = () => {
                 name='email'
                 rules={[
                   {
+                    type: 'email',
+                    message: 'Please enter a valid email address.',
+                  },
+                  {
                     required: true,
-                    message: 'Please Enter your E-Mail!',
+                    message: 'Please enter your email address!',
                   },
                 ]}
               >
@@ -235,17 +242,13 @@ const LandingPage = () => {
                     Register
                   </Button>
                   <span>or</span>
-                  <Button
-                    type='primary'
-                    shape='round'
-                    icon={<FacebookFilled />}
-                    className='fb-login-form-button'
-                    onClick={() => {
-                      console.log('clicked');
-                    }}
-                  >
-                    Register with Facebook
-                  </Button>
+                  <FacebookLogin
+                    appId='566862107737771'
+                    callback={responseFacebook}
+                    icon='fa-facebook'
+                    textButton=' Register with Facebook'
+                    cssClass='fb-login-form-button'
+                  />
                 </div>
               </Form.Item>
             </Form>
