@@ -14,7 +14,9 @@ const QuizCard = ({ isAvailable, isCompleted, quizIndex, onClick }) => {
       className={cx('quiz-card-container', availableClassName)}
       onClick={onClick}
     >
-      <h2 className={cx('title', 'quiz-title')}>{`Quiz ${quizIndex + 1}`}</h2>
+      <h2 className={cx('title', 'quiz-card-title')}>{`Quiz ${
+        quizIndex + 1
+      }`}</h2>
       {isCompleted && <h3 className='title'>Completed</h3>}
     </Card>
   );
