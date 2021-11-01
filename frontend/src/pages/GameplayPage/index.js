@@ -14,7 +14,7 @@ import { Link } from 'react-router-dom';
 */
 
 const GameplayPage = () => {
-  const { game_id, quiz_id } = useParams();
+  const { game_id, quiz_id, game_name } = useParams();
   const { isLoading, fetchQuizQuestions, quizQuestions, fetchGameQuiz, currentGameQuizzes, fetchGames, games } = useGameStore();
   const [userAnswers, setUserAnswers] = useState({});
 
@@ -76,22 +76,9 @@ const GameplayPage = () => {
       
       <div className="header-container">
         {/* Want to get game_name from games and quiz_name from currentGameQuizzes */}
-        {games.forEach((key)=>{ 
-          {
-            if (key === game_id){
-              console.log(games[3]);
-              return games[3]
-            }
-
-            // <div key={game_name} value={game_id}>
-            //   {/* {console.log(game_name)} */}
-            //   {/* {console.log(game_name[game_id])} */}
-            //   <h2 style={{ color: "orange" }}> 
-            //     {game_name}) | Quiz 1
-            //   </h2> 
-            // </div>
-          }// dont know how to set quiz id in this forEach loop 
-        })}
+        <h2 style={{ color: "orange" }}> 
+                {game_name} | Quiz {quiz_id}
+        </h2> 
         
         <div className="timer-con">
           <Timer ref = {inputRef}/>

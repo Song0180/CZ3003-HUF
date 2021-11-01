@@ -6,10 +6,10 @@ import "antd/dist/antd.css";
   Calculate score when user click on button
 */
 
-const ScoreCalculator = ({ currentAnswers = [], quizQuestions = [] }) => {
+const ScoreCalculator = ({ currentAnswers = {}, quizQuestions = [] }) => {
   var ansValue = 0;
   var totalScore = 0;
-  console.log(quizQuestions);
+  // console.log(currentAnswers);
 
   function AddValue() {
     ansValue = ansValue + 1;

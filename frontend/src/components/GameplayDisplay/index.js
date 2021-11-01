@@ -35,7 +35,7 @@ const GameplayDisplay = ({
 
   return (
     <div className='question-container'>
-      {/* error when not all questionsa are answered but not implemented. */}
+      {/* error when not all questions are answered but not implemented. */}
       {showAlert &&
       <Alert type='error' message='Not all questions are answered' closable/>} 
       {quizQuestions.map((question_name, quiz_qn_id) => {
@@ -71,7 +71,7 @@ const GameplayDisplay = ({
         );
       })}
       <br />
-      
+      {/* {console.log(currentAnswers)} */}
       <div className='button-container'>
         <ScoreCalculator quizQuestions = {quizQuestions} currentAnswers={currentAnswers}/>
         <Button 
