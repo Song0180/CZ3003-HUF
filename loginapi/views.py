@@ -87,9 +87,9 @@ def forgot_password(request, email):
     new_password = usr.date_joined.strftime("%d-%m-%Y")
     usr.set_password(new_password)
     usr.save()
-    send_mail("your new password", new_password,
+    send_mail("Your new password", ("Your new password is: " + new_password),
               from_email="cz3003huf@gmail.com", recipient_list=[usr.email])
-    return JsonResponse({"message": 'your new password has been sent to your email'})
+    return JsonResponse({"message": 'Your new password has been sent to your email'})
 
 
 
