@@ -1,19 +1,17 @@
 import * as React from 'react';
-import { Form, Button, Modal, Input, InputNumber } from 'antd';
-import { Link, useHistory } from 'react-router-dom';
+import { Form, Button, Modal, Input, InputNumber, message } from 'antd';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import cx from 'classnames';
 
 import './index.css';
+import { useGameStore } from '../../services/zustand/game';
 
 const QuizCreationPage = ({ location }) => {
+  const { game_id } = useParams();
   const history = useHistory();
+  const { createNewQuiz } = useGameStore();
   const [form] = Form.useForm();
   const [showConfirmModal, setShowConfirmModal] = React.useState(false);
-
-  const onFinish = (values) => {
-    console.log('Success:', values);
-    // history.push('dashboard/editquiz');
-  };
 
   const handleOnClickSubmit = () => {
     setShowConfirmModal(true);
@@ -32,6 +30,23 @@ const QuizCreationPage = ({ location }) => {
     () => location.state.gameData,
     [location.state.gameData]
   );
+
+  const onFinish = async (values) => {
+    const result = await createNewQuiz(
+      game_id,
+      gameData.no_of_quiz,
+      gameData.no_of_qn_per_quiz,
+      values
+    );
+    if (result && typeof result === 'string') {
+      message.error(result);
+    } else {
+      message.success(
+        'You have successfully created quizzes for game ' + gameData.game_name
+      );
+      history.push(`/game/${game_id}/${gameData.game_name}`);
+    }
+  };
 
   return (
     <div className='creation-page-container'>
