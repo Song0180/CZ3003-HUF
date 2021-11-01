@@ -15,7 +15,7 @@ import { Link } from 'react-router-dom';
 
 const GameplayPage = () => {
   const { game_id, quiz_id, game_name } = useParams();
-  const { isLoading, fetchQuizQuestions, quizQuestions, fetchGameQuiz, currentGameQuizzes, fetchGames, games } = useGameStore();
+  const { isLoading, fetchQuizQuestions, quizQuestions, fetchGameQuiz } = useGameStore();
   const [userAnswers, setUserAnswers] = useState({});
 
   // Error message if failed to fetch and show data
@@ -39,10 +39,6 @@ const GameplayPage = () => {
     fetchGameQuiz(game_id);
   }, [fetchGameQuiz, game_id]);
 
-  useEffect(() => {
-    fetchGames(game_id);
-  }, [fetchGames, game_id]);
-
   // Set empty options to be users options
   useEffect(() => {
     const emptyAnswers = {};
@@ -53,21 +49,7 @@ const GameplayPage = () => {
   }, [quizQuestions]);
 
   const inputRef = useRef(null);
-
-  // function findGame(games){
-  //   var gamename = [];
-  //   Object.keys(games).forEach( (key)=> {
-  //     var selectedgame = games[key]
-    
-  //     if (selectedgame.game_id === game_id ){
-  //       gamename.push(key);
-  //     } 
-  //   })
-  //   console.log(gamename)
-  //   return gamename;
-  //   }
   
-  console.log(game_id)
   return (
     <div>
       <Button type="primary">

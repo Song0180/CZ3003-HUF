@@ -2,7 +2,6 @@ import * as React from 'react';
 import { Radio, Space, Row, Button, Alert } from 'antd';
 import 'antd/dist/antd.css';
 import './index.css';
-import { ScoreCalculator } from '../ScoreCalculator';
 import { useState } from 'react';
 
 /*
@@ -14,6 +13,8 @@ const GameplayDisplay = ({
   currentAnswers = {},
   onAnswerQuestion,
 }) => {
+  var ansValue = 0;
+  var totalScore = 0;
   const handleOnChangeQuestionAnswer = (questionId, answerValue) => {
     const newAnswers = { ...currentAnswers };
     newAnswers[questionId] = answerValue;
@@ -28,9 +29,28 @@ const GameplayDisplay = ({
       setShowAlert(true)
     }, 2000)
   }
-  function checkOptions (){
-    // Check if all options are filled else throw a warning message "Not all questions are answered."
+  // function checkOptions (){
+  //   // Check if all options are filled else throw a warning message "Not all questions are answered."
     
+  // }
+
+  function AddValue() {
+    ansValue = ansValue + 1;
+  }
+
+  function ComputeScore(correct, chosen, score) {
+    console.log('Question: ' + ansValue)
+    console.log('correct: '+ correct); // can get correct answer
+    if (chosen){
+      console.log('chosen: '+ chosen.option_id); // get back object with object_id and option, but only want the option user chose
+    }
+    
+    console.log('score: '+score); // can get score per qn
+    if (correct === chosen){
+      totalScore = score + totalScore;
+      console.log(totalScore)
+    }
+    return totalScore;
   }
 
   return (
@@ -71,10 +91,21 @@ const GameplayDisplay = ({
         );
       })}
       <br />
-      {/* {console.log(currentAnswers)} */}
+      <div>
+      {quizQuestions.forEach((quiz_qn_id) => {
+        <div key={quiz_qn_id.value} value={quiz_qn_id}>
+          {AddValue()}
+          {ComputeScore(
+            quiz_qn_id.correct_ans,
+            currentAnswers[ansValue],
+            quiz_qn_id.score_per_qn,
+          )}
+        </div>;
+      })}
+      {console.log('total: ' +totalScore)}
+      </div>
       <div className='button-container'>
-        <ScoreCalculator quizQuestions = {quizQuestions} currentAnswers={currentAnswers}/>
-        <Button 
+        <Button onClick ={ComputeScore}
           type='primary'
           style={{ background: 'orange', borderColor: 'orange' }}
         > 
