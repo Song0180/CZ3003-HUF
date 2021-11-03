@@ -27,10 +27,26 @@ const GameplayDisplay = ({
   //     setShowAlert(true)
   //   }, 2000)
   // }
-
+  
   function ComputeScore() {
     var totalScore = 0;
-    for (let i = 0; i < 2; i++) {
+    // for (let i = 0; i < quizQuestions.length; i++) {
+    //   if (currentAnswers[i + 1].option_id === null) {
+    //     console.log("empty option")
+    //     break;
+    //   } else {
+    //     console.log(quizQuestions[i].quiz_qn_id);
+    //     console.log(quizQuestions[i].correct_ans);
+    //     console.log(currentAnswers[i + 1].option_id);
+    //     var correctAns = quizQuestions[i].correct_ans;
+    //     var chosen = currentAnswers[i + 1].option_id;
+    //     var score = quizQuestions[i].score_per_qn;
+    //     if (correctAns === chosen) {
+    //       totalScore = score + totalScore;
+    //     }  
+    //   }
+    // }
+    for (let i = 0; i < quizQuestions.length; i++) {
       console.log(quizQuestions[i].quiz_qn_id);
       console.log(quizQuestions[i].correct_ans);
       console.log(currentAnswers[i + 1].option_id);
