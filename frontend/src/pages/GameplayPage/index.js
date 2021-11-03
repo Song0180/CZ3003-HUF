@@ -48,7 +48,7 @@ const GameplayPage = () => {
     setUserAnswers(emptyAnswers);
   }, [quizQuestions]);
 
-  const inputRef = useRef(null);
+  const timerRef = useRef();
   
   return (
     <div>
@@ -63,7 +63,7 @@ const GameplayPage = () => {
         </h2> 
         
         <div className="timer-con">
-          <Timer ref = {inputRef}/>
+          <Timer ref = {timerRef}/>
         </div>
       </div>
       

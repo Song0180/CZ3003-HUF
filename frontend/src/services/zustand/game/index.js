@@ -41,16 +41,6 @@ export const useGameStore = create((set, get) => ({
       return result;
     } else {
       const quizzes = result.data;
-      // const dummyQuizzes = [
-      //   {
-      //     quiz_id: 'asdasd',
-      //     game_id: '1231asd',
-      //     quiz_duration: 10,
-      //     quiz_max_score: 100,
-      //     quiz_description: 'a quiz',
-      //     no_of_qn: 2,
-      //   },
-      // ];
       set({ currentGameQuizzes: quizzes });
     }
     set({ isLoading: false });
@@ -64,7 +54,6 @@ export const useGameStore = create((set, get) => ({
       return result;
     } else {
       const questions = result.data;
-      console.log(questions);
       set({ quizQuestions: questions });
     }
     set({ isLoading: false });
@@ -85,15 +74,31 @@ export const useGameStore = create((set, get) => ({
   fetchQuizLeaderBoard: async (quizId) => {
     set({ isLoading: true });
     const result = await fetchQuizLeaderBoard(quizId);
-    if (typeof result === 'string') {
-      set({ isLoading: false });
-      return result;
-    } else {
-      set({
-        currentQuizLeaderBoardData: result.data ? result.data.topfive : [],
-        isLoading: false,
-      });
-    }
+    console.log(result);
+    const dummyLB = [
+      {
+        username: 'haha',
+        score: 20,
+      },
+      {
+        username: 'haha2',
+        score: 10,
+      },
+      {
+        username: 'haha3',
+        score: 5,
+      },
+      {
+        username: 'haha4',
+        score: 2,
+      },
+      {
+        username: 'haha5',
+        score: 1,
+      },
+    ];
+    set({ currentQuizLeaderBoardData: dummyLB });
+    set({ isLoading: false });
   },
 
   createNewGame: async (gameData) => {
@@ -104,7 +109,7 @@ export const useGameStore = create((set, get) => ({
       game_tag,
       no_of_quiz,
       game_description,
-      no_of_qn_per_quiz: total_no_qn,
+      total_no_qn,
     } = gameData;
 
     const result = await createGame(
