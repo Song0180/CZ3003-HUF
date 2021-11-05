@@ -1,8 +1,8 @@
-import React from "react";
-import { Statistic } from "antd";
-import "antd/dist/antd.css";
-import TimedPopUp from "../TimedPopUp";
-import { useEffect, useState } from "react";
+import React from 'react';
+import { Statistic } from 'antd';
+import 'antd/dist/antd.css';
+import TimedPopUp from '../TimedPopUp';
+import { useEffect, useState, useRef } from 'react';
 
 /*
     Function that will create pop up message when the timer for the quiz has run out.
@@ -15,7 +15,7 @@ import { useEffect, useState } from "react";
 function Timer(props) {
   const { Countdown } = Statistic;
   const minutes = 1000 * 60 * 10; // Example, this is for 10 mins
-  const deadline = Date.now() + minutes;
+  const deadline = useRef(Date.now() + minutes);
   const [timedPopUp, setTimedPopUp] = useState(false);
 
   // To Spawn pop up message when the timer has run out of time
@@ -27,7 +27,7 @@ function Timer(props) {
 
   return (
     <div>
-      <Countdown title="Timer" value={deadline} />
+      <Countdown title='Timer' value={deadline.current} />
       <TimedPopUp trigger={timedPopUp} setTrigger={setTimedPopUp} />
     </div>
   );
