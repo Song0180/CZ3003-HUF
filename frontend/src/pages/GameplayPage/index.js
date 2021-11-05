@@ -1,12 +1,12 @@
-import * as React from 'react';
-import { GameplayDisplay } from '../../components/GameplayDisplay';
-import { Row, message, Button } from 'antd';
-import './index.css';
-import { useEffect, useState } from 'react';
-import { useGameStore } from '../../services/zustand/game';
-import { useParams } from 'react-router';
-import Timer from '../../components/Timer';
-import { Link } from 'react-router-dom';
+import * as React from "react";
+import { GameplayDisplay } from "../../components/GameplayDisplay";
+import { Row, message, Button } from "antd";
+import "./index.css";
+import { useEffect, useState } from "react";
+import { useGameStore } from "../../services/zustand/game";
+import { useParams } from "react-router";
+import Timer from "../../components/Timer";
+import { Link } from "react-router-dom";
 
 /*
   function to include the components needed and display the information for Quiz Gameplay
@@ -23,7 +23,7 @@ const GameplayPage = () => {
     const fetchDataQuestion = async () => {
       const errorMessage = await fetchQuizQuestions(quiz_id);
       if (errorMessage) {
-        message.error('Failed to fetch quiz. Contact Admin for support.');
+        message.error("Failed to fetch quiz. Contact Admin for support.");
         message.error(errorMessage);
       }
     };
@@ -45,27 +45,25 @@ const GameplayPage = () => {
 
   return (
     <div>
-      <Button type='primary'>
+      <Button type="primary">
         <Link to={`/game/${game_id}/${game_name}`}>Back</Link>
       </Button>
 
-      <div className='header-container'>
-        {/* Want to get game_name from games and quiz_name from currentGameQuizzes */}
-        <h2 style={{ color: 'orange' }}>
+      <div className="header-container">
+        <h2 style={{ color: "orange" }}>
           {game_name} | Quiz {quiz_id}
         </h2>
 
-        <div className='timer-con'>
+        <div className="timer-con">
           <Timer />
         </div>
       </div>
 
       <Row>
-        <div className='question-con'>
+        <div className="question-con">
           <GameplayDisplay
             loading={isLoading}
             quizQuestions={quizQuestions}
-            // quizOptions={quizOptions}
             currentAnswers={userAnswers}
             onAnswerQuestion={(newAnswers) => setUserAnswers(newAnswers)}
           />
