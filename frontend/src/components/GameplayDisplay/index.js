@@ -1,8 +1,8 @@
-import * as React from "react";
-import { Radio, Space, Row, Button, Alert } from "antd";
-import "antd/dist/antd.css";
-import "./index.css";
-import { useState } from "react";
+import * as React from 'react';
+import { Radio, Space, Row, Button, Alert } from 'antd';
+import 'antd/dist/antd.css';
+import './index.css';
+import { useState } from 'react';
 
 /*
 function to display the questions in the quiz and return the marks gotten (currenty not done)
@@ -27,7 +27,7 @@ const GameplayDisplay = ({
   //     setShowAlert(true)
   //   }, 2000)
   // }
-  
+
   function ComputeScore() {
     var totalScore = 0;
     // for (let i = 0; i < quizQuestions.length; i++) {
@@ -43,7 +43,7 @@ const GameplayDisplay = ({
     //     var score = quizQuestions[i].score_per_qn;
     //     if (correctAns === chosen) {
     //       totalScore = score + totalScore;
-    //     }  
+    //     }
     //   }
     // }
     for (let i = 0; i < quizQuestions.length; i++) {
@@ -59,39 +59,42 @@ const GameplayDisplay = ({
         totalScore = score + totalScore;
       }
     }
-    console.log("totalscore: " + totalScore);
+    console.log('totalscore: ' + totalScore);
     return totalScore;
   }
 
   return (
-    <div className="question-container">
+    <div className='question-container'>
       {/* error when not all questions are answered but not implemented. */}
       {showAlert && (
-        <Alert type="error" message="Not all questions are answered" closable />
+        <Alert type='error' message='Not all questions are answered' closable />
       )}
-      {quizQuestions.map((question_name, quiz_qn_id) => {
+      {quizQuestions.map((quiz_item, index) => {
         return (
-          <div key={quiz_qn_id} className="question-container">
+          <div key={quiz_item.quiz_qn_id} className='question-container'>
             <Row>
               <h1>
-                Question {quiz_qn_id + 1}) {question_name.question_name}
+                Question {index + 1}) {quiz_item.question_name}
               </h1>
             </Row>
             <Radio.Group
-              name="radiogroup"
+              name='radiogroup'
               onChange={(e) =>
                 handleOnChangeQuestionAnswer(
-                  question_name.quiz_qn_id,
+                  quiz_item.quiz_qn_id,
                   e.target.value
                 )
               }
               defaultValue={null}
             >
-              <Space direction="vertical">
-                {question_name.options.map((option_id) => {
+              <Space direction='vertical'>
+                {quiz_item.options.map((option_item) => {
                   return (
-                    <Radio key={option_id.value} value={option_id}>
-                      {option_id.option_description}
+                    <Radio
+                      key={quiz_item.quiz_qn_id + option_item.value}
+                      value={option_item}
+                    >
+                      {option_item.option_description}
                     </Radio>
                   );
                 })}
@@ -101,11 +104,11 @@ const GameplayDisplay = ({
         );
       })}
       <br />
-      <div className="button-container">
+      <div className='button-container'>
         <Button
           onClick={ComputeScore}
-          type="primary"
-          style={{ background: "orange", borderColor: "orange" }}
+          type='primary'
+          style={{ background: 'orange', borderColor: 'orange' }}
         >
           Finish Quiz
         </Button>
