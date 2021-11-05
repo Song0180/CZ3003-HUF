@@ -7,6 +7,9 @@ import {
   fetchQuizQuestions,
   fetchQuizResult,
   fetchQuizLeaderBoard,
+  createQuiz,
+  createQuizQuestion,
+  createQuizQuestionOptions,
 } from '../../api/game';
 
 const initialState = {
@@ -111,7 +114,6 @@ export const useGameStore = create((set, get) => ({
       game_description,
       total_no_qn,
     } = gameData;
-
     const result = await createGame(
       username,
       game_name,
@@ -126,5 +128,83 @@ export const useGameStore = create((set, get) => ({
     } else if (result.status === 201) {
       return result.data;
     }
+  },
+
+  createNewQuiz: async (gameId, num_of_quiz, num_of_qn_per_quiz, quizData) => {
+    set({ isLoading: true });
+
+    for (let quizNumber = 1; quizNumber <= num_of_quiz; quizNumber++) {
+      const quiz_duration = quizData[`quiz_${quizNumber}_duration`];
+      const quiz_max_score = Object.entries(quizData).reduce((acc, cur) => {
+        if (cur[0].includes(`quiz_${quizNumber}`) && cur[0].includes('score')) {
+          acc += cur[1];
+          return acc;
+        }
+        return acc;
+      }, 0);
+      const quiz_description = quizData[`quiz_${quizNumber}_description`];
+      const no_of_qn = num_of_qn_per_quiz;
+
+      // create quiz
+      const result = await createQuiz(
+        gameId,
+        quiz_duration,
+        quiz_max_score,
+        quiz_description,
+        no_of_qn
+      );
+      if (typeof result === 'string') {
+        set({ isLoading: false });
+        return result;
+      } else {
+        const { quiz_id } = result.data;
+        for (
+          let questionNumber = 1;
+          questionNumber <= no_of_qn;
+          questionNumber++
+        ) {
+          const correct_ans =
+            quizData[
+              `quiz_${quizNumber}_question_${questionNumber}_correct_answer`
+            ];
+          const question_name =
+            quizData[`quiz_${quizNumber}_question_${questionNumber}`];
+          const question_score =
+            quizData[`quiz_${quizNumber}_question_${questionNumber}_score`];
+
+          // create quiz questions
+          const createQuestionResult = await createQuizQuestion(
+            quiz_id,
+            correct_ans,
+            question_name,
+            question_score
+          );
+          if (typeof result === 'string') {
+            set({ isLoading: false });
+            return result;
+          } else {
+            const { quiz_qn_id } = createQuestionResult.data;
+
+            // create 4 options for this questions
+            for (let option_id = 1; option_id <= 4; option_id++) {
+              const option_description =
+                quizData[
+                  `quiz_${quizNumber}_question_${questionNumber}_option_${option_id}`
+                ];
+              const createOptionResult = await createQuizQuestionOptions(
+                quiz_qn_id,
+                option_id,
+                option_description
+              );
+              if (typeof result === 'string') {
+                set({ isLoading: false });
+                return createOptionResult;
+              }
+            }
+          }
+        }
+      }
+    }
+    set({ isLoading: false });
   },
 }));

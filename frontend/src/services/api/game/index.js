@@ -70,3 +70,60 @@ export const fetchQuizLeaderBoard = async (quiz_id) => {
     return err.message;
   }
 };
+
+export const createQuiz = async (
+  game_id,
+  quiz_duration,
+  quiz_max_score,
+  quiz_description,
+  no_of_qn
+) => {
+  try {
+    const response = await yelp.post('/hufquiz/', {
+      game_id,
+      quiz_duration,
+      quiz_max_score,
+      quiz_description,
+      no_of_qn,
+    });
+    return response;
+  } catch (err) {
+    return err.message;
+  }
+};
+
+export const createQuizQuestion = async (
+  quiz_id,
+  correct_ans,
+  question_name,
+  score_per_qn
+) => {
+  try {
+    const response = await yelp.post('/hufquizqn/', {
+      quiz_id,
+      correct_ans,
+      question_name,
+      score_per_qn,
+    });
+    return response;
+  } catch (err) {
+    return err.message;
+  }
+};
+
+export const createQuizQuestionOptions = async (
+  quiz_qn_id,
+  option_id,
+  option_description
+) => {
+  try {
+    const response = await yelp.post('/hufquizoptions/', {
+      quiz_qn_id,
+      option_id,
+      option_description,
+    });
+    return response;
+  } catch (err) {
+    return err.message;
+  }
+};
