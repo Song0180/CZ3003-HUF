@@ -12,6 +12,7 @@ function TimedPopUp(props) {
     <div className="timedpopup">
       <div className="timedpopup-inner">
         <h3>Times Up!</h3>
+        <p>Score is being calculated!</p>
         <p>You will be directed to the leaderboard page.</p>
         
         <Button
