@@ -14,12 +14,18 @@ import { Link } from "react-router-dom";
 
 const GameplayPage = () => {
   const { game_id, quiz_id, game_name } = useParams();
-  const { isLoading, fetchQuizQuestions, quizQuestions, fetchGameQuiz } =
-    useGameStore();
+  const {
+    isLoading,
+    fetchQuizQuestions,
+    quizQuestions,
+    fetchGameQuiz,
+    fetchQuizDetails,
+    quizDetails,
+  } = useGameStore();
   const [userAnswers, setUserAnswers] = useState({});
 
   // Error message if failed to fetch and show data
-  React.useEffect(() => {
+  useEffect(() => {
     const fetchDataQuestion = async () => {
       const errorMessage = await fetchQuizQuestions(quiz_id);
       if (errorMessage) {
@@ -34,6 +40,10 @@ const GameplayPage = () => {
     fetchGameQuiz(game_id);
   }, [fetchGameQuiz, game_id]);
 
+  useEffect(() => {
+    fetchQuizDetails(game_id, quiz_id);
+  }, [fetchQuizDetails, game_id, quiz_id]);
+
   // Set empty options to be users options
   useEffect(() => {
     const emptyAnswers = {};
@@ -42,6 +52,20 @@ const GameplayPage = () => {
     });
     setUserAnswers(emptyAnswers);
   }, [quizQuestions]);
+
+  // get the game duration
+  function findDuration() {
+    for (let i = 0; i < quizDetails.length; i++) {
+      var checkquizid = quizDetails[i].quiz_id;
+      if (checkquizid === quiz_id) {
+        var checkgameid = quizDetails[i].game_id;
+        if (checkgameid === game_id) {
+          break;
+        }
+      }
+      return quizDetails[i].quiz_duration;
+    }
+  }
 
   return (
     <div>
@@ -53,9 +77,8 @@ const GameplayPage = () => {
         <h2 style={{ color: "orange" }}>
           {game_name} | Quiz {quiz_id}
         </h2>
-
         <div className="timer-con">
-          <Timer />
+          <Timer minutes = {findDuration()}/>
         </div>
       </div>
 

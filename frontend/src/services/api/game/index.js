@@ -62,6 +62,15 @@ export const fetchQuizResult = async () => {
   }
 };
 
+export const fetchQuizDetails = async () => {
+  try {
+    const response = await yelp.get('/hufquiz', {});
+    return response;
+  } catch (err) {
+    return err.message;
+  }
+};
+
 export const fetchQuizLeaderBoard = async (quiz_id) => {
   try {
     const response = await yelp.post('/quiztopfive/', { quiz_id });
@@ -121,6 +130,25 @@ export const createQuizQuestionOptions = async (
       quiz_qn_id,
       option_id,
       option_description,
+    });
+    return response;
+  } catch (err) {
+    return err.message;
+  }
+};
+
+export const createUserScore = async (
+  quiz_id,
+  user_id,
+  score_earned,
+  duration_taken
+) => {
+  try {
+    const response = await yelp.post('/hufquizresult/', {
+      quiz_id,
+      user_id,
+      score_earned,
+      duration_taken
     });
     return response;
   } catch (err) {

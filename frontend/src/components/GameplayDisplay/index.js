@@ -1,7 +1,10 @@
 import * as React from "react";
-import { Radio, Space, Row, Button, Form } from "antd";
+import { Radio, Space, Row, Button, Form, message } from "antd";
 import "antd/dist/antd.css";
 import "./index.css";
+import { useGameStore } from "../../services/zustand/game";
+import { useHistory } from "react-router-dom";
+import { useParams } from "react-router";
 
 /*
 function to display the questions in the quiz and return the marks gotten (currenty not done)
@@ -12,6 +15,11 @@ const GameplayDisplay = ({
   currentAnswers = {},
   onAnswerQuestion,
 }) => {
+  const { postUserScore } = useGameStore();
+  const history = useHistory();
+  const { quiz_id } = useParams();
+
+  // sets user's answers to the new option they click
   const handleOnChangeQuestionAnswer = (questionId, answerValue) => {
     const newAnswers = { ...currentAnswers };
     newAnswers[questionId] = answerValue;
@@ -35,12 +43,29 @@ const GameplayDisplay = ({
 
   // computes score when quiz is finished
   const onFinish = (e) => {
-    ComputeScore();
+    var userscore = ComputeScore();
+    const gameData = {
+      quiz_id: quiz_id,
+      user_id: 2,
+      score_earned: userscore,
+      duration_taken: 2,
+    };
+    const result = postUserScore(gameData);
+    if (typeof result !== "string") {
+      message.success(`Completed.`);
+      history.push({
+        pathname: `/leaderboard/${result.quiz_id}`,
+        state: { gameData },
+      });
+    } else {
+      message.error(result);
+    }
   };
 
   return (
     <div className="question-container">
       <Form name="answer-questions" onFinish={onFinish}>
+        {/*Maps through all the quiz_qn_id and returns the question and options*/}
         {quizQuestions.map((quiz_item, index) => {
           return (
             <div key={quiz_item.quiz_qn_id} className="question-container">

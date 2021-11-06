@@ -11,22 +11,24 @@ import { useEffect, useState, useRef } from 'react';
     Timer will start countdown from the time set for the quiz by the creater.
     Once timer goes to 0, the pop up will appear.
 */
-
-function Timer(props) {
+const Timer = ({
+  minutes 
+})=>{
   const { Countdown } = Statistic;
-  const minutes = 1000 * 60 * 10; // Example, this is for 10 mins
-  const deadline = useRef(Date.now() + minutes);
+  const minute = 1000 * 60 * minutes; // This is the quiz duration, eg minute = 1000 * 60 * 10 is for when quiz duration is 10 mins
+  const deadline = useRef(Date.now() + minute);
   const [timedPopUp, setTimedPopUp] = useState(false);
 
   // To Spawn pop up message when the timer has run out of time
   useEffect(() => {
     setTimeout(() => {
       setTimedPopUp(true);
-    }, minutes);
+    }, minute);
   });
 
   return (
     <div>
+      {/* {console.log(Date.now()-minutes)} */}
       <Countdown title='Timer' value={deadline.current} />
       <TimedPopUp trigger={timedPopUp} setTrigger={setTimedPopUp} />
     </div>
