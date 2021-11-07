@@ -37,6 +37,7 @@ export const useGameStore = create((set, get) => ({
     set({ isLoading: false });
   },
 
+  // get games created for each specific player
   fetchUserGames: async (username) => {
     set({ isLoading: true });
     const result = await fetchUserGames(username);

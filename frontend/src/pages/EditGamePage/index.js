@@ -22,13 +22,13 @@ const EditGamePage = () => {
 
   React.useEffect(() => {
     const fetchData = async () => {
-      const errorMessage = await fetchGames();
-      if (errorMessage) {
-        message.error('Failed to fetch games. Contact Admin for support.');
-        message.error(errorMessage);
-      } else {
-        message.success('Successfully fetched latest games list');
-      }
+      // const errorMessage = await fetchGames();
+      // if (errorMessage) {
+      //   message.error('Failed to fetch games. Contact Admin for support.');
+      //   message.error(errorMessage);
+      // } else {
+      //   message.success('Successfully fetched latest games list');
+      // }
     };
     fetchData();
   }, [fetchGames, games]);
@@ -74,7 +74,7 @@ const EditGamePage = () => {
               },
             ]}
           >
-            <Input placeholder= 'Enter Game Name' />  
+            <Input placeholder= {games.game_name} />  
           </Form.Item>
 
           <Form.Item

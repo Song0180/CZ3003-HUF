@@ -14,7 +14,7 @@ function onChange(pagination, filters, sorter, extra) {
 const LDTable = () => {
 
   const { userInfo } = useAuthStore();
-  const { fetchQuizScore, fetchGameQuiz } = useGameStore();
+  const { fetchQuizScore, fetchGameQuiz, quizzes } = useGameStore();
   
 
   React.useEffect(() => {
@@ -28,7 +28,7 @@ const LDTable = () => {
       }
     };
     fetchData();
-  }, [fetchQuizScore, userInfo]);
+  }, [fetchGameQuiz, fetchQuizScore, quizzes]);
 
   // React.useEffect(() => {
   //   const fetchData = async () => {
@@ -44,7 +44,7 @@ const LDTable = () => {
   // }, [fetchUserGames, userInfo.username]);
 
 
-  return <Table columns={columns} dataSource={data} onChange={onChange} />
+  return <Table columns={columns} dataSource={fetchGameQuiz} onChange={onChange} />
 };
 
 /* 

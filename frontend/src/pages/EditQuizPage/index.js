@@ -17,11 +17,12 @@ const EditQuizPage = () => {
 
   const history = useHistory();
   // const { userInfo } = useAuthStore();
-  const { fetchGames, games } = useGameStore();
+  const { fetchGameQuiz, quizzes } = useGameStore();
+  
 
   React.useEffect(() => {
     const fetchData = async () => {
-      const errorMessage = await fetchGames();
+      const errorMessage = await fetchGameQuiz();
       if (errorMessage) {
         message.error('Failed to fetch games. Contact Admin for support.');
         message.error(errorMessage);
@@ -30,7 +31,7 @@ const EditQuizPage = () => {
       }
     };
     fetchData();
-  }, [fetchGames]);
+  }, [fetchGameQuiz, quizzes]);
 
   const handleOnClickReturn = (game_id) => {
     // history.push(`/game/${gameInfo.game_id}/${gameInfo.game_name}`);
