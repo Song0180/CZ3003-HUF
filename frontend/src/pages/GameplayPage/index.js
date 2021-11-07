@@ -7,6 +7,8 @@ import { useGameStore } from "../../services/zustand/game";
 import { useParams } from "react-router";
 import Timer from "../../components/Timer";
 import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+import { useAuthStore } from "../../services/zustand/auth";
 
 /*
   function to include the components needed and display the information for Quiz Gameplay
@@ -23,6 +25,11 @@ const GameplayPage = () => {
     quizDetails,
   } = useGameStore();
   const [userAnswers, setUserAnswers] = useState({});
+  const { postUserScore } = useGameStore();
+  const history = useHistory();
+  const { userInfo } = useAuthStore();
+  const currentquizid = Number(quiz_id);
+  const currentgameid = Number(game_id);
 
   // Error message if failed to fetch and show data
   useEffect(() => {
@@ -55,37 +62,57 @@ const GameplayPage = () => {
 
   // get the game duration
   function findDuration() {
-    const currentgameid = Number(game_id);
-    const currentquizid = Number(quiz_id);
     for (let i = 0; i < quizDetails.length; i++) {
-      if(quizDetails[i].game_id === currentgameid && quizDetails[i].quiz_id === currentquizid){
+      if (
+        quizDetails[i].game_id === currentgameid &&
+        quizDetails[i].quiz_id === currentquizid
+      ) {
         return quizDetails[i].quiz_duration;
       }
     }
   }
+
   // function to compute users total score
   function computeScore() {
     var totalScore = 0;
-    try{
+    try {
       for (let i = 0; i < quizQuestions.length; i++) {
-        if(!null){
-          console.log(userAnswers[i + 1])
+        if (!null) {
           var correctAns = quizQuestions[i].correct_ans;
-          // var chosen = currentAnswers[i + 1].option_id;
           var score = quizQuestions[i].score_per_qn;
           if (correctAns === userAnswers[i + 1].option_id) {
             totalScore = score + totalScore;
           }
-        }else{
+        } else {
           break;
         }
       }
-    }catch{
-
-    }
+    } catch {}
     console.log("totalscore: " + totalScore);
     return totalScore;
   }
+
+  // When user finishes the quiz or time runs out, their score will be computed and they will be redirected to leaderboard page
+  const onFinish = async (values) => {
+    var userscore = computeScore();
+    const gameData = {
+      quiz_id: currentquizid,
+      user_id: userInfo.userid,
+      score_earned: userscore,
+      duration_taken: 2,
+    };
+    const result = await postUserScore(gameData);
+    
+    if (typeof result !== "string") {
+      message.success(`Completed.`);
+      history.push({
+        pathname: `/leaderboard/${result.quiz_id}`,
+        state: { gameData },
+      });
+    } else {
+      message.error("You have completed this quiz.");
+    }
+  };
 
   return (
     <div>
@@ -98,7 +125,7 @@ const GameplayPage = () => {
           {game_name} | Quiz {quiz_id}
         </h2>
         <div className="timer-con">
-          <Timer minutes = {findDuration()} onTimeUp ={computeScore}/>
+          <Timer minutes={findDuration()} onTimeUp={onFinish} />
         </div>
       </div>
 
@@ -109,7 +136,7 @@ const GameplayPage = () => {
             quizQuestions={quizQuestions}
             currentAnswers={userAnswers}
             onAnswerQuestion={(newAnswers) => setUserAnswers(newAnswers)}
-            onFinishQuiz={computeScore}
+            onFinishQuiz={onFinish}
           />
         </div>
       </Row>

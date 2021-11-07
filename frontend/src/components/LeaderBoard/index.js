@@ -33,7 +33,6 @@ const LeaderBoard = ({ data, isLoading }) => {
                 </Avatar>
                 <span>{item.user_id_id__username}</span>
               </div>
-              {console.log(item.score_earned)}
               <span className='lb-item-element'>{item.score_earned}</span>
             </div>
           </List.Item>
