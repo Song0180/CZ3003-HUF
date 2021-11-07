@@ -15,6 +15,7 @@ const GameplayDisplay = ({
   quizQuestions = [],
   currentAnswers = {},
   onAnswerQuestion,
+  onFinishQuiz,
 }) => {
   const { postUserScore } = useGameStore();
   const history = useHistory();
@@ -29,33 +30,11 @@ const GameplayDisplay = ({
     onAnswerQuestion(newAnswers);
   };
 
-  // function to compute users total score
-  function ComputeScore() {
-    var totalScore = 0;
-    try{
-      for (let i = 0; i < quizQuestions.length; i++) {
-        if(!null){
-          console.log(currentAnswers[i + 1])
-          var correctAns = quizQuestions[i].correct_ans;
-          // var chosen = currentAnswers[i + 1].option_id;
-          var score = quizQuestions[i].score_per_qn;
-          if (correctAns === currentAnswers[i + 1].option_id) {
-            totalScore = score + totalScore;
-          }
-        }else{
-          break;
-        }
-      }
-    }catch{
-      
-    }
-    console.log("totalscore: " + totalScore);
-    return totalScore;
-  }
+  
 
   // computes score when quiz is finished
   const onFinish = async (e) => {
-    var userscore = ComputeScore();
+    var userscore = onFinishQuiz();
     const gameData = {
       quiz_id: currentquizid,
       user_id: userInfo.userid,
@@ -71,7 +50,7 @@ const GameplayDisplay = ({
         state: { gameData },
       });
     } else {
-      message.error(result);
+      message.error('You have completed this quiz.');
     }
   };
 

@@ -13,7 +13,8 @@ import { GameplayDisplay } from '../GameplayDisplay';
     Once timer goes to 0, the pop up will appear.
 */
 const Timer = ({
-  minutes 
+  minutes,
+  onTimeUp,
 })=>{
   const { Countdown } = Statistic;
   const minute = 1000 * 60 * minutes; // This is the quiz duration, eg minute = 1000 * 60 * 10 is for when quiz duration is 10 mins
@@ -24,9 +25,10 @@ const Timer = ({
   useEffect(() => {
     setTimeout(() => {
       setTimedPopUp(true);
+      onTimeUp();
     }, minute);
   });
-
+  
   return (
     <div>
       {/* {console.log(Date.now()-minutes)} */}

@@ -63,6 +63,29 @@ const GameplayPage = () => {
       }
     }
   }
+  // function to compute users total score
+  function computeScore() {
+    var totalScore = 0;
+    try{
+      for (let i = 0; i < quizQuestions.length; i++) {
+        if(!null){
+          console.log(userAnswers[i + 1])
+          var correctAns = quizQuestions[i].correct_ans;
+          // var chosen = currentAnswers[i + 1].option_id;
+          var score = quizQuestions[i].score_per_qn;
+          if (correctAns === userAnswers[i + 1].option_id) {
+            totalScore = score + totalScore;
+          }
+        }else{
+          break;
+        }
+      }
+    }catch{
+
+    }
+    console.log("totalscore: " + totalScore);
+    return totalScore;
+  }
 
   return (
     <div>
@@ -75,7 +98,7 @@ const GameplayPage = () => {
           {game_name} | Quiz {quiz_id}
         </h2>
         <div className="timer-con">
-          <Timer minutes = {findDuration()}/>
+          <Timer minutes = {findDuration()} onTimeUp ={computeScore}/>
         </div>
       </div>
 
@@ -86,6 +109,7 @@ const GameplayPage = () => {
             quizQuestions={quizQuestions}
             currentAnswers={userAnswers}
             onAnswerQuestion={(newAnswers) => setUserAnswers(newAnswers)}
+            onFinishQuiz={computeScore}
           />
         </div>
       </Row>
