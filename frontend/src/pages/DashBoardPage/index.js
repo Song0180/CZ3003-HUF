@@ -1,48 +1,76 @@
 import * as React from 'react';
-// import { Stats } from '../../components/DashboardStats';
-import { LDTable } from '../../components/LDTable';
-import { Button } from 'antd';
+import { List, Skeleton, message } from 'antd';
+import { useHistory } from 'react-router';
+import { GameCard } from '../../components';
+import { useGameStore } from '../../services/zustand/game';
+import { useAuthStore } from '../../services/zustand/auth';
 import './index.css';
-import { Link } from 'react-router-dom';
 
-
-//function to include the components needed and display the information for dashboard
 const DashboardPage = () => {
+  
+  const history = useHistory();
+  const { userInfo } = useAuthStore();
+  const { isLoading, fetchUserGames, userGames } = useGameStore();
+ 
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      const errorMessage = await fetchUserGames(userInfo.username);
+      if (errorMessage) {
+        message.error('Failed to fetch games. Contact Admin for support.');
+        message.error(errorMessage);
+      } else {
+        message.success('Successfully fetched latest games list');
+      }
+    };
+    fetchData();
+  }, [fetchUserGames, userInfo.username]);
+
+  console.log(userGames)
+
+
+  const handleOnClickGameCard = (game_id) => {
+    // history.push(`/game/${gameInfo.game_id}/${gameInfo.game_name}`);
+    history.push(`/dashboard/statistics/${game_id}`);
+  };
+
   return (
-    <div>
-      <div className='dashboard-container'>
-        <div className='dashboard-header-container'>
-          <h1 className='dashboard-heading'>My Dashboard</h1>
-        </div>
+    <div className='game-page-container'>
+      <div className='game-page-header-container'>
+        <h2 className='game-page-heading'>My Dashboard</h2>
         
       </div>
-
       <div className='info-container'>
-        {/* <div className='item'> */}
-          {/* <Stats />                 stats component */}
-        {/* </div> */}
-        <div className='item'>
-          <LDTable />               {/* leader board table component */}
-        </div>
+        <p className='text'>
+          Hi <span className='text-highlight'>{userInfo.username}</span>, Please
+          select the game you wish to view.
+        </p>
 
-        <hr/>
-       
-        <div className='button'>
-          <Button type="primary">
-            {/* internal link to edit game page */}
-            <Link to={'dashboard/editgame'}>Edit Game</Link>    
-          </Button>
-          
-          <Button type="primary">
-            {/* internal link to edit quiz page */}
-            <Link to={'dashboard/editquiz'}>Edit Quiz</Link>    
-          </Button>
+        <div className='games-container'>
+        
+          <List
+            loading={isLoading}
+            grid={{
+              gutter: [30, 16],
+              column: userGames.length > 3 ? 3 : userGames.length,
+            }}
+            dataSource={userGames}
+            renderItem={(item, index) => (
+              <List.Item key={JSON.stringify(item) + index}>
+                <Skeleton loading={isLoading} active>
+                  <GameCard
+                    title={item.game_name}
+                    creator={item.username}
+                    tag={item.game_tag}
+                    onClick={() => handleOnClickGameCard(item.game_id)}
+                  />
+                </Skeleton>
+              </List.Item>
+            )}
+          />
         </div>
-       
-
       </div>
     </div>
-
   );
 };
 
