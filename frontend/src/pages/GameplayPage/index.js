@@ -55,15 +55,12 @@ const GameplayPage = () => {
 
   // get the game duration
   function findDuration() {
+    const currentgameid = Number(game_id);
+    const currentquizid = Number(quiz_id);
     for (let i = 0; i < quizDetails.length; i++) {
-      var checkquizid = quizDetails[i].quiz_id;
-      if (checkquizid === quiz_id) {
-        var checkgameid = quizDetails[i].game_id;
-        if (checkgameid === game_id) {
-          break;
-        }
+      if(quizDetails[i].game_id === currentgameid && quizDetails[i].quiz_id === currentquizid){
+        return quizDetails[i].quiz_duration;
       }
-      return quizDetails[i].quiz_duration;
     }
   }
 

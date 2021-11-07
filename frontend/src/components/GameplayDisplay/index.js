@@ -5,6 +5,7 @@ import "./index.css";
 import { useGameStore } from "../../services/zustand/game";
 import { useHistory } from "react-router-dom";
 import { useParams } from "react-router";
+import { useAuthStore } from "../../services/zustand/auth";
 
 /*
 function to display the questions in the quiz and return the marks gotten (currenty not done)
@@ -18,6 +19,8 @@ const GameplayDisplay = ({
   const { postUserScore } = useGameStore();
   const history = useHistory();
   const { quiz_id } = useParams();
+  const { userInfo } = useAuthStore();
+  const currentquizid = Number(quiz_id);
 
   // sets user's answers to the new option they click
   const handleOnChangeQuestionAnswer = (questionId, answerValue) => {
@@ -30,11 +33,16 @@ const GameplayDisplay = ({
   function ComputeScore() {
     var totalScore = 0;
     for (let i = 0; i < quizQuestions.length; i++) {
-      var correctAns = quizQuestions[i].correct_ans;
-      var chosen = currentAnswers[i + 1].option_id;
-      var score = quizQuestions[i].score_per_qn;
-      if (correctAns === chosen) {
-        totalScore = score + totalScore;
+      if(!null){
+        console.log(currentAnswers[i + 1])
+        var correctAns = quizQuestions[i].correct_ans;
+        // var chosen = currentAnswers[i + 1].option_id;
+        var score = quizQuestions[i].score_per_qn;
+        if (correctAns === currentAnswers[i + 1].option_id) {
+          totalScore = score + totalScore;
+        }
+      }else{
+        break;
       }
     }
     console.log("totalscore: " + totalScore);
@@ -42,15 +50,16 @@ const GameplayDisplay = ({
   }
 
   // computes score when quiz is finished
-  const onFinish = (e) => {
+  const onFinish = async (e) => {
     var userscore = ComputeScore();
     const gameData = {
-      quiz_id: quiz_id,
-      user_id: 2,
+      quiz_id: currentquizid,
+      user_id: userInfo.userid,
       score_earned: userscore,
       duration_taken: 2,
     };
-    const result = postUserScore(gameData);
+
+    const result = await postUserScore(gameData);
     if (typeof result !== "string") {
       message.success(`Completed.`);
       history.push({
@@ -62,9 +71,21 @@ const GameplayDisplay = ({
     }
   };
 
+  const onFinishFailed = (errorInfo) => {
+    console.log("Failed:", errorInfo);
+  };
+
   return (
     <div className="question-container">
-      <Form name="answer-questions" onFinish={onFinish}>
+      <Form
+        name="answer-questions"
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
+        autoComplete='off'
+        initialValues={{
+          remember: true,
+        }}
+      >
         {/*Maps through all the quiz_qn_id and returns the question and options*/}
         {quizQuestions.map((quiz_item, index) => {
           return (

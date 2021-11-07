@@ -3,6 +3,7 @@ import { Statistic } from 'antd';
 import 'antd/dist/antd.css';
 import TimedPopUp from '../TimedPopUp';
 import { useEffect, useState, useRef } from 'react';
+import { GameplayDisplay } from '../GameplayDisplay';
 
 /*
     Function that will create pop up message when the timer for the quiz has run out.
@@ -31,6 +32,7 @@ const Timer = ({
       {/* {console.log(Date.now()-minutes)} */}
       <Countdown title='Timer' value={deadline.current} />
       <TimedPopUp trigger={timedPopUp} setTrigger={setTimedPopUp} />
+      {/* <GameplayDisplay /> */}
     </div>
   );
 }
