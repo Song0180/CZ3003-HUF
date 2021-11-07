@@ -1,17 +1,17 @@
 import * as React from "react";
 import { GameplayDisplay } from "../../components/GameplayDisplay";
 import { Row, message, Button } from "antd";
-import "./index.css";
 import { useEffect, useState } from "react";
 import { useGameStore } from "../../services/zustand/game";
 import { useParams } from "react-router";
-import Timer from "../../components/Timer";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import { useAuthStore } from "../../services/zustand/auth";
+import Timer from "../../components/Timer";
+import "./index.css";
 
 /*
-  function to include the components needed and display the information for Quiz Gameplay
+  Page that includes components that allow user to play the quiz
 */
 
 const GameplayPage = () => {
@@ -102,7 +102,7 @@ const GameplayPage = () => {
       duration_taken: 2,
     };
     const result = await postUserScore(gameData);
-    
+
     if (typeof result !== "string") {
       message.success(`Completed.`);
       history.push({
@@ -110,7 +110,7 @@ const GameplayPage = () => {
         state: { gameData },
       });
     } else {
-      message.error("You have completed this quiz.");
+      message.error("You have already completed this quiz.");
     }
   };
 
