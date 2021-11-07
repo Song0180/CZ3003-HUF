@@ -3,6 +3,8 @@ import create from 'zustand';
 import { mockQuizzes } from './mockData';
 import {
   fetchGames,
+  fetchUserGames,
+  fetchQuizScore,
   fetchQuizzes,
   createGame,
   fetchQuizLeaderBoard,
@@ -11,6 +13,9 @@ import {
 const initialState = {
   isLoading: false,
   games: [],
+  userGames: [],
+  quizzes: [],
+  score: [],
   currentGameQuizzes: [],
   currentQuizQuetsions: [],
   currentQuizLeaderBoardData: [],
@@ -21,13 +26,39 @@ export const useGameStore = create((set, get) => ({
 
   fetchGames: async () => {
     set({ isLoading: true });
-    const result = await fetchGames();
+    const result = await fetchGames();  
     if (typeof result === 'string') {
       set({ isLoading: false });
       return result;
     } else {
       const games = result.data;
       set({ games: games });
+    }
+    set({ isLoading: false });
+  },
+
+  fetchUserGames: async (username) => {
+    set({ isLoading: true });
+    const result = await fetchUserGames(username);
+    if (typeof result === 'string') {
+      set({ isLoading: false });
+      return result;
+    } else {
+      const games = result.data
+      set({ userGames: games });
+    }
+    set({ isLoading: false });
+  },
+
+  fetchQuizScore: async (user_id, quiz_id) => {
+    set({ isLoading: true });
+    const result = await fetchQuizScore(user_id, quiz_id);
+    if (typeof result === 'string') {
+      set({ isLoading: false });
+      return result;
+    } else {
+      const score = result.data
+      set({ score: score });
     }
     set({ isLoading: false });
   },
@@ -39,21 +70,34 @@ export const useGameStore = create((set, get) => ({
       set({ isLoading: false });
       return result;
     } else {
-      // const quizzes = result.data;
-      const dummyQuizzes = [
-        {
-          quiz_id: 'asdasd',
-          game_id: '1231asd',
-          quiz_duration: 10,
-          quiz_max_score: 100,
-          quiz_description: 'a quiz',
-          no_of_qn: 2,
-        },
-      ];
-      set({ currentGameQuizzes: dummyQuizzes });
+      const quizzes = result.data
+      set({ quizzes: quizzes });
     }
     set({ isLoading: false });
   },
+
+  // fetchGameQuiz: async (gameId) => {
+  //   set({ isLoading: true });
+  //   const result = await fetchQuizzes(gameId);
+  //   if (typeof result === 'string') {
+  //     set({ isLoading: false });
+  //     return result;
+  //   } else {
+  //     // const quizzes = result.data;
+  //     const dummyQuizzes = [
+  //       {
+  //         quiz_id: 'asdasd',
+  //         game_id: '1231asd',
+  //         quiz_duration: 10,
+  //         quiz_max_score: 100,
+  //         quiz_description: 'a quiz',
+  //         no_of_qn: 2,
+  //       },
+  //     ];
+  //     set({ currentGameQuizzes: dummyQuizzes });
+  //   }
+  //   set({ isLoading: false });
+  // },
 
   fetchQuizQuestions: async (gameId, quizId) => {
     set({ currentQuizQuetsions: mockQuizzes });
