@@ -33,8 +33,8 @@ const SideNav = ({ isMenuClosed }) => {
         }}
       />
       <Menu mode='inline' selectedKeys={selectedKeys}>
-        <Menu.Item key='/' icon={<HomeOutlined />} title={null}>
-          <Link to='/'>Home</Link>
+        <Menu.Item key='/home' icon={<HomeOutlined />} title={null}>
+          <Link to='/home'>Home</Link>
         </Menu.Item>
         <Menu.Item key='/dashboard' icon={<UserOutlined />} title={null}>
           <Link to='/dashboard'>Dashboard</Link>

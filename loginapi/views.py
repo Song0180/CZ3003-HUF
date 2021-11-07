@@ -22,7 +22,7 @@ from rest_framework.decorators import api_view, authentication_classes,permissio
 from django.core.mail import send_mail
 import requests
 import json
-from .models import SocialaccountSocialtoken
+from .models import SocialaccountSocialtoken, SocialaccountSocialaccount
 
 from django.shortcuts import render,get_object_or_404
 
@@ -33,7 +33,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
 def get_authenticated_user(request):
     if request.user.is_authenticated:
-        return JsonResponse({"message": request.user.username})
+        return JsonResponse({"username": request.user.username, "email": request.user.email, "userid":request.user.id })
     else:
         return JsonResponse({"message": 'not authenticated'})
 
@@ -87,9 +87,9 @@ def forgot_password(request, email):
     new_password = usr.date_joined.strftime("%d-%m-%Y")
     usr.set_password(new_password)
     usr.save()
-    send_mail("your new password", new_password,
+    send_mail("Your new password", ("Your new password is: " + new_password),
               from_email="cz3003huf@gmail.com", recipient_list=[usr.email])
-    return JsonResponse({"message": 'your new password has been sent to your email'})
+    return JsonResponse({"message": 'Your new password has been sent to your email'})
 
 
 
@@ -103,27 +103,37 @@ def post(self, request, *args, **kwargs):
     token = SocialToken.objects.get(key=response.data['key'])
     return Response({'token': token})
 
-def facebook_access_token(request):
-    user = SocialaccountSocialtoken.objects.get()
-    return JsonResponse({'token':user.token}) 
-
 @csrf_exempt
-def facebook_logout(request):
-    try:
-        social_token = SocialToken.objects.filter(
-            account__user=request.user, account__provider='facebook')
-        
-        x = [items.delete() for items in social_token]
-
-        return JsonResponse({"message": 'success'})
-    except:
-        return JsonResponse({"message": 'you are not logged in'})
+def get_info(request):
+    body_unicode = request.body.decode('utf-8')
+    body = json.loads(body_unicode)
+    content = body['access_token']
+    account = SocialaccountSocialtoken.objects.get(token=content)
+    fbusr = SocialaccountSocialaccount.objects.get(id=account.account_id)
+    final_dictionary = json.loads(fbusr.extra_data)
+    usr = User.objects.get(first_name=final_dictionary['first_name'])
+    return JsonResponse({"username": usr.username, "email":usr.email,"userid":usr.id })
+  
 
 ################################################FACEBOOK LOGIN########################################################
 
 
 
 
+# @csrf_exempt
+# def facebook_logout(request):
+#     try:
+#         social_token = SocialToken.objects.filter(
+#             account__user=request.user, account__provider='facebook')
+#         x = [items.delete() for items in social_token]
+#         return JsonResponse({"message": 'success'})
+#     except:
+#         return JsonResponse({"message": 'you are not logged in'})
+
+
+# def facebook_access_token(request):
+#     user = SocialaccountSocialtoken.objects.get()
+#     return JsonResponse({'token':user.token}) 
 # def home_page(request):
 #     if request.method == 'POST':
 #         request.POST.get("user.socialaccount_set.all.0.get_profile_url()")

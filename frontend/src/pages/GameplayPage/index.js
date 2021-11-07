@@ -20,11 +20,10 @@ const deadline = Date.now() + minutes;
 */
 
 const GameplayPage = () => {
-  const { game_id, quiz_id } = useParams();
+  const { game_id } = useParams();
   const { currentQuizQuetsions, fetchQuizQuestions } = useGameStore();
   const [userAnswers, setUserAnswers] = useState({});
   const [timedPopUp, setTimedPopUp] = useState(false);
-  console.log(game_id, quiz_id);
 
   // To Spawn pop up message when the timer has run out of time
   useEffect(() => {

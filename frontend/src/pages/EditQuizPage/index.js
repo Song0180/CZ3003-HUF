@@ -17,7 +17,7 @@ const EditQuizPage = () => {
 
   const history = useHistory();
   // const { userInfo } = useAuthStore();
-  const { fetchGameQuiz, quizzes } = useGameStore();
+  const { fetchGameQuiz, quizzes, games } = useGameStore();
   
 
   React.useEffect(() => {

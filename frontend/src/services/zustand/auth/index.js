@@ -2,7 +2,12 @@ import create from 'zustand';
 import dayjs from 'dayjs';
 import { USER_INFO_SESSION_STORAGE_FIELD } from '../../api/auth/constants';
 
-import { login, register } from '../../api/auth';
+import {
+  login,
+  register,
+  facebookLoginGetUserInfo,
+  facebookLogin,
+} from '../../api/auth';
 
 const cachedUserInfo = localStorage.getItem(USER_INFO_SESSION_STORAGE_FIELD);
 const signedIn = Boolean(localStorage.getItem(USER_INFO_SESSION_STORAGE_FIELD));
@@ -11,6 +16,28 @@ const initialState = {
   userInfo: cachedUserInfo ? JSON.parse(cachedUserInfo) : null,
   signedIn,
   isLoading: false,
+};
+
+// function to cache the user info returned from login apis
+// and complete necessary state updates
+const completeLogin = (data, set) => {
+  const { email, username, userid } = data;
+  const userInfo = {
+    email,
+    username,
+    userid,
+  };
+  localStorage.setItem(
+    USER_INFO_SESSION_STORAGE_FIELD,
+    JSON.stringify(userInfo)
+  );
+  set({
+    userInfo,
+    signedIn: true,
+    loginTimeStamp: dayjs(),
+    isLoading: false,
+  });
+  return userInfo;
 };
 
 export const useAuthStore = create((set, get) => ({
@@ -25,23 +52,7 @@ export const useAuthStore = create((set, get) => ({
         return result;
       } else {
         if (result.data) {
-          const { email, username, userid } = result.data;
-          const userInfo = {
-            email,
-            username,
-            userid,
-          };
-          localStorage.setItem(
-            USER_INFO_SESSION_STORAGE_FIELD,
-            JSON.stringify(userInfo)
-          );
-          set({
-            userInfo,
-            signedIn: true,
-            loginTimeStamp: dayjs(),
-            isLoading: false,
-          });
-          return userInfo;
+          return completeLogin(result.data, set);
         }
       }
     }
@@ -68,5 +79,23 @@ export const useAuthStore = create((set, get) => ({
     } else {
       return result;
     }
+  },
+  facebookLogin: async (accessToken) => {
+    console.log(accessToken);
+    set({ isLoading: true });
+    const result = await facebookLogin(accessToken);
+    if (typeof result === 'string') {
+      set({ isLoading: false });
+      return result;
+    } else if (result.data) {
+      const userInfoResult = await facebookLoginGetUserInfo(accessToken);
+      if (typeof userInfoResult === 'string') {
+        set({ isLoading: false });
+        return userInfoResult;
+      } else if (userInfoResult.data) {
+        return completeLogin(userInfoResult.data, set);
+      }
+    }
+    set({ isLoading: false });
   },
 }));

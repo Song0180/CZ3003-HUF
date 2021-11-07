@@ -23,9 +23,10 @@ import { useAuthStore } from './services/zustand/auth';
 import GameQuizPage from './pages/GameQuizPage';
 import LeaderBoardPage from './pages/LeaderBoardPage';
 import StatisticsPage from './pages/StatisticsPage';
+import QuizCreationPage from './pages/QuizCreationPage';
 
 const { Content } = Layout;
-const NotFoundRedirect = () => <Redirect to='/' />;
+const NotFoundRedirect = () => <Redirect to='/home' />;
 
 const App = () => {
   const { signedIn, logout, userInfo } = useAuthStore();
@@ -53,7 +54,11 @@ const App = () => {
             <Switch>
               <Route path='/' exact component={HomePage} />
               <Route path='/dashboard' exact component={DashboardPage} />
-              <Route path='/leaderboard' exact component={LeaderBoardPage} />
+              <Route
+                path='/leaderboard/:quiz_id'
+                exact
+                component={LeaderBoardPage}
+              />
               <Route path='/settings' exact component={SettingsPage} />
               <Route path='/games' exact component={GamesPage} />
               <Route
@@ -82,6 +87,11 @@ const App = () => {
                 component={EditQuizPage}
               />
               <Route path='/gamecreation' exact component={GameCreationPage} />
+              <Route
+                path='/gamecreation/:game_id/quizcreation'
+                exact
+                component={QuizCreationPage}
+              />
               <Route component={NotFoundRedirect} />
             </Switch>
           </Content>

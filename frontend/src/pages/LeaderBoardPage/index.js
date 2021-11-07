@@ -8,11 +8,13 @@ import { useGameStore } from '../../services/zustand/game';
 import './index.css';
 import { LeaderBoard } from '../../components';
 import { FacebookFilled } from '@ant-design/icons';
+import { useParams } from 'react-router';
 
 const LeaderBoardPage = ({ location }) => {
   // const { userInfo } = useAuthStore();
   const { isLoading, currentQuizLeaderBoardData, fetchQuizLeaderBoard } =
     useGameStore();
+  const { quiz_id } = useParams();
 
   const gameInfo = React.useMemo(() => ({ game_name: 'haha' }), []);
 
@@ -22,13 +24,16 @@ const LeaderBoardPage = ({ location }) => {
 
   React.useEffect(() => {
     const fetchLeaderBoard = async () => {
-      const result = await fetchQuizLeaderBoard();
+      const result = await fetchQuizLeaderBoard(quiz_id);
       if (typeof result === 'string') {
+        message.error(
+          `Unable to fetch leaderboard data for quiz id ${quiz_id}. Contact Admin for support.`
+        );
         message.error(result);
       }
     };
     fetchLeaderBoard();
-  }, [fetchQuizLeaderBoard]);
+  }, [fetchQuizLeaderBoard, quiz_id]);
 
   return (
     <div className='game-page-container'>
