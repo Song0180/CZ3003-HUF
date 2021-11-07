@@ -1,10 +1,7 @@
 import * as React from 'react';
-import {  Form, Input, Button, InputNumber, message } from 'antd';
+import {  Form, Input, Button, InputNumber } from 'antd';
 import { Link } from 'react-router-dom';
 import { Pop } from '../../components/Popup';
-import { useHistory } from 'react-router';
-import { useGameStore } from '../../services/zustand/game';
-import { useAuthStore } from '../../services/zustand/auth';
 import './index.css';
 import cx from 'classnames';
 
@@ -15,29 +12,6 @@ function onChange(value) {
 
 //function to include the components needed and display the information for edit game page
 const EditGamePage = () => {
-
-  const history = useHistory();
-  // const { userInfo } = useAuthStore();
-  const { fetchGames, games } = useGameStore();
-
-  React.useEffect(() => {
-    const fetchData = async () => {
-      // const errorMessage = await fetchGames();
-      // if (errorMessage) {
-      //   message.error('Failed to fetch games. Contact Admin for support.');
-      //   message.error(errorMessage);
-      // } else {
-      //   message.success('Successfully fetched latest games list');
-      // }
-    };
-    fetchData();
-  }, [fetchGames, games]);
-
-  const handleOnClickReturn = (game_id) => {
-    // history.push(`/game/${gameInfo.game_id}/${gameInfo.game_name}`);
-    history.push(`/dashboard/statistics/${game_id}`);
-  };
-  
   return (
     <div>
       <div className='editgame-container'>
@@ -74,7 +48,7 @@ const EditGamePage = () => {
               },
             ]}
           >
-            <Input placeholder= {games.game_name} />  
+            <Input placeholder='Enter name of the Game' />
           </Form.Item>
 
           <Form.Item
@@ -150,9 +124,9 @@ const EditGamePage = () => {
             <Button
               type='primary'
               htmlType='Back'
-              onClick={() => handleOnClickReturn(games.game_id)}
+              className={cx('backBtn', 'creation-pagenav-buttons')}
             >
-              Back
+              <Link to={'/dashboard'}>Back</Link>
             </Button>
             <Form.Item>
               <Button

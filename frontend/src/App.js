@@ -22,7 +22,6 @@ import SettingsPage from './pages/SettingsPage';
 import { useAuthStore } from './services/zustand/auth';
 import GameQuizPage from './pages/GameQuizPage';
 import LeaderBoardPage from './pages/LeaderBoardPage';
-import StatisticsPage from './pages/StatisticsPage';
 import QuizCreationPage from './pages/QuizCreationPage';
 
 const { Content } = Layout;
@@ -52,7 +51,7 @@ const App = () => {
           />
           <Content className={cx('site-layout-background', 'content')}>
             <Switch>
-              <Route path='/' exact component={HomePage} />
+              <Route path='/home' exact component={HomePage} />
               <Route path='/dashboard' exact component={DashboardPage} />
               <Route
                 path='/leaderboard/:quiz_id'
@@ -72,17 +71,12 @@ const App = () => {
                 component={GameQuizPage}
               />
               <Route
-                path='/dashboard/statistics/:game_id'
-                exact
-                component={StatisticsPage}
-              />
-              <Route
-                path='/dashboard/editgame/:game_id'
+                path='/dashboard/editgame'
                 exact
                 component={EditGamePage}
               />
               <Route
-                path='/dashboard/editquiz/:game_id'
+                path='/dashboard/editquiz'
                 exact
                 component={EditQuizPage}
               />

@@ -40,12 +40,12 @@ const LandingPage = () => {
     }
   };
 
-  // const responseFacebook = async (response) => {
-  //   const result = await facebookLogin(response.accessToken);
-  //   if (typeof result === 'string') {
-  //     message.error(result);
-  //   }
-  // };
+  const responseFacebook = async (response) => {
+    const result = await facebookLogin(response.accessToken);
+    if (typeof result === 'string') {
+      message.error(result);
+    }
+  };
 
   return (
     <div className='site-card-wrapper'>
@@ -121,13 +121,13 @@ const LandingPage = () => {
                     Sign in
                   </Button>
                   or
-                  {/* <FacebookLogin
+                  <FacebookLogin
                     appId='566862107737771'
                     callback={responseFacebook}
                     icon='fa-facebook'
                     textButton=' Login with Facebook'
                     cssClass='fb-login-form-button'
-                  /> */}
+                  />
                 </div>
               </Form.Item>
               {isLoading && (
@@ -242,13 +242,13 @@ const LandingPage = () => {
                     Register
                   </Button>
                   <span>or</span>
-                  {/* <FacebookLogin
+                  <FacebookLogin
                     appId='566862107737771'
                     callback={responseFacebook}
                     icon='fa-facebook'
                     textButton=' Register with Facebook'
                     cssClass='fb-login-form-button'
-                  /> */}
+                  />
                 </div>
               </Form.Item>
             </Form>

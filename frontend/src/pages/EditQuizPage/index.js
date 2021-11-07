@@ -1,9 +1,7 @@
 import * as React from 'react';
-import { Button, Input, InputNumber, Form, message } from 'antd';
-import { Link, useHistory } from 'react-router-dom';
+import { Button, Input, InputNumber, Form } from 'antd';
+import { Link } from 'react-router-dom';
 import { Pop } from '../../components/Popup';
-import { useGameStore } from '../../services/zustand/game';
-import { useAuthStore } from '../../services/zustand/auth';
 import './index.css';
 import cx from 'classnames';
 
@@ -14,30 +12,6 @@ function onChange(value) {
 
 //function to include the components needed and display the information for edit quiz page
 const EditQuizPage = () => {
-
-  const history = useHistory();
-  // const { userInfo } = useAuthStore();
-  const { fetchGameQuiz, quizzes, games } = useGameStore();
-  
-
-  React.useEffect(() => {
-    const fetchData = async () => {
-      const errorMessage = await fetchGameQuiz();
-      if (errorMessage) {
-        message.error('Failed to fetch games. Contact Admin for support.');
-        message.error(errorMessage);
-      } else {
-        message.success('Successfully fetched latest games list');
-      }
-    };
-    fetchData();
-  }, [fetchGameQuiz, quizzes]);
-
-  const handleOnClickReturn = (game_id) => {
-    // history.push(`/game/${gameInfo.game_id}/${gameInfo.game_name}`);
-    history.push(`/dashboard/statistics/${game_id}`);
-  };
-
   return (
     <div>
       <div className='editquiz-container'>
@@ -183,9 +157,9 @@ const EditQuizPage = () => {
             <Button
               type='primary'
               htmlType='Back'
-              onClick={() => handleOnClickReturn(games.game_id)}
+              className={cx('backBtn', 'creation-pagenav-buttons')}
             >
-              Back
+              <Link to={'/dashboard'}>Back</Link>
             </Button>
             <Form.Item>
               <Button
