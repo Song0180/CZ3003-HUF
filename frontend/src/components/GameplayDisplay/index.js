@@ -32,18 +32,22 @@ const GameplayDisplay = ({
   // function to compute users total score
   function ComputeScore() {
     var totalScore = 0;
-    for (let i = 0; i < quizQuestions.length; i++) {
-      if(!null){
-        console.log(currentAnswers[i + 1])
-        var correctAns = quizQuestions[i].correct_ans;
-        // var chosen = currentAnswers[i + 1].option_id;
-        var score = quizQuestions[i].score_per_qn;
-        if (correctAns === currentAnswers[i + 1].option_id) {
-          totalScore = score + totalScore;
+    try{
+      for (let i = 0; i < quizQuestions.length; i++) {
+        if(!null){
+          console.log(currentAnswers[i + 1])
+          var correctAns = quizQuestions[i].correct_ans;
+          // var chosen = currentAnswers[i + 1].option_id;
+          var score = quizQuestions[i].score_per_qn;
+          if (correctAns === currentAnswers[i + 1].option_id) {
+            totalScore = score + totalScore;
+          }
+        }else{
+          break;
         }
-      }else{
-        break;
       }
+    }catch{
+      
     }
     console.log("totalscore: " + totalScore);
     return totalScore;
