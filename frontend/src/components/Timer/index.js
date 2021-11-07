@@ -3,7 +3,6 @@ import { Statistic } from 'antd';
 import 'antd/dist/antd.css';
 import TimedPopUp from '../TimedPopUp';
 import { useEffect, useState, useRef } from 'react';
-import { GameplayDisplay } from '../GameplayDisplay';
 
 /*
     Function that will create pop up message when the timer for the quiz has run out.
@@ -12,10 +11,7 @@ import { GameplayDisplay } from '../GameplayDisplay';
     Timer will start countdown from the time set for the quiz by the creater.
     Once timer goes to 0, the pop up will appear.
 */
-const Timer = ({
-  minutes,
-  onTimeUp,
-})=>{
+const Timer = ({ minutes, onTimeUp }) => {
   const { Countdown } = Statistic;
   const minute = 1000 * 60 * minutes; // This is the quiz duration, eg minute = 1000 * 60 * 10 is for when quiz duration is 10 mins
   const deadline = useRef(Date.now() + minute);
@@ -28,7 +24,7 @@ const Timer = ({
       onTimeUp();
     }, minute);
   });
-  
+
   return (
     <div>
       {/* {console.log(Date.now()-minutes)} */}
@@ -37,6 +33,6 @@ const Timer = ({
       {/* <GameplayDisplay /> */}
     </div>
   );
-}
+};
 
 export default Timer;

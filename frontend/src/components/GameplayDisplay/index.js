@@ -1,11 +1,11 @@
-import * as React from "react";
-import { Radio, Space, Row, Button, Form, message } from "antd";
-import "antd/dist/antd.css";
-import "./index.css";
-import { useGameStore } from "../../services/zustand/game";
-import { useHistory } from "react-router-dom";
-import { useParams } from "react-router";
-import { useAuthStore } from "../../services/zustand/auth";
+import * as React from 'react';
+import { Radio, Space, Row, Button, Form, message } from 'antd';
+import 'antd/dist/antd.css';
+import './index.css';
+import { useGameStore } from '../../services/zustand/game';
+import { useHistory } from 'react-router-dom';
+import { useParams } from 'react-router';
+import { useAuthStore } from '../../services/zustand/auth';
 
 /*
 function to display the questions in the quiz and return the marks gotten (currenty not done)
@@ -30,10 +30,8 @@ const GameplayDisplay = ({
     onAnswerQuestion(newAnswers);
   };
 
-  
-
   // computes score when quiz is finished
-  const onFinish = async (e) => {
+  const onFinish = async (values) => {
     var userscore = onFinishQuiz();
     const gameData = {
       quiz_id: currentquizid,
@@ -43,7 +41,7 @@ const GameplayDisplay = ({
     };
 
     const result = await postUserScore(gameData);
-    if (typeof result !== "string") {
+    if (typeof result !== 'string') {
       message.success(`Completed.`);
       history.push({
         pathname: `/leaderboard/${result.quiz_id}`,
@@ -55,13 +53,13 @@ const GameplayDisplay = ({
   };
 
   const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
+    console.log('Failed:', errorInfo);
   };
 
   return (
-    <div className="question-container">
+    <div className='question-container'>
       <Form
-        name="answer-questions"
+        name='answer-questions'
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
         autoComplete='off'
@@ -72,31 +70,33 @@ const GameplayDisplay = ({
         {/*Maps through all the quiz_qn_id and returns the question and options*/}
         {quizQuestions.map((quiz_item, index) => {
           return (
-            <div key={quiz_item.quiz_qn_id} className="question-container">
-              <Row>
-                <h1>
-                  Question {index + 1}) {quiz_item.question_name}
-                </h1>
-              </Row>
-              <Radio.Group
-                name="radiogroup"
-                onChange={(e) =>
-                  handleOnChangeQuestionAnswer(
-                    quiz_item.quiz_qn_id,
-                    e.target.value
-                  )
-                }
-                initialValues={null}
-              >
-                <Form.Item
-                  name="Answer"
-                  rules={[
-                    {
-                      required: true,
-                    },
-                  ]}
+            <Form.Item
+              key={quiz_item.quiz_qn_id}
+              name={`quiz_question${quiz_item.quiz_qn_id}`}
+              rules={[
+                {
+                  required: true,
+                  message: 'Please select an answer!',
+                },
+              ]}
+            >
+              <div className='question-container'>
+                <Row>
+                  <h1>
+                    Question {index + 1}) {quiz_item.question_name}
+                  </h1>
+                </Row>
+                <Radio.Group
+                  name='radiogroup'
+                  onChange={(e) =>
+                    handleOnChangeQuestionAnswer(
+                      quiz_item.quiz_qn_id,
+                      e.target.value
+                    )
+                  }
+                  initialValues={null}
                 >
-                  <Space direction="vertical">
+                  <Space direction='vertical'>
                     {quiz_item.options.map((option_item) => {
                       return (
                         <Radio
@@ -108,17 +108,17 @@ const GameplayDisplay = ({
                       );
                     })}
                   </Space>
-                </Form.Item>
-              </Radio.Group>
-            </div>
+                </Radio.Group>
+              </div>
+            </Form.Item>
           );
         })}
 
-        <Form.Item className="button-container">
+        <Form.Item className='button-container'>
           <Button
-            type="primary"
-            htmlType="submit"
-            style={{ background: "orange", borderColor: "orange" }}
+            type='primary'
+            htmlType='submit'
+            style={{ background: 'orange', borderColor: 'orange' }}
           >
             Finish Quiz
           </Button>
