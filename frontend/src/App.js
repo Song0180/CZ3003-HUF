@@ -22,6 +22,7 @@ import SettingsPage from './pages/SettingsPage';
 import { useAuthStore } from './services/zustand/auth';
 import GameQuizPage from './pages/GameQuizPage';
 import LeaderBoardPage from './pages/LeaderBoardPage';
+import StatisticsPage from './pages/StatisticsPage';
 
 const { Content } = Layout;
 const NotFoundRedirect = () => <Redirect to='/' />;
@@ -50,7 +51,7 @@ const App = () => {
           />
           <Content className={cx('site-layout-background', 'content')}>
             <Switch>
-              <Route path='/home' exact component={HomePage} />
+              <Route path='/' exact component={HomePage} />
               <Route path='/dashboard' exact component={DashboardPage} />
               <Route path='/leaderboard' exact component={LeaderBoardPage} />
               <Route path='/settings' exact component={SettingsPage} />
@@ -66,12 +67,17 @@ const App = () => {
                 component={GameQuizPage}
               />
               <Route
-                path='/dashboard/editgame'
+                path='/dashboard/statistics/:game_id'
+                exact
+                component={StatisticsPage}
+              />
+              <Route
+                path='/dashboard/editgame/:game_id'
                 exact
                 component={EditGamePage}
               />
               <Route
-                path='/dashboard/editquiz'
+                path='/dashboard/editquiz/:game_id'
                 exact
                 component={EditQuizPage}
               />
