@@ -13,7 +13,7 @@ import 'antd/dist/antd.css';
 */
 const Timer = ({ minutes, onTimeUp }) => {
   const { Countdown } = Statistic;
-  const minute = 1000 * 60 * minutes; // This is the quiz duration, eg minute = 1000 * 60 * 10 is for when quiz duration is 10 mins
+  const minute = 1000 * 60 * 0.1; // This is the quiz duration, eg minute = 1000 * 60 * 10 is for when quiz duration is 10 mins
   const deadline = useRef(Date.now() + minute);
   const [timedPopUp, setTimedPopUp] = useState(false);
 
@@ -23,12 +23,12 @@ const Timer = ({ minutes, onTimeUp }) => {
       setTimedPopUp(true);
       onTimeUp();
     }, minute);
-  });
+  },[]);
 
   return (
     <div>
       <Countdown title='Timer' value={deadline.current} />
-      <TimedPopUp trigger={timedPopUp} setTrigger={setTimedPopUp}/>
+      <TimedPopUp trigger={timedPopUp} setTrigger={setTimedPopUp} onTimeUp = {onTimeUp}/>
     </div>
   );
 };

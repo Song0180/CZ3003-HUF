@@ -95,6 +95,7 @@ const GameplayPage = () => {
   // When user finishes the quiz or time runs out, their score will be computed and they will be redirected to leaderboard page
   const onFinish = async (values) => {
     var userscore = computeScore();
+    console.log('hello')
     const gameData = {
       quiz_id: currentquizid,
       user_id: userInfo.userid,
