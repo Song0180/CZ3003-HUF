@@ -1,7 +1,7 @@
 import * as React from "react";
 import { GameplayDisplay } from "../../components/GameplayDisplay";
 import { Row, message, Button } from "antd";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useGameStore } from "../../services/zustand/game";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
@@ -72,48 +72,55 @@ const GameplayPage = () => {
     }
   }
 
-  // function to compute users total score
-  function computeScore() {
-    var totalScore = 0;
-    try {
-      for (let i = 0; i < quizQuestions.length; i++) {
-        if (!null) {
-          var correctAns = quizQuestions[i].correct_ans;
-          var score = quizQuestions[i].score_per_qn;
-          if (correctAns === userAnswers[i + 1].option_id) {
-            totalScore = score + totalScore;
-          }
-        } else {
-          break;
-        }
-      }
-    } catch {}
-    console.log("totalscore: " + totalScore);
-    return totalScore;
-  }
-
   // When user finishes the quiz or time runs out, their score will be computed and they will be redirected to leaderboard page
-  const onFinish = async (values) => {
-    var userscore = computeScore();
-    console.log('hello')
-    const gameData = {
-      quiz_id: currentquizid,
-      user_id: userInfo.userid,
-      score_earned: userscore,
-      duration_taken: 2,
-    };
-    const result = await postUserScore(gameData);
+  const onFinish = useCallback(
+    async (values) => {
+      // function to compute users total score
+      function computeScore() {
+        var totalScore = 0;
+        try {
+          for (let i = 0; i < quizQuestions.length; i++) {
+            if (!null) {
+              var correctAns = quizQuestions[i].correct_ans;
+              var score = quizQuestions[i].score_per_qn;
+              if (correctAns === userAnswers[i + 1].option_id) {
+                totalScore = score + totalScore;
+              }
+            } else {
+              break;
+            }
+          }
+        } catch {}
+        return totalScore;
+      }
+      var userscore = computeScore();
+      const gameData = {
+        quiz_id: currentquizid,
+        user_id: userInfo.userid,
+        score_earned: userscore,
+        duration_taken: 2,
+      };
+      const result = await postUserScore(gameData);
 
-    if (typeof result !== "string") {
-      message.success(`Completed.`);
-      history.push({
-        pathname: `/leaderboard/${result.quiz_id}`,
-        state: { gameData },
-      });
-    } else {
-      message.error("You have already completed this quiz.");
-    }
-  };
+      if (typeof result !== "string") {
+        message.success(`Completed.`);
+        history.push({
+          pathname: `/leaderboard/${result.quiz_id}`,
+          state: { gameData },
+        });
+      } else {
+        message.error("You have already completed this quiz. Please go back to games page.");
+      }
+    },
+    [
+      currentquizid,
+      history,
+      postUserScore,
+      userInfo.userid,
+      quizQuestions,
+      userAnswers,
+    ]
+  );
 
   return (
     <div>

@@ -23,7 +23,7 @@ const Timer = ({ minutes, onTimeUp }) => {
       setTimedPopUp(true);
       onTimeUp();
     }, minute);
-  },[]);
+  }, [minute, onTimeUp]);
 
   return (
     <div>
