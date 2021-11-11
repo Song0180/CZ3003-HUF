@@ -89,7 +89,6 @@ const GameplayPage = React.memo(() => {
     };
 
     const userScore = computeScore();
-    console.log(userScore);
 
     const quizResultData = {
       quiz_id: Number(quiz_id),
