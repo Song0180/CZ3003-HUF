@@ -93,7 +93,7 @@ const GameplayPage = React.memo(() => {
     const quizResultData = {
       quiz_id: Number(quiz_id),
       user_id: userInfo.userid,
-      score_earned: userScore,
+      score_earned: userScore.toFixed(0),
       duration_taken: timeLapsed.current,
     };
     const result = await postUserScore(quizResultData);
