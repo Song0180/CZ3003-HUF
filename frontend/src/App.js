@@ -83,7 +83,7 @@ const App = () => {
               />
               <Route path="/gamecreation" exact component={GameCreationPage} />
               <Route
-                path="/gamecreation/quizcreation"
+                path='/gamecreation/:game_id/quizcreation'
                 exact
                 component={QuizCreationPage}
               />

@@ -27,7 +27,7 @@ const GameCreationPage = () => {
         `You have successfully created a new game ${result.game_name}`
       );
       history.push({
-        pathname: '/gamecreation/quizcreation',
+        pathname: `/gamecreation/${result.game_id}/quizcreation`,
         state: { gameData },
       });
     } else {
