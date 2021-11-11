@@ -1,9 +1,9 @@
 import React from 'react';
 import { message, Avatar, Button } from 'antd';
+import { FacebookProvider, Share } from 'react-facebook';
 import cx from 'classnames';
 
 import { useGameStore } from '../../services/zustand/game';
-// import { useAuthStore } from '../../services/zustand/auth';
 
 import './index.css';
 import { LeaderBoard } from '../../components';
@@ -11,16 +11,11 @@ import { FacebookFilled } from '@ant-design/icons';
 import { useParams } from 'react-router';
 
 const LeaderBoardPage = ({ location }) => {
-  // const { userInfo } = useAuthStore();
   const { isLoading, currentQuizLeaderBoardData, fetchQuizLeaderBoard } =
     useGameStore();
-  const { quiz_id } = useParams();
+  const { game_id, game_name, quiz_id } = useParams();
 
   const gameInfo = React.useMemo(() => ({ game_name: 'haha' }), []);
-
-  const handleOnClickInvite = () => {
-    console.log('invite');
-  };
 
   React.useEffect(() => {
     const fetchLeaderBoard = async () => {
@@ -59,14 +54,23 @@ const LeaderBoardPage = ({ location }) => {
           <Button type='primary' className='lb-back-btn'>
             Back
           </Button>
-          <Button
-            type='primary'
-            className='lb-fb-invite-btn'
-            icon={<FacebookFilled />}
-            onClick={handleOnClickInvite}
-          >
-            Invite your friends for a challenge
-          </Button>
+          <FacebookProvider appId='566862107737771'>
+            <Share
+              href='http://127.0.0.1:3000/'
+              quote={`Join this quiz on HUF and beat me! http://localhost:3000/game/${game_id}/${game_name}`}
+            >
+              {({ handleClick, loading }) => (
+                <Button
+                  type='primary'
+                  className='lb-fb-invite-btn'
+                  icon={<FacebookFilled />}
+                  onClick={handleClick}
+                >
+                  Invite your friends for a challenge
+                </Button>
+              )}
+            </Share>
+          </FacebookProvider>
         </div>
       </div>
     </div>

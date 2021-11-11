@@ -65,7 +65,7 @@ const App = () => {
               <Route path='/home' exact component={HomePage} />
               <Route path='/dashboard' exact component={DashboardPage} />
               <Route
-                path='/leaderboard/:quiz_id'
+                path='/leaderboard/:game_id/:game_name/:quiz_id'
                 exact
                 component={LeaderBoardPage}
               />
