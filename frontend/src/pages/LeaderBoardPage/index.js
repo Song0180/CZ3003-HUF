@@ -1,5 +1,6 @@
 import React from 'react';
 import { message, Avatar, Button } from 'antd';
+import { FacebookProvider, Share } from 'react-facebook';
 import cx from 'classnames';
 
 import { useGameStore } from '../../services/zustand/game';
@@ -18,9 +19,9 @@ const LeaderBoardPage = ({ location }) => {
 
   const gameInfo = React.useMemo(() => ({ game_name: 'haha' }), []);
 
-  const handleOnClickInvite = () => {
-    console.log('invite');
-  };
+  // const handleOnClickInvite = () => {
+  //   console.log('invite');
+  // };
 
   React.useEffect(() => {
     const fetchLeaderBoard = async () => {
@@ -59,14 +60,21 @@ const LeaderBoardPage = ({ location }) => {
           <Button type='primary' className='lb-back-btn'>
             Back
           </Button>
-          <Button
-            type='primary'
-            className='lb-fb-invite-btn'
-            icon={<FacebookFilled />}
-            onClick={handleOnClickInvite}
-          >
-            Invite your friends for a challenge
-          </Button>
+          <FacebookProvider appId='566862107737771'>
+            <Share href='http://www.facebook.com'>
+              {({ handleClick, loading }) => (
+                <Button
+                  disabled={loading}
+                  type='primary'
+                  className='lb-fb-invite-btn'
+                  icon={<FacebookFilled />}
+                  onClick={handleClick}
+                >
+                  Invite your friends for a challenge
+                </Button>
+              )}
+            </Share>
+          </FacebookProvider>
         </div>
       </div>
     </div>
