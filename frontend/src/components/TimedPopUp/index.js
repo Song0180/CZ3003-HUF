@@ -9,20 +9,22 @@ import "antd/dist/antd.css";
 */
 function TimedPopUp(props) {
   return props.trigger ? (
-    <div className="timedpopup">
-      <div className="timedpopup-inner">
-        <h3>Times Up!</h3>
-        <p>You will be directed to the leaderboard page.</p>
-        <Button
-          className="close-btn"
-          type="primary"
-          onClick={() => props.setTrigger(false)}
-        >
-          Close
-        </Button>
-        {props.children}
+      <div className="timedpopup">
+        <div className="timedpopup-inner">
+          <h3>Times Up!</h3>
+          <p>Score is being calculated!</p>
+          <p>You will be directed to the leaderboard page.</p>
+
+          <Button
+            className="close-btn"
+            type="primary"
+            onClick={() => props.setTrigger(false)}
+          >
+            Close
+          </Button>
+          {props.children}
+        </div>
       </div>
-    </div>
   ) : (
     ""
   );

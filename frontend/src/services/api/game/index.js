@@ -41,6 +41,45 @@ export const createGame = async (
   }
 };
 
+export const createUserScore = async (
+  quiz_id,
+  user_id,
+  score_earned,
+  duration_taken
+) => {
+  try {
+    const response = await yelp.post('/hufquizresult/', {
+      quiz_id,
+      user_id,
+      score_earned,
+      duration_taken,
+    });
+    return response;
+  } catch (err) {
+    return err.message;
+  }
+};
+
+// api function to call 'https://cz3003-huf.herokuapp.com/hufquiz/'
+export const fetchQuizQuestions = async (quiz_id) => {
+  try {
+    const response = await yelp.get('/hufquizqn', { params: { quiz_id } });
+    return response;
+  } catch (err) {
+    return err.message;
+  }
+};
+
+// api function to call 'https://cz3003-huf.herokuapp.com/hufquizresult/'
+export const fetchQuizResult = async () => {
+  try {
+    const response = await yelp.get('/hufquizresult', {});
+    return response;
+  } catch (err) {
+    return err.message;
+  }
+};
+
 export const fetchQuizLeaderBoard = async (quiz_id) => {
   try {
     const response = await yelp.post('/quiztopfive/', { quiz_id });
