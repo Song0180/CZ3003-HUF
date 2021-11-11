@@ -109,7 +109,8 @@ const GameplayPage = () => {
           state: { gameData },
         });
       } else {
-        message.error("You have already completed this quiz. Please go back to games page.");
+        message.error("You have already completed this quiz.");
+        history.push(`/game/${game_id}/${game_name}`)
       }
     },
     [
@@ -119,6 +120,8 @@ const GameplayPage = () => {
       userInfo.userid,
       quizQuestions,
       userAnswers,
+      game_id,
+      game_name
     ]
   );
 
