@@ -91,7 +91,7 @@ const GamesPage = () => {
       <div className='info-container'>
         <p className='text'>
           Hi <span className='text-highlight'>{userInfo.username}</span>, Please
-          select the game you want tot start playing!
+          select the game you want to start playing!
         </p>
         <div className='games-container'>
           <GameModal
