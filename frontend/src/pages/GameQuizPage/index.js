@@ -1,13 +1,13 @@
 import React from 'react';
-import { message, List, Skeleton } from 'antd';
-import { useHistory, useParams } from 'react-router';
+import { message, List, Skeleton, Button } from 'antd';
+import { useHistory, useParams, Link } from 'react-router-dom';
 
 import { useGameStore } from '../../services/zustand/game';
 import { useAuthStore } from '../../services/zustand/auth';
 import QuizCard from './components/QuizCard';
 import QuizModal from './components/QuizModal';
 
-const GameQuizPage = ({ location }) => {
+const GameQuizPage = () => {
   const history = useHistory();
   const { game_id, game_name } = useParams();
   const { userInfo } = useAuthStore();
@@ -96,6 +96,9 @@ const GameQuizPage = ({ location }) => {
             )}
           />
         </div>
+        <Button type='primary' className='lb-back-btn'>
+          <Link to='/games'>Back</Link>
+        </Button>
       </div>
     </div>
   );
