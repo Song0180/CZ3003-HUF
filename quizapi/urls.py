@@ -12,7 +12,7 @@ urlpatterns = [
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('quiztopfive/',views.getQuizTopFive,name='quiztopfive'),
-
+    path('dashboardtopfive/',views.getDashboardTopFive, name = 'dashboardTopFive')
     # path('userAnswer', views.postUserAns, name='useranswer'),
     # path('getcorrectans/<id>',views.getCorrectAns,name='get correct ans'),
 
