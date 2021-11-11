@@ -1,7 +1,7 @@
-import * as React from "react";
-import { Form, Input, Button, message } from "antd";
-import { useAuthStore } from "../../services/zustand/auth";
-import "./index.css";
+import * as React from 'react';
+import { Form, Input, Button, message } from 'antd';
+import { useAuthStore } from '../../services/zustand/auth';
+import './index.css';
 
 const ChangePasswordPage = () => {
   const [form] = Form.useForm();
@@ -10,32 +10,32 @@ const ChangePasswordPage = () => {
   const onFinish = async (values) => {
     form.resetFields();
     let email = values.email;
-    console.log(email);
+
     const result = await changePassword(email);
-    console.log(result);
-    if (typeof result !== "string") {
+
+    if (typeof result !== 'string') {
       message.success(`Success! ${result.message}`);
     } else {
       message.error(
-        `Please ensure that you have entered a valid email address. ${result}`
+        `Please ensure that you have entered a valid email address registered with HUF.`
       );
     }
   };
 
   const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
+    console.log('Failed:', errorInfo);
   };
 
   return (
-    <div className="change-password-page-container">
-      <div className="change-password-page-header-container">
-        <h2 className="change-password-page-heading">Change Password</h2>
+    <div className='change-password-page-container'>
+      <div className='change-password-page-header-container'>
+        <h2 className='change-password-page-heading'>Change Password</h2>
       </div>
-      <div className="reset-info-container">
-        <img src="/HUF-logo.png" alt="HUF Logo" className="reset-home-logo" />
-        <h3>Change Password?</h3>
+      <div className='reset-info-container'>
+        <img src='/HUF-logo.png' alt='HUF Logo' className='reset-home-logo' />
+        <h3>Forgot Password?</h3>
         <span>We’ll email you the instructions shortly.</span>
-        <br />
+
         <Form
           form={form}
           initialValues={{
@@ -43,16 +43,16 @@ const ChangePasswordPage = () => {
           }}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
-          autoComplete="off"
+          autoComplete='off'
         >
           <Form.Item
-            name="email"
-            label="Email"
+            name='email'
+            label='Email'
             rules={[
-              { type: "email" },
+              { type: 'email' },
               {
                 required: true,
-                message: "Please input your email address!",
+                message: 'Please input your email address!',
               },
             ]}
           >
@@ -60,8 +60,8 @@ const ChangePasswordPage = () => {
           </Form.Item>
 
           <Form.Item>
-            <div className="btn">
-              <Button type="primary" htmlType="submit">
+            <div className='btn'>
+              <Button type='primary' htmlType='submit'>
                 Send Password Reset
               </Button>
             </div>

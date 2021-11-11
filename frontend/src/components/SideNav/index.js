@@ -29,7 +29,7 @@ const SideNav = ({ isMenuClosed }) => {
         alt='HUF Logo'
         className='home-logo'
         onMouseDown={() => {
-          history.push('/');
+          history.push('/home');
         }}
       />
       <Menu mode='inline' selectedKeys={selectedKeys}>

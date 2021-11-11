@@ -1,5 +1,6 @@
 import * as React from 'react';
 import FacebookLogin from 'react-facebook-login';
+import { Link } from 'react-router-dom';
 
 import { Form, Input, Button, Checkbox, Card, Tabs, message, Spin } from 'antd';
 import { UserOutlined, MailOutlined, LockOutlined } from '@ant-design/icons';
@@ -108,7 +109,9 @@ const LandingPage = () => {
                 </Checkbox>
               </Form.Item>
               <Form.Item>
-                <div className='login-form-forgot'>Forgot password</div>
+                <Link to='/changepassword' className='login-form-forgot'>
+                  Forgot password
+                </Link>
               </Form.Item>
               <Form.Item>
                 <div className='login-button-container'>
