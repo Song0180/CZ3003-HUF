@@ -10,8 +10,7 @@ import {
   createQuiz,
   createQuizQuestion,
   createQuizQuestionOptions,
-  fetchQuizDetails,
-  createUserScore
+  createUserScore,
 } from '../../api/game';
 
 const initialState = {
@@ -20,7 +19,6 @@ const initialState = {
   currentGameQuizzes: [],
   quizQuestions: [],
   currentQuizLeaderBoardData: [],
-  quizDetails: [],
 };
 
 export const useGameStore = create((set, get) => ({
@@ -73,18 +71,6 @@ export const useGameStore = create((set, get) => ({
     } else {
       const quizresults = result.data;
       set({ quizResults: quizresults });
-    }
-    set({ isLoading: false });
-  },
-
-  fetchQuizDetails: async (quizId) => {
-    set({ isLoading: true });
-    const result = await fetchQuizDetails(quizId);
-    if (typeof result === 'string') {
-      return result;
-    } else {
-      const quizdetails = result.data;
-      set({ quizDetails: quizdetails });
     }
     set({ isLoading: false });
   },
@@ -147,12 +133,7 @@ export const useGameStore = create((set, get) => ({
 
   postUserScore: async (gameData) => {
     set({ isLoading: true });
-    const {
-      quiz_id,
-      user_id,
-      score_earned,
-      duration_taken
-    } = gameData;
+    const { quiz_id, user_id, score_earned, duration_taken } = gameData;
     const result = await createUserScore(
       quiz_id,
       user_id,
