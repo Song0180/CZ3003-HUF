@@ -22,6 +22,7 @@ import SettingsPage from './pages/SettingsPage';
 import { useAuthStore } from './services/zustand/auth';
 import GameQuizPage from './pages/GameQuizPage';
 import LeaderBoardPage from './pages/LeaderBoardPage';
+import StatisticsPage from './pages/StatisticsPage';
 import QuizCreationPage from './pages/QuizCreationPage';
 import ChangePasswordPage from './pages/ChangePasswordPage';
 
@@ -82,12 +83,17 @@ const App = () => {
                 component={GameQuizPage}
               />
               <Route
-                path='/dashboard/editgame'
+                path='/dashboard/statistics/:game_id'
+                exact
+                component={StatisticsPage}
+              />
+              <Route
+                path='/dashboard/editgame/:game_id'
                 exact
                 component={EditGamePage}
               />
               <Route
-                path='/dashboard/editquiz'
+                path='/dashboard/editquiz/:game_id'
                 exact
                 component={EditQuizPage}
               />
