@@ -39,7 +39,7 @@ const columns = [
         dataIndex: 'quiz_id',
         width: 100,
         sorter: {
-          compare: (a, b) => a.quiz1 - b.quiz1,
+          compare: (a, b) => a.quiz_id - b.quiz_id,
         },
       },
       {
@@ -47,7 +47,7 @@ const columns = [
         dataIndex: 'user_id_id__username',
         width: 100,
         sorter: {
-          compare: (a, b) => a.quiz1 - b.quiz1,
+          compare: (a, b) => a.user_id_id__username - b.user_id_id__username,
         },
       },
       {
@@ -55,7 +55,7 @@ const columns = [
         dataIndex: 'score_earned',
         width: 100,
         sorter: {
-          compare: (a, b) => a.quiz2 - b.quiz2,
+          compare: (a, b) => a.score_earned - b.score_earned  ,
         },
       },
       {
@@ -63,7 +63,7 @@ const columns = [
         dataIndex: 'duration_taken',
         width: 100,
         sorter: {
-          compare: (a, b) => a.quiz3 - b.quiz3,
+          compare: (a, b) => a.duration_taken - b.duration_taken,
         },
       },
     ],
