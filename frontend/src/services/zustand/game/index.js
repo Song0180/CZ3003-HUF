@@ -1,6 +1,7 @@
 import create from 'zustand';
 
 import {
+  fetchDashboard,
   fetchGames,
   fetchQuizzes,
   createGame,
@@ -19,6 +20,7 @@ const initialState = {
   currentGameQuizzes: [],
   quizQuestions: [],
   currentQuizLeaderBoardData: [],
+  currentDashboardData: [],
 };
 
 export const useGameStore = create((set, get) => ({
@@ -78,6 +80,7 @@ export const useGameStore = create((set, get) => ({
   fetchQuizLeaderBoard: async (quizId) => {
     set({ isLoading: true });
     const result = await fetchQuizLeaderBoard(quizId);
+    console.log(result.data);
     if (typeof result === 'string') {
       set({ isLoading: false });
       return result;
@@ -85,6 +88,22 @@ export const useGameStore = create((set, get) => ({
       set({ currentQuizLeaderBoardData: result.data.topfive });
     }
     set({ isLoading: false });
+  },
+
+  fetchDashboard: async (gameId) => {
+    set({ isLoading: true });
+    const result = await fetchDashboard(gameId);
+    console.log("result");
+    console.log(result);
+    if (typeof result === 'string') {
+      set({ isLoading: false });
+      return result;
+    } else {
+      set({
+        currentDashboardData: result.data.result,
+        isLoading: false,
+      });
+    }
   },
 
   createNewGame: async (gameData) => {

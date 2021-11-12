@@ -1,5 +1,17 @@
 import yelp from '../../yelp';
 
+export const fetchDashboard = async () => {
+  try {
+    const game_id = 2;
+    const response = await yelp.post('/dashboardtopfive/', { game_id });
+    console.log(response);
+    return response;
+  } catch (err) {
+    return err.message;
+  }
+};
+
+
 export const fetchGames = async () => {
   try {
     const response = await yelp.get('/hufgames', {});
@@ -8,6 +20,7 @@ export const fetchGames = async () => {
     return err.message;
   }
 };
+
 
 export const fetchQuizzes = async (game_id) => {
   try {
