@@ -55,12 +55,20 @@ const StatisticsPage = () => {
             <Link to={'/dashboard'}>Back</Link>
           </Button>
 
-          <Button type='primary' onClick={() => handleOnClickEditGame(game_id)}>
+          <Button
+            disabled
+            type='primary'
+            onClick={() => handleOnClickEditGame(game_id)}
+          >
             {/* internal link to edit game page */}
             Edit Game
           </Button>
 
-          <Button type='primary' onClick={() => handleOnClickEditQuiz(game_id)}>
+          <Button
+            disabled
+            type='primary'
+            onClick={() => handleOnClickEditQuiz(game_id)}
+          >
             {/* internal link to edit quiz page */}
             Edit Quiz
           </Button>
