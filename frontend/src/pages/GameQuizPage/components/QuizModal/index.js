@@ -31,7 +31,7 @@ const QuizModal = ({
           <h3>Description:</h3>
           <p>{quizInfo.quiz_description}</p>
           <p>Number of questions: {quizInfo.no_of_qn}</p>
-          <p>Duration: {quizInfo.quiz_duration}</p>
+          <p>Duration: {quizInfo.quiz_duration} minutes</p>
         </div>
       )}
 

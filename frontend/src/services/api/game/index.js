@@ -10,7 +10,6 @@ export const fetchDashboard = async (game_id) => {
   }
 };
 
-
 export const fetchGames = async () => {
   try {
     const response = await yelp.get('/hufgames', {});
@@ -31,7 +30,9 @@ export const fetchUserGames = async (username) => {
 
 export const fetchQuizScore = async (user_id, quiz_id) => {
   try {
-    const response = await yelp.get('/hufquizresult/', { params: { user_id, quiz_id } });
+    const response = await yelp.get('/hufquizresult/', {
+      params: { user_id, quiz_id },
+    });
     return response;
   } catch (err) {
     return err.message;
@@ -174,4 +175,3 @@ export const createQuizQuestionOptions = async (
     return err.message;
   }
 };
-

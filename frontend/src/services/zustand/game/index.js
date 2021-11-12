@@ -33,7 +33,7 @@ export const useGameStore = create((set, get) => ({
 
   fetchGames: async () => {
     set({ isLoading: true });
-    const result = await fetchGames();  
+    const result = await fetchGames();
     if (typeof result === 'string') {
       set({ isLoading: false });
       return result;
@@ -52,7 +52,7 @@ export const useGameStore = create((set, get) => ({
       set({ isLoading: false });
       return result;
     } else {
-      const games = result.data
+      const games = result.data;
       set({ userGames: games });
     }
     set({ isLoading: false });
@@ -65,7 +65,7 @@ export const useGameStore = create((set, get) => ({
       set({ isLoading: false });
       return result;
     } else {
-      const score = result.data
+      const score = result.data;
       set({ score: score });
     }
     set({ isLoading: false });
@@ -125,7 +125,7 @@ export const useGameStore = create((set, get) => ({
   fetchDashboard: async (gameId) => {
     set({ isLoading: true });
     const result = await fetchDashboard(gameId);
-    console.log("result");
+    console.log('result');
     console.log(result);
     if (typeof result === 'string') {
       set({ isLoading: false });
@@ -146,7 +146,7 @@ export const useGameStore = create((set, get) => ({
       game_tag,
       no_of_quiz,
       game_description,
-      total_no_qn,
+      no_of_qn_per_quiz: total_no_qn,
     } = gameData;
     const result = await createGame(
       username,
@@ -259,4 +259,3 @@ export const useGameStore = create((set, get) => ({
     set({ isLoading: false });
   },
 }));
-

@@ -58,12 +58,7 @@ const GameQuizPage = () => {
           Welcome to the game{' '}
           <span className='text-highlight'>{game_name}!</span>
         </p>
-        {currentGameQuizzes.length > 0 ? (
-          <p className='text'>
-            Please complete <span className='text-highlight'>{`quiz 1`}</span>{' '}
-            to unlock other quizzes.
-          </p>
-        ) : (
+        {currentGameQuizzes.length < 1 && (
           <p className='text'>This game does not have any quizzes.</p>
         )}
         <div className='games-container'>
@@ -88,6 +83,7 @@ const GameQuizPage = () => {
               <List.Item key={JSON.stringify(item) + index}>
                 <Skeleton loading={isLoading} active>
                   <QuizCard
+                    isAvailable
                     quizInfo={item}
                     quizIndex={index}
                     onClick={() => handleOnClickQuizCard(item, index)}

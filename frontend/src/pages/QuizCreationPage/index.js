@@ -96,7 +96,7 @@ const QuizCreationPage = ({ location }) => {
                 </Form.Item>
 
                 <Form.Item
-                  label='Duration (In Seconds)'
+                  label='Duration (In Minutes)'
                   name={`quiz_${quizNumber}_duration`}
                   rules={[
                     {
