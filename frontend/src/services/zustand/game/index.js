@@ -2,6 +2,7 @@ import create from 'zustand';
 
 import { mockQuizzes } from './mockData';
 import {
+  fetchDashboard,
   fetchGames,
   fetchQuizzes,
   createGame,
@@ -17,6 +18,7 @@ const initialState = {
   currentGameQuizzes: [],
   currentQuizQuetsions: [],
   currentQuizLeaderBoardData: [],
+  currentDashboardData: [],
 };
 
 export const useGameStore = create((set, get) => ({
@@ -65,12 +67,31 @@ export const useGameStore = create((set, get) => ({
   fetchQuizLeaderBoard: async (quizId) => {
     set({ isLoading: true });
     const result = await fetchQuizLeaderBoard(quizId);
+    console.log(result.data);
     if (typeof result === 'string') {
       set({ isLoading: false });
       return result;
     } else {
       set({
-        currentQuizLeaderBoardData: result.data ? result.data.topfive : [],
+        currentQuizLeaderBoardData: result.data,
+        isLoading: false,
+      });
+
+
+    }
+  },
+
+  fetchDashboard: async (gameId) => {
+    set({ isLoading: true });
+    const result = await fetchDashboard(gameId);
+    console.log("result");
+    console.log(result);
+    if (typeof result === 'string') {
+      set({ isLoading: false });
+      return result;
+    } else {
+      set({
+        currentDashboardData: result.data.result,
         isLoading: false,
       });
     }
