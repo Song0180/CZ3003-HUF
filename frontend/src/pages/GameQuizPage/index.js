@@ -68,6 +68,7 @@ const GameQuizPage = () => {
         )}
         <div className='games-container'>
           <QuizModal
+            gameId={game_id}
             gameName={game_name}
             visible={showQuizModal}
             quizInfo={currentQuizInfo}
