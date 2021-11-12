@@ -22,9 +22,9 @@ import SettingsPage from './pages/SettingsPage';
 import { useAuthStore } from './services/zustand/auth';
 import GameQuizPage from './pages/GameQuizPage';
 import LeaderBoardPage from './pages/LeaderBoardPage';
-import StatisticsPage from './pages/StatisticsPage';
 import QuizCreationPage from './pages/QuizCreationPage';
 import ChangePasswordPage from './pages/ChangePasswordPage';
+import StatisticsPage from './pages/StatisticsPage';
 
 const { Content } = Layout;
 const NotFoundRedirect = () => <Redirect to='/home' />;
@@ -83,19 +83,19 @@ const App = () => {
                 component={GameQuizPage}
               />
               <Route
-                path='/dashboard/statistics/:game_id'
-                exact
-                component={StatisticsPage}
-              />
-              <Route
-                path='/dashboard/editgame/:game_id'
+                path='/dashboard/editgame'
                 exact
                 component={EditGamePage}
               />
               <Route
-                path='/dashboard/editquiz/:game_id'
+                path='/dashboard/editquiz'
                 exact
                 component={EditQuizPage}
+              />
+              <Route
+                path='/dashboard/statistics/:game_id'
+                exact
+                component={StatisticsPage}
               />
               <Route path='/gamecreation' exact component={GameCreationPage} />
               <Route

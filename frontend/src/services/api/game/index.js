@@ -1,8 +1,7 @@
 import yelp from '../../yelp';
 
-export const fetchDashboard = async () => {
+export const fetchDashboard = async (game_id) => {
   try {
-    const game_id = 2;
     const response = await yelp.post('/dashboardtopfive/', { game_id });
     console.log(response);
     return response;

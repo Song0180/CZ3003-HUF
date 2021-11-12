@@ -1,12 +1,14 @@
 import * as React from 'react';
 // import { Stats } from '../../components/DashboardStats';
 import { useParams, useHistory } from 'react-router';
-import { Button } from 'antd';
+import { Button, message } from 'antd';
 import { Link } from 'react-router-dom';
 import { LDTable } from '../../components/LDTable';
 import { useGameStore } from '../../services/zustand/game';
 import { useAuthStore } from '../../services/zustand/auth';
 import './index.css';
+// import { useParams, useHistory } from 'react-router-dom';
+
 
 //function to include the components needed and display the information for dashboard
 const StatisticsPage = () => {
@@ -14,17 +16,36 @@ const StatisticsPage = () => {
   const { game_id } = useParams();
   const history = useHistory();
 
-  const { userInfo } = useAuthStore();
-  const { fetchUserGames, userGames } = useGameStore();
+  // const { userInfo } = useAuthStore();
+  // const { fetchUserGames, userGames } = useGameStore();
  
+  const { fetchDashboard } = useGameStore();
+  console.log("testest============");
+  console.log("fetch game id",game_id);
 
   React.useEffect(() => {
+    console.log("fetch game id",game_id);
     const fetchData = async () => {
+      
+      const currentDashboard = await fetchDashboard(game_id);
+      if (currentDashboard) {
+        message.error('Failed to fetch dashboard. Contact Admin for support.');
+        
+      } else {
+        message.success('Successfully fetched latest dashboard');
+      }
     };
     fetchData();
-  }, [fetchUserGames, userInfo.username]);
+    
+  },[fetchDashboard, game_id]); //need to change this with gameid
+  
+  // React.useEffect(() => {
+  //   const fetchData = async () => {
+  //   };
+  //   fetchData();
+  // }, [fetchUserGames, userInfo.username]);
 
-  console.log(userGames)
+  // console.log(userGames)
 
   const handleOnClickEditGame = (game_id) => {
     history.push(`/dashboard/editgame/${game_id}`);
