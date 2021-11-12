@@ -1,22 +1,24 @@
 import create from 'zustand';
 
-import { mockQuizzes } from './mockData';
 import {
   fetchDashboard,
   fetchGames,
   fetchQuizzes,
   createGame,
+  fetchQuizQuestions,
+  fetchQuizResult,
   fetchQuizLeaderBoard,
   createQuiz,
   createQuizQuestion,
   createQuizQuestionOptions,
+  createUserScore,
 } from '../../api/game';
 
 const initialState = {
   isLoading: false,
   games: [],
   currentGameQuizzes: [],
-  currentQuizQuetsions: [],
+  quizQuestions: [],
   currentQuizLeaderBoardData: [],
   currentDashboardData: [],
 };
@@ -44,24 +46,35 @@ export const useGameStore = create((set, get) => ({
       set({ isLoading: false });
       return result;
     } else {
-      // const quizzes = result.data;
-      const dummyQuizzes = [
-        {
-          quiz_id: 'asdasd',
-          game_id: '1231asd',
-          quiz_duration: 10,
-          quiz_max_score: 100,
-          quiz_description: 'a quiz',
-          no_of_qn: 2,
-        },
-      ];
-      set({ currentGameQuizzes: dummyQuizzes });
+      const quizzes = result.data;
+      set({ currentGameQuizzes: quizzes });
     }
     set({ isLoading: false });
   },
 
-  fetchQuizQuestions: async (gameId, quizId) => {
-    set({ currentQuizQuetsions: mockQuizzes });
+  fetchQuizQuestions: async (quizId) => {
+    set({ isLoading: true });
+    const result = await fetchQuizQuestions(quizId);
+    if (typeof result === 'string') {
+      set({ isLoading: false });
+      return result;
+    } else {
+      const questions = result.data;
+      set({ quizQuestions: questions });
+    }
+    set({ isLoading: false });
+  },
+
+  fetchQuizResult: async (quizId) => {
+    set({ isLoading: true });
+    const result = await fetchQuizResult(quizId);
+    if (typeof result === 'string') {
+      return result;
+    } else {
+      const quizresults = result.data;
+      set({ quizResults: quizresults });
+    }
+    set({ isLoading: false });
   },
 
   fetchQuizLeaderBoard: async (quizId) => {
@@ -72,13 +85,9 @@ export const useGameStore = create((set, get) => ({
       set({ isLoading: false });
       return result;
     } else {
-      set({
-        currentQuizLeaderBoardData: result.data,
-        isLoading: false,
-      });
-
-
+      set({ currentQuizLeaderBoardData: result.data.topfive });
     }
+    set({ isLoading: false });
   },
 
   fetchDashboard: async (gameId) => {
@@ -105,7 +114,7 @@ export const useGameStore = create((set, get) => ({
       game_tag,
       no_of_quiz,
       game_description,
-      no_of_qn_per_quiz: total_no_qn,
+      total_no_qn,
     } = gameData;
     const result = await createGame(
       username,
@@ -114,6 +123,23 @@ export const useGameStore = create((set, get) => ({
       no_of_quiz,
       game_description,
       total_no_qn
+    );
+    set({ isLoading: false });
+    if (typeof result === 'string') {
+      return result;
+    } else if (result.status === 201) {
+      return result.data;
+    }
+  },
+
+  postUserScore: async (gameData) => {
+    set({ isLoading: true });
+    const { quiz_id, user_id, score_earned, duration_taken } = gameData;
+    const result = await createUserScore(
+      quiz_id,
+      user_id,
+      score_earned,
+      duration_taken
     );
     set({ isLoading: false });
     if (typeof result === 'string') {

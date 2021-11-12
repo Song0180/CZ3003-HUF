@@ -1,14 +1,21 @@
 import React from 'react';
 import { Modal, Button } from 'antd';
 
+import { useHistory } from 'react-router-dom';
+
 const QuizModal = ({
   visible,
+  gameId,
   gameName,
   quizIndex,
   quizInfo,
   onCancel,
   onQuizStart,
 }) => {
+  const history = useHistory();
+  const handleOnClickViewLeaderboard = () => {
+    history.push(`/leaderboard/${gameId}/${gameName}/${quizInfo.quiz_id}`);
+  };
   return (
     <Modal
       visible={visible}
@@ -30,6 +37,9 @@ const QuizModal = ({
 
       <Button type='primary' onClick={onQuizStart}>
         Start Quiz
+      </Button>
+      <Button type='outline' onClick={handleOnClickViewLeaderboard}>
+        View Leaderboard
       </Button>
     </Modal>
   );

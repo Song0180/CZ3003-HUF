@@ -138,7 +138,7 @@ const GameCreationPage = () => {
           </Form.Item>
 
           <Form.Item
-            label='Number of Quetsions per Quiz: '
+            label='Number of Questions per Quiz: '
             name='no_of_qn_per_quiz'
             rules={[
               {

@@ -23,19 +23,30 @@ import { useAuthStore } from './services/zustand/auth';
 import GameQuizPage from './pages/GameQuizPage';
 import LeaderBoardPage from './pages/LeaderBoardPage';
 import QuizCreationPage from './pages/QuizCreationPage';
+import ChangePasswordPage from './pages/ChangePasswordPage';
 
 const { Content } = Layout;
 const NotFoundRedirect = () => <Redirect to='/home' />;
+const NotFoundRedirectLanding = () => <Redirect to='/' />;
 
 const App = () => {
   const { signedIn, logout, userInfo } = useAuthStore();
-
   const [isMenuClosed, setIsMenuClosed] = React.useState(false);
 
   if (!signedIn) {
     return (
       <div className='App-guest'>
-        <LandingPage />
+        <Router>
+          <Switch>
+            <Route path='/' exact component={LandingPage} />
+            <Route
+              path='/changepassword'
+              exact
+              component={ChangePasswordPage}
+            />
+            <Route component={NotFoundRedirectLanding} />
+          </Switch>
+        </Router>
       </div>
     );
   }
@@ -54,7 +65,7 @@ const App = () => {
               <Route path='/home' exact component={HomePage} />
               <Route path='/dashboard' exact component={DashboardPage} />
               <Route
-                path='/leaderboard/:quiz_id'
+                path='/leaderboard/:game_id/:game_name/:quiz_id'
                 exact
                 component={LeaderBoardPage}
               />
