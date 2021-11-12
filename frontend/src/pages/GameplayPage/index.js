@@ -1,14 +1,14 @@
-import * as React from 'react';
-import { GameplayDisplay } from '../../components/GameplayDisplay';
-import { Row, message, Button } from 'antd';
-import { useEffect, useState, useCallback, useMemo, useRef } from 'react';
-import { useGameStore } from '../../services/zustand/game';
-import { useParams } from 'react-router';
-import { Link } from 'react-router-dom';
-import { useHistory } from 'react-router-dom';
-import { useAuthStore } from '../../services/zustand/auth';
-import Timer from '../../components/Timer';
-import './index.css';
+import * as React from "react";
+import { GameplayDisplay } from "../../components/GameplayDisplay";
+import { Row, message, Button } from "antd";
+import { useEffect, useState, useCallback, useMemo, useRef } from "react";
+import { useGameStore } from "../../services/zustand/game";
+import { useParams } from "react-router";
+import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+import { useAuthStore } from "../../services/zustand/auth";
+import Timer from "../../components/Timer";
+import "./index.css";
 
 /*
   Page that includes components that allow user to play the quiz
@@ -34,7 +34,7 @@ const GameplayPage = React.memo(() => {
     const fetchData = async () => {
       const errorMessage = await fetchQuizQuestions(quiz_id);
       if (errorMessage) {
-        message.error('Failed to fetch quiz. Contact Admin for support.');
+        message.error("Failed to fetch quiz. Contact Admin for support.");
         message.error(errorMessage);
       }
     };
@@ -42,7 +42,7 @@ const GameplayPage = React.memo(() => {
     fetchGameQuiz(game_id);
   }, [fetchGameQuiz, fetchQuizQuestions, game_id, quiz_id]);
 
-  // get the game duration
+  // get the quiz duration
   const duration = useMemo(() => {
     const quizData = currentGameQuizzes.find((quiz) => {
       return (
@@ -56,7 +56,7 @@ const GameplayPage = React.memo(() => {
     return null;
   }, [currentGameQuizzes, game_id, quiz_id]);
 
-  // update the time spent
+  // update the time taken to do the quiz
   const handleTimeChange = (newTime) => {
     if (
       (newTime % 1000).toFixed(0) < 100 &&
@@ -67,7 +67,11 @@ const GameplayPage = React.memo(() => {
     }
   };
 
-  // When user finishes the quiz or time runs out, their score will be computed and they will be redirected to leaderboard page
+  /*
+  When user finishes the quiz or time runs out, their score will be computed, 
+  posted into database and they will be redirected to leaderboard page
+  */
+
   const onFinish = useCallback(async () => {
     // function to compute users total score
     const computeScore = () => {
@@ -98,12 +102,12 @@ const GameplayPage = React.memo(() => {
     };
     const result = await postUserScore(quizResultData);
 
-    if (typeof result !== 'string') {
+    if (typeof result !== "string") {
       message.success(`Completed.`);
       history.push(`/leaderboard/${game_id}/${game_name}/${quiz_id}`);
     } else {
-      message.error('You have already completed this quiz.');
-      message.info('Returning to the game page...');
+      message.error("You have already completed this quiz.");
+      message.info("Returning to the game page...");
       history.push(`/game/${game_id}/${game_name}`);
     }
   }, [
@@ -120,15 +124,15 @@ const GameplayPage = React.memo(() => {
 
   return (
     <div>
-      <Button type='primary'>
+      <Button type="primary">
         <Link to={`/game/${game_id}/${game_name}`}>Back</Link>
       </Button>
 
-      <div className='header-container'>
-        <h2 style={{ color: 'orange' }}>
+      <div className="header-container">
+        <h2 style={{ color: "orange" }}>
           {game_name} | Quiz {quiz_id}
         </h2>
-        <div className='timer-con'>
+        <div className="timer-con">
           {duration && (
             <Timer
               duration={duration}
@@ -140,7 +144,7 @@ const GameplayPage = React.memo(() => {
       </div>
 
       <Row>
-        <div className='question-con'>
+        <div className="question-con">
           <GameplayDisplay
             isLoading={isLoading}
             quizQuestions={quizQuestions}
