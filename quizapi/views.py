@@ -63,12 +63,12 @@ def getDashboardTopFive(request):
     for object in quizzesOfTheGameList:
         quiz_ids.append(object['quiz_id'])
     
-    result_dict = {}
+    result_arr = []
     for currentquizid in quiz_ids:
         topfivequiz = HufQuizResult.objects.filter(quiz_id=int(currentquizid)).order_by('-score_earned')[:5].values('id',"quiz_id","score_earned", "duration_taken", "user_id", 'user_id_id__username')
-        result_dict[currentquizid] = list(topfivequiz)
+        result_arr += list(topfivequiz)
 
-    return JsonResponse({'result':result_dict})
+    return JsonResponse({'result':result_arr})
 
 
 
