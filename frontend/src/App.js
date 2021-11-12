@@ -24,6 +24,7 @@ import GameQuizPage from './pages/GameQuizPage';
 import LeaderBoardPage from './pages/LeaderBoardPage';
 import QuizCreationPage from './pages/QuizCreationPage';
 import ChangePasswordPage from './pages/ChangePasswordPage';
+import StatisticsPage from './pages/StatisticsPage';
 
 const { Content } = Layout;
 const NotFoundRedirect = () => <Redirect to='/home' />;
@@ -90,6 +91,11 @@ const App = () => {
                 path='/dashboard/editquiz'
                 exact
                 component={EditQuizPage}
+              />
+              <Route
+                path='/dashboard/statistics/:game_id'
+                exact
+                component={StatisticsPage}
               />
               <Route path='/gamecreation' exact component={GameCreationPage} />
               <Route
