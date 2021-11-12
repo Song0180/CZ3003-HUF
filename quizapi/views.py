@@ -50,6 +50,29 @@ def getQuizTopFive(request):
     return JsonResponse({"topfive":topfivelist})
 
 
+@csrf_exempt
+def getDashboardTopFive(request):
+    body_unicode = request.body.decode('utf-8')
+    body = json.loads(body_unicode)
+    game_id = body['game_id']
+
+    quizzesOfTheGame = HufQuiz.objects.filter(game_id=game_id).values('quiz_id')
+    quizzesOfTheGameList = list(quizzesOfTheGame)
+
+    quiz_ids = []
+    for object in quizzesOfTheGameList:
+        quiz_ids.append(object['quiz_id'])
+    
+    result_arr = []
+    for currentquizid in quiz_ids:
+        topfivequiz = HufQuizResult.objects.filter(quiz_id=int(currentquizid)).order_by('-score_earned')[:5].values('id',"quiz_id","score_earned", "duration_taken", "user_id", 'user_id_id__username')
+        result_arr += list(topfivequiz)
+
+    return JsonResponse({'result':result_arr})
+
+
+
+
 
 
 # @api_view(["POST"])
