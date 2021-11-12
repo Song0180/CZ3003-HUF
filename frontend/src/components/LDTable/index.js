@@ -35,7 +35,7 @@ const columns = [
     children: [
       //use children to include other titles under the table name
       {
-        title: 'quiz no',
+        title: 'Quiz no',
         dataIndex: 'quiz_id',
         width: 100,
         sorter: {
@@ -43,7 +43,7 @@ const columns = [
         },
       },
       {
-        title: 'user name',
+        title: 'User name',
         dataIndex: 'user_id_id__username',
         width: 100,
         sorter: {
@@ -51,7 +51,7 @@ const columns = [
         },
       },
       {
-        title: 'score earned',
+        title: 'Score earned',
         dataIndex: 'score_earned',
         width: 100,
         sorter: {
@@ -59,7 +59,7 @@ const columns = [
         },
       },
       {
-        title: 'duration taken',
+        title: 'Duration taken (milliseconds)',
         dataIndex: 'duration_taken',
         width: 100,
         sorter: {
