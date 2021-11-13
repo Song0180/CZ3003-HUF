@@ -112,7 +112,7 @@ export const useGameStore = create((set, get) => ({
   fetchQuizLeaderBoard: async (quizId) => {
     set({ isLoading: true });
     const result = await fetchQuizLeaderBoard(quizId);
-    console.log(result.data);
+
     if (typeof result === 'string') {
       set({ isLoading: false });
       return result;
