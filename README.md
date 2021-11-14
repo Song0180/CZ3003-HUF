@@ -114,4 +114,10 @@ yarn build
 
 - Forgot Password: 
 	> http://localhost:8000/forgot_password
-	> enable https://myaccount.google.com/u/1/lesssecureapps to receive new password email
+	> to test forget password, log out of cz3003 email 'cz3003huf@gmail.com' 
+	> go to https://accounts.google.com/b/0/DisplayUnlockCaptcha 
+	> log into cz3003 email 'cz3003huf@gmail.com', password: djangoreact 
+	> enable https://myaccount.google.com/u/1/lesssecureapps 
+	> test forgot_password
+
+
